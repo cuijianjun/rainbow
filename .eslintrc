@@ -1,0 +1,14 @@
+{
+  "extends": "eslint-config-egg",
+  "rules": {
+    "array-bracket-spacing": 0,
+    "objectsInObjects": true
+  },
+  "globals": {
+    "app": true,
+    "request": true,
+    "mm": true,
+    "mock": true,
+    "assert": true
+  }
+}
