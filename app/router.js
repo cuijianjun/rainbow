@@ -6,5 +6,8 @@
 module.exports = app => {
   const { router, controller } = app;
   router.get('users', '/users', 'users.index');
-  router.get('product_list', '/users', 'users.index');
+
+  // product_list
+  router.get('ProductList', '/list', 'productlist.index');
+  router.post('ProductList', '/create', 'productlist.create');
 };
