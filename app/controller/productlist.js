@@ -9,16 +9,14 @@ class ProductListController extends Controller {
     this.createRule = {
       id: {type: 'int'},
       name: 'string',
-      age: {type: 'int'},
+      age: {type: 'string'},
       weChatName: 'string',
       avatar: 'string',
       label: 'string',
       description: 'string',
       productImage: 'string',
       weChatNumber: 'string',
-      phoneNumber: 'number',
-      created_at: 'dateTime',
-      updated_at: 'dateTime',
+      phoneNumber: 'string'
     };
 
      this.idRule = {
@@ -29,26 +27,31 @@ class ProductListController extends Controller {
     };
   }
 
-  async index() {
+  async index() { // post
     const ctx = this.ctx;
 
     const query = {
-      limit: ctx.helper.parseInt(ctx.query.limit),
-      offset: ctx.helper.parseInt(ctx.query.offset)
+      limit: ctx.helper.parseInt(ctx.request.body.limit),
+      offset: ctx.helper.parseInt(ctx.request.body.offset)
     };
+    // 验证参数
     ctx.validate({
-      offset: {type: 'string', format: /\d+/, required: false},
-      limit: {type: 'string', format: /\d+/, required: false},
+      offset: {type: 'number', format: /\d+/, required: false},
+      limit: {type: 'number', format: /\d+/, required: false},
     }, query);
     ctx.body = await ctx.service.productList.list(query);
   }
 
-  async show() {
+  async show() { // get
     const ctx = this.ctx;
-    ctx.body = await ctx.service.productList.find(ctx.helper.parseInt(ctx.params.id));
+    const id = ctx.helper.parseInt(ctx.query.id);
+    ctx.validate(this.idRule, {
+      id: id
+    });
+    ctx.body = await ctx.service.productList.find(id);
   }
 
-  async create() {
+  async create() { // post
     const ctx = this.ctx;
     ctx.validate(this.createRule, ctx.request.body);
     const product = await ctx.service.productList.create(ctx.request.body);
@@ -56,24 +59,22 @@ class ProductListController extends Controller {
     ctx.body = product;
   }
 
-  async update() {
+  async update() { // post
     const ctx = this.ctx;
-    const id = ctx.query.id;
-    if (!id) {
-      ctx.status = 404;
-      ctx.body = 'id不能为空';
-    }
+    const id = ctx.helper.parseInt(ctx.request.body.id);
     ctx.validate(this.idRule, {
-      id: ctx.helper.parseInt(id)
+      id: id
     });
-
+    // ctx.logger.info('some request data: %j', ctx.request.body);
     const body = ctx.request.body;
     ctx.validate(this.createRule, body);
-    ctx.body = await ctx.service.productList.update(Object.assign({id}, body));
+    ctx.body = await ctx.service.productList.update({ id, updates: body });
   }
 
-  async destroy() {
+  async destroy() { // get
     const ctx = this.ctx;
+    const id = ctx.helper.parseInt(ctx.params.id);
+    console.log(id);
     if (!id) {
       ctx.status = 404;
       ctx.body = 'id不能为空';
@@ -81,7 +82,7 @@ class ProductListController extends Controller {
     ctx.validate(this.idRule, {
       id: ctx.helper.parseInt(id)
     });
-    const id = ctx.helper.parseInt(ctx.params.id);
+
     await ctx.service.productList.del(id);
     ctx.status = 200;
   }

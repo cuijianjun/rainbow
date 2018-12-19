@@ -8,8 +8,8 @@ module.exports = app => {
   // router.get('users', '/users', 'users.index');
 
   // product_list
-  router.get('ProductList', '/list', 'productlist.index');
-  router.post('ProductList', '/create', 'productlist.create');
-  router.post('ProductList', '/update', 'productlist.update');
-  router.post('ProductList', '/delete', 'productlist.destroy');
+  router.post('ProductList', '/api/product_list/list', 'productlist.index');
+  router.post('ProductList', '/api/product_list/create', 'productlist.create');
+  router.post('ProductList', '/api/product_list/update', 'productlist.update');
+  router.get('ProductList', '/api/product_list/delete/:id', 'productlist.destroy');
 };

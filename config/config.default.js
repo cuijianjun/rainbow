@@ -16,10 +16,22 @@ module.exports = appInfo => {
     database: 'database_development',
   };
 
+  config.errorHandler = {
+    match: '/api'
+  };
+
   config.logger = {
     level: 'DEBUG',
-    consoleLevel: 'DEBUG',
+    consoleLevel: 'DEBUG',// 终端日志
+    allowDebugAtProd: true,
   };
+
+  config.bodyParser = {
+    jsonLimit: '1mb',
+    formLimit: '1mb',
+  };
+
+  config.maxAge = 86400000;// Session 的最大有效时间
 
   config.cluster = {
     listen: {
@@ -27,6 +39,6 @@ module.exports = appInfo => {
       hostname: '127.0.0.1',
       // path: '/var/run/egg.sock',
     }
-  }
+  };
   return config;
 };

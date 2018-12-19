@@ -25,6 +25,7 @@ class ProductList extends Service {
 
   async update({ id, updates }) {
     const product = await this.ctx.model.ProductList.findById(id);
+    // this.ctx.logger.info('product data: %j', updates);
     if (!product) {
       this.ctx.throw(404, 'product not found');
     }

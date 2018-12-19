@@ -6,7 +6,7 @@ module.exports = app => {
   const ProductList = app.model.define('product_list', {
     id: {type: INTEGER, primaryKey: true, autoIncrement: true},
     name: STRING(30),
-    age: INTEGER,
+    age: STRING(30),
     weChatName: STRING(30),
     avatar: STRING(255),
     label: STRING(30),
