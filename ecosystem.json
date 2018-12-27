@@ -1,0 +1,29 @@
+{
+  "apps": [
+    {
+      "name":"rainbow",
+      "script": "app.js",
+      "env":{
+        "COMMON_VARIABLE": "true"
+      },
+      "env_production":{
+        "NODE_ENV": "test"
+      }
+    }
+  ],
+  "deploy": {
+    "production": {
+      "user": "cuijianjun",
+      "host": ["123.56.24.253"],
+      "port": "22",
+      "ref": "origin/dev",
+      "repo": "git@github.com:cuijianjun/rainbow.git",
+      "path": "/work/rainbow/production",
+      "ssh_options":"StrictHostKeyChecking=no",
+      "post-deploy":"npm install --registry=https://registry.npm.taobao.org && pm2 startOrRestart ecosystem.json --env production",
+      "env":{
+          "NODE_ENV":"test"
+      }
+    }
+  }
+}

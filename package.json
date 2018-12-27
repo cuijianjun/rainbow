@@ -35,7 +35,7 @@
     "lint": "eslint .",
     "ci": "npm run lint && npm run cov",
     "autod": "autod",
-    "sequelize": "NODE_ENV=production sequelize db:migrate"
+    "sequelize": "NODE_ENV=development sequelize db:migrate"
   },
   "ci": {
     "version": "8"

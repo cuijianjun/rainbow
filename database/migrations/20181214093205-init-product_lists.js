@@ -7,7 +7,7 @@ module.exports = {
     await queryInterface.createTable('product_lists', {
       id: { type: INTEGER, primaryKey: true, autoIncrement: true },
       name: STRING(30),
-      age: INTEGER,
+      age: STRING(30),
       weChatName: STRING(30),
       avatar: STRING(255),
       label: STRING(30),
