@@ -17,7 +17,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'git@github.com:cuijianjun/rainbow.git',
       path : '/work/rainbow/production',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production'
+      'post-deploy' : 'npm install && npm run init-database && pm2 reload ecosystem.config.js --env production'
     },
     dev : {
       user : 'cuijianjun',
@@ -25,7 +25,7 @@ module.exports = {
       ref  : 'origin/dev',
       repo : 'git@github.com:cuijianjun/rainbow.git',
       path : '/work/rainbow/development',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env dev',
+      'post-deploy' : 'npm install && npm run init-database && pm2 reload ecosystem.config.js --env dev',
       env  : {
         NODE_ENV: 'dev'
       }
