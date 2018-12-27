@@ -12,7 +12,7 @@ see [egg docs][egg] for more detail.
 
 ```bash
 $ npm i
-$ mysql -u root -pcjjxw0320 -e 'CREATE DATABASE IF NOT EXISTS `database_development`;' // create database
+$ mysql -u root -p123456 -e 'CREATE DATABASE IF NOT EXISTS `database_development`;' // create database
 $ npx sequelize db:migrate   // 数据库升级
 $ npm run dev
 $ open http://localhost:7001/
