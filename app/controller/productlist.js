@@ -28,7 +28,6 @@ class ProductListController extends Controller {
 
   async index() { // post
     const ctx = this.ctx;
-
     const query = {
       limit: ctx.helper.parseInt(ctx.request.body.limit),
       offset: ctx.helper.parseInt(ctx.request.body.offset)

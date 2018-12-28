@@ -7,7 +7,7 @@ class ProductList extends Service {
     return this.ctx.model.ProductList.findAndCountAll({
       offset,
       limit,
-      order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
+      order: [[ 'updated_at', 'desc' ], [ 'id', 'desc' ]],
     });
   }
 

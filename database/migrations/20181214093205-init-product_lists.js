@@ -6,16 +6,16 @@ module.exports = {
     const { INTEGER, DATE, STRING } = Sequelize;
     await queryInterface.createTable('product_lists', {
       id: { type: INTEGER, primaryKey: true, autoIncrement: true },
-      name: STRING(30),
-      age: STRING(30),
-      weChatName: STRING(30),
+      name: STRING(255),
+      age: STRING(255),
+      weChatName: STRING(255),
       avatar: STRING(255),
-      label: STRING(30),
-      description: STRING(30),
+      label: STRING(255),
+      description: STRING(255),
       productImage: STRING(255),
-      weChatNumber: STRING(30),
-      phoneNumber: STRING(30),
-      created_at: DATE,
+      weChatNumber: STRING(255),
+      phoneNumber: STRING(255),
+      dTime: DATE,
       updated_at: DATE
     });
   },
