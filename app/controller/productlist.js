@@ -7,7 +7,6 @@ class ProductListController extends Controller {
     super(ctx);
 
     this.createRule = {
-      id: {type: 'int'},
       name: 'string',
       age: {type: 'string'},
       weChatName: 'string',
