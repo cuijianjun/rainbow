@@ -53,4 +53,4 @@ function initMaster() {
 }
 
 initDev(); // 脚本运行第一次默认指向一次
-// initMaster(); // 脚本运行第一次默认指向一次
+initMaster(); // 脚本运行第一次默认指向一次
