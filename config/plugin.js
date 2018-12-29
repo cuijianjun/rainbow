@@ -7,7 +7,7 @@ exports.sequelize = {
   package: 'egg-sequelize',
 };
 
-exports.validate= {
+exports.validate = {
   enable: true,
   package: 'egg-validate',
 

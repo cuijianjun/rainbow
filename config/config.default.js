@@ -15,16 +15,16 @@ module.exports = appInfo => {
     port: 3306,
     password: '123456',
     database: 'database_development',
-    timezone: '+08:00'
+    timezone: '+08:00',
   };
 
   config.errorHandler = {
-    match: '/api'
+    match: '/api',
   };
 
   config.logger = {
     level: 'DEBUG',
-    consoleLevel: 'DEBUG',// 终端日志
+    consoleLevel: 'DEBUG', // 终端日志
     allowDebugAtProd: true,
   };
 
@@ -40,7 +40,7 @@ module.exports = appInfo => {
       port: 3001,
       hostname: '127.0.0.1',
       // path: '/var/run/egg.sock',
-    }
+    },
   };
   return config;
 };

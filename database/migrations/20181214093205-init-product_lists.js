@@ -16,7 +16,7 @@ module.exports = {
       weChatNumber: STRING(255),
       phoneNumber: STRING(255),
       dTime: DATE,
-      updated_at: DATE
+      updated_at: DATE,
     });
   },
   // 在执行数据库降级时调用的函数，删除 users 表

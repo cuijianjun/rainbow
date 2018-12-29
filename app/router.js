@@ -5,8 +5,6 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  // webhooks deploy
-  router.post('Deploy', '/deploy',  controller.deploy);
   // router.get('users', '/users', 'users.index');
 
   // product_list

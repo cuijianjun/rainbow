@@ -7,20 +7,20 @@ class ProductListController extends Controller {
     super(ctx);
     this.createRule = {
       name: 'string',
-      age: {type: 'string'},
+      age: { type: 'string' },
       weChatName: 'string',
       avatar: 'string',
       label: 'string',
       description: 'string',
       productImage: 'string',
       weChatNumber: 'string',
-      phoneNumber: 'string'
+      phoneNumber: 'string',
     };
     this.idRule = {
       id: {
         type: 'int',
-        required: true
-      }
+        required: true,
+      },
     };
   }
 
@@ -28,12 +28,12 @@ class ProductListController extends Controller {
     const ctx = this.ctx;
     const query = {
       limit: ctx.helper.parseInt(ctx.request.body.limit),
-      offset: ctx.helper.parseInt(ctx.request.body.offset)
+      offset: ctx.helper.parseInt(ctx.request.body.offset),
     };
     // 验证参数
     ctx.validate({
-      offset: {type: 'number', format: /\d+/, required: false},
-      limit: {type: 'number', format: /\d+/, required: false},
+      offset: { type: 'number', format: /\d+/, required: false },
+      limit: { type: 'number', format: /\d+/, required: false },
     }, query);
     ctx.body = await ctx.service.productList.list(query);
   }
@@ -42,7 +42,7 @@ class ProductListController extends Controller {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.query.id);
     ctx.validate(this.idRule, {
-      id: id
+      id,
     });
     ctx.body = await ctx.service.productList.find(id);
   }
@@ -59,7 +59,7 @@ class ProductListController extends Controller {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.request.body.id);
     ctx.validate(this.idRule, {
-      id: id
+      id,
     });
     // ctx.logger.info('some request data: %j', ctx.request.body);
     const body = ctx.request.body;
@@ -76,7 +76,7 @@ class ProductListController extends Controller {
       ctx.body = 'id不能为空';
     }
     ctx.validate(this.idRule, {
-      id: ctx.helper.parseInt(id)
+      id: ctx.helper.parseInt(id),
     });
 
     await ctx.service.productList.del(id);

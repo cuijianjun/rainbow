@@ -1,18 +1,18 @@
 'use strict';
 
-let response_formatter = (ctx) => {
-  //如果有返回数据，将返回数据添加到data中
+const response_formatter = ctx => {
+  // 如果有返回数据，将返回数据添加到data中
   if (ctx.body) {
     ctx.body = {
       code: ctx.response.status,
       message: ctx.response.message,
-      data: ctx.body
-    }
+      data: ctx.body,
+    };
   } else {
     ctx.body = {
       code: ctx.response.status,
-      message: ctx.response.message
-    }
+      message: ctx.response.message,
+    };
   }
 };
 
