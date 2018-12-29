@@ -61,7 +61,7 @@ class ProductListController extends Controller {
     ctx.validate(this.idRule, {
       id,
     });
-    // ctx.logger.info('some request data: %j', ctx.request.body);
+    ctx.logger.info('some request data: %j', ctx.request.body);
     const body = ctx.request.body;
     ctx.validate(this.createRule, body);
     ctx.body = await ctx.service.productList.update({ id, updates: body });
