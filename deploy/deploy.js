@@ -40,14 +40,14 @@ function rumCommand(cmd, args, cwd, callback) {
 }
 
 function initDev() {
-  rumCommand('sh', ['./clean.sh'], '../autoDev', function (result) { // 清理缓存
+  rumCommand('sh', ['../autoDev/clean.sh'], '../autoDev', function (result) { // 清理缓存
     console.log(result);
   });
 }
 
 
 function initMaster() {
-  rumCommand('sh', ['./clean.sh'], '../autoMaster', function (result) { // 清理缓存
+  rumCommand('sh', ['../autoMaster/clean.sh'], '../autoMaster', function (result) { // 清理缓存
     console.log(result);
   });
 }
