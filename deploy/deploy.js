@@ -29,7 +29,7 @@ handler.on('push', function (event) {
 );
 
 function rumCommand(cmd, args, cwd, callback) {
-  const child = spawn(cmd, args, {cwd});
+  const child = spawn(cmd, args, {cwd: cwd});
   let response = '';
   child.stdout.on('data', function (buffer) {
     response += buffer.toString();
@@ -40,17 +40,17 @@ function rumCommand(cmd, args, cwd, callback) {
 }
 
 function initDev() {
-  rumCommand('sh', ['../autoDev/clean.sh'], '../autoDev', function (result) { // 清理缓存
+  rumCommand('sh', ['../autoDev/clean.sh'], '../', function (result) { // 清理缓存
     console.log(result);
   });
 }
 
 
 function initMaster() {
-  rumCommand('sh', ['../autoMaster/clean.sh'], '../autoMaster', function (result) { // 清理缓存
+  rumCommand('sh', ['../autoMaster/clean.sh'], '../', function (result) { // 清理缓存
     console.log(result);
   });
 }
 
 initDev(); // 脚本运行第一次默认指向一次
-initMaster(); // 脚本运行第一次默认指向一次
+// initMaster(); // 脚本运行第一次默认指向一次

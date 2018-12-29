@@ -1,3 +1,5 @@
 #! /bin/bash
-git pull -r
+git reset --hard origin/dev
+git clean -f
+git pull
 
