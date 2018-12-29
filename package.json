@@ -8,6 +8,7 @@
     "egg-scripts": "^2.5.0",
     "egg-sequelize": "^4.2.0",
     "egg-validate": "^2.0.2",
+    "github-webhook-handler": "^0.7.1",
     "mysql2": "^1.6.4"
   },
   "devDependencies": {

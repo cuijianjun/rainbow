@@ -5,7 +5,6 @@ const Controller = require('egg').Controller;
 class ProductListController extends Controller {
   constructor(ctx) {
     super(ctx);
-
     this.createRule = {
       name: 'string',
       age: {type: 'string'},
@@ -17,8 +16,7 @@ class ProductListController extends Controller {
       weChatNumber: 'string',
       phoneNumber: 'string'
     };
-
-     this.idRule = {
+    this.idRule = {
       id: {
         type: 'int',
         required: true
