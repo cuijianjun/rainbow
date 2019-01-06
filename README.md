@@ -20,8 +20,13 @@ $ open http://localhost:3001/
 ### Deploy
 
 ```bash
-$ npm start
-$ npm stop
+$ pm2
+pm2 deploy ecosystem.config.js production setup 初次上传代码
+pm2 deploy ecosystem.config.js production // 上传代码并部署（以后）
+$ webhook
+localhost:8888/deploy  在push时候触发 服务器同步代码并重启
+
+以上都部署开机自动重启服务
 
 start up
 pm2 start server.js -n rainbow --watch='app config database deploy'  --ignore-watch='node_modules logs run'
@@ -38,4 +43,4 @@ pm2 start server.js -n rainbow --watch='app config database deploy'  --ignore-wa
 
 ### 接口形式
 
-> 域名 + 端口号 /api/功能类型/具体端口 127.0.0.1:3001/api/users/getUser
+> 域名 + 端口号 /api/功能类型/具体端口 eg:127.0.0.1:3001/api/users/getUser
