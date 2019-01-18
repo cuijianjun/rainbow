@@ -9,6 +9,20 @@ module.exports = appInfo => {
   // add your config here
   config.middleware = ['errorHandler'];
 
+  // -------------------------微信相关---------------------------
+  config.AppID = 'wxbcf2234f129139b7';
+  config.AppSecret = '70c7ebe774c6cee3833e495e39f830a4';
+
+  // token凭证
+  config.jwtSecret = 'rainbow';
+  config.session = {
+    renew: true,
+    httpOnly:false
+  };
+  config.auth = {
+    test: 'tst',
+  };
+
   config.sequelize = {
     dialect: 'mysql',
     host: '127.0.0.1',
@@ -34,7 +48,25 @@ module.exports = appInfo => {
   };
 
   config.maxAge = 86400000;// Session 的最大有效时间
+// 关闭安全威胁csrf的防范
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+  };
 
+  // 解决跨域
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+  };
+
+  // 阿里云监控
+  // config.alinode = {
+  //   enable: true,
+  //   appid: '68663',
+  //   secret: '327fbbf38c7f56fdbf2269eb57c88460c410ae00',
+  // };
   config.cluster = {
     listen: {
       port: 3001,
