@@ -31,15 +31,13 @@ class UserController extends Controller {
       }
     });
     //生成当前服务器时间
-    let curTime = moment().format("YYYY-MM-DD HH:mm:ss");
     let data = JSON.parse(result.data);
     if (result.status == 200) {
       let sessionKey = String(data.session_key);
       let openId = data.openid;
-      let sessionData = {
-        sessionKey,
-        openId
-      };
+      if (!openId) {
+        ctx.throw(500, '获取openId失败');
+      }
       let userInfo = await ctx.service.user.find(openId);//判断是否新用户
       // 新用户注册
       if (userInfo === false) {
