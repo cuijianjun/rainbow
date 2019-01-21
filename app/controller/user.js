@@ -35,7 +35,7 @@ class UserController extends Controller {
       ctx.cookies.set('skey', skey, {
         maxAge: 24 * 3600 * 1000
       });
-      ctx.body = skey;
+      ctx.body = {skey};
     } else {
       ctx.throw(500, '获取openId失败');
     }
