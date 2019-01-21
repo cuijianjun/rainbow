@@ -16,6 +16,8 @@ module.exports = appInfo => {
   // token凭证
   config.jwtSecret = 'rainbow';
   config.session = {
+    key: 'EGG_SESS',
+    maxAge: 24 * 3600 * 1000, // 1 天
     renew: true,
     httpOnly:false
   };
@@ -47,7 +49,6 @@ module.exports = appInfo => {
     formLimit: '1mb',
   };
 
-  config.maxAge = 86400000;// Session 的最大有效时间
 // 关闭安全威胁csrf的防范
   config.security = {
     csrf: {
