@@ -33,14 +33,14 @@ module.exports = () => {
         }
         // 验证token是否过期
         try {
-            const userInfo = jwt.verify(token.split('Bearer ')[1], ctx.app.config.jwtSecret);
+            const userInfo = jwt.verify(token, ctx.app.config.jwtSecret);
             const exp = userInfo.exp; // 过期时间
             const now = parseInt(new Date().getTime() / 1000);
             // 有效期小于一小时的重新赋值token
             const isOver = exp - now < 60 * 60;
             if (isOver) {
                 const token = jwt.sign({user_id: userInfo.user_id}, ctx.app.config.jwtSecret, {expiresIn: '7d'});
-                ctx.set('authorization', 'Bearer ' + token);
+                ctx.set('authorization', token);
             }
         } catch (err) {
             ctx.status = 401;
