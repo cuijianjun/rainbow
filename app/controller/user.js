@@ -10,6 +10,14 @@ class UserController extends Controller {
     // 具体查看：
     const ctx = this.ctx;
     let code = ctx.query.code;
+    ctx.validate({
+      code: {
+        type: 'string',
+        required: true,
+      },
+    }, {
+      code
+    });
     const result = await ctx.curl('https://api.weixin.qq.com/sns/jscode2session', {
       data: {
         js_code: code,
