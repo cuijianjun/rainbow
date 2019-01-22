@@ -4,7 +4,8 @@ module.exports = app => {
   const {STRING, INTEGER, DATE, TEXT} = app.Sequelize;
 
   const ProductList = app.model.define('product_list', {
-    id: INTEGER,
+    id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+    user_id:INTEGER,
     name: STRING(30),
     age: STRING(30),
     weChatName: STRING(30),

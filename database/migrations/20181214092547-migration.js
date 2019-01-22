@@ -19,7 +19,8 @@ module.exports = {
     });
     // 产品列表
     await queryInterface.createTable('product_lists', {
-      id: INTEGER,
+      id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+      user_id:INTEGER,
       name: STRING(255),
       age: STRING(255),
       weChatName: STRING(255),
