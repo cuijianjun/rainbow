@@ -9,6 +9,11 @@ module.exports = appInfo => {
   // add your config here
   config.middleware = ['errorHandler'];
 
+  // ------------------------七牛云相关---------------------------
+  config.accessKey = 'eSyaPaqSPcrN4Bk-EmOEjZnHaJsuFPFL84KnguaC';
+  config.secretKey = 'NLBn9KldfmSAeF2dG2A2QDEd2i1pJMIJ1F8cW-3a';
+  config.bucket_name = 'rainbow';
+  config.zone = 'qiniu.zone.Zone_z1';
   // -------------------------微信相关---------------------------
   config.AppID = 'wxbcf2234f129139b7';
   config.AppSecret = '70c7ebe774c6cee3833e495e39f830a4';
@@ -19,7 +24,7 @@ module.exports = appInfo => {
     key: 'EGG_SESS',
     maxAge: 24 * 3600 * 1000, // 1 天
     renew: true,
-    httpOnly:false
+    httpOnly: false
   };
   config.auth = {
     test: 'tst',
@@ -48,7 +53,10 @@ module.exports = appInfo => {
     jsonLimit: '1mb',
     formLimit: '1mb',
   };
-
+  config.multipart = {
+    mode: 'file',
+    fileSize: '50mb',
+  };
 // 关闭安全威胁csrf的防范
   config.security = {
     csrf: {

@@ -8,6 +8,10 @@ module.exports = app => {
   const auth = middleware.auth();//校验用户token中间件
   // router.get('users', '/users', 'users.index');
   router.post('/login', 'user.login'); // 小程序授权
+
+
+// 图片上传接口
+  router.post('/api/upload', 'qiniu.upload');
   // product_list
   router.post('ProductList', '/api/product_list/list', 'productlist.index');
   router.post('ProductList', '/api/product_list/create', auth, 'productlist.create');
