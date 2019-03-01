@@ -27,36 +27,29 @@ class QiniuController extends Controller {
     config.zone = qiniu.zone.Zone_z1;
     let formUploader = new qiniu.form_up.FormUploader(config);
     let putExtra = new qiniu.form_up.PutExtra();
-    try {
-      let promises = files.map(file => {
-        const filename = file.filename.toLowerCase();
-        let info = filename.split('.');
-        let nameText = info[0] + Date.now();
-        let name = crypto.createHash('md5').update(nameText).digest('hex');
-        const key = `${name}.${info[info.length - 1]}`;
-        return new Promise((resolve, reject) => {
-          formUploader.putFile(uploadToken, key, file.filepath, putExtra, function (respErr, respBody, respInfo) {
-            if (respErr) {
-              throw respErr;
-            }
-            if (respInfo.statusCode == 200) {
-              resolve(respBody);
-            } else {
-              reject(respBody);
-              console.log(respInfo.statusCode);
-              console.log(respBody);
-            }
-          })
-        });
+    let promises = files.map(file => {
+      const filename = file.filename.toLowerCase();
+      let info = filename.split('.');
+      let name = crypto.createHash('md5').update(info[0]).digest('hex');
+      const key = `${name}.${info[info.length - 1]}`;
+      return new Promise((resolve, reject) => {
+        formUploader.putFile(uploadToken, key, file.filepath, putExtra, function (respErr, respBody, respInfo) {
+          if (respErr) {
+            throw respErr;
+          }
+          if (respInfo.statusCode == 200) {
+            resolve(respBody);
+          } else {
+            reject(respBody);
+            console.log(respInfo.statusCode);
+            console.log(respBody);
+          }
+        })
       });
-      let result = await Promise.all(promises);
-      ctx.body = result;
-    } finally {
-      // delete those request tmp files
-      // ctx.body = res;
-      await ctx.cleanupRequestFiles();
-    }
-
+    });
+    let resData = await Promise.all(promises);
+    // 入库
+    ctx.body = resData;
   }
 }
 

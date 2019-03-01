@@ -32,21 +32,23 @@ class UserController extends Controller {
     });
     //生成当前服务器时间
     let data = JSON.parse(result.data);
+    console.log(data);
     if (result.status == 200) {
-      let sessionKey = String(data.session_key);
-      let openId = data.openid;
-      if (!openId) {
-        ctx.throw(500, '获取openId失败');
-      }
-      let userInfo = await ctx.service.user.find(openId);//判断是否新用户
-      // 新用户注册
-      if (userInfo === false) {
-        userInfo = await ctx.service.user.wxRegister(Object.assign(ctx.request.body, {openId}));
-      }
-      // 生成token
-      const token = jwt.sign({user_id: userInfo.id}, app.config.jwtSecret, {expiresIn: '7d'});
-      ctx.body = {token: `${token}`, openId};
-      ctx.set('authorization', token);
+      ctx.body = data;
+      // let sessionKey = String(data.session_key);
+      // let openId = data.openid;
+      // if (!openId) {
+      //   ctx.throw(500, '获取openId失败');
+      // }
+      // let userInfo = await ctx.service.user.find(openId);//判断是否新用户
+      // // 新用户注册
+      // if (userInfo === false) {
+      //   userInfo = await ctx.service.user.wxRegister(Object.assign(ctx.request.body, {openId}));
+      // }
+      // // 生成token
+      // const token = jwt.sign({user_id: userInfo.id}, app.config.jwtSecret, {expiresIn: '7d'});
+      // ctx.body = {token: `${token}`, openId};
+      // ctx.set('authorization', token);
     } else {
       ctx.throw(500, '获取openId失败');
     }

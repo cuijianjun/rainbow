@@ -3,19 +3,13 @@
 module.exports = app => {
   const {STRING, INTEGER, DATE, TEXT} = app.Sequelize;
 
-  const ProductList = app.model.define('product_list', {
+  const ReleaseProductsImages = app.model.define('release_products_images', {
     id: {type: INTEGER, primaryKey: true, autoIncrement: true},
     user_id: INTEGER,
-    name: STRING(30),
-    age: STRING(30),
-    weChatName: STRING(30),
-    avatar: STRING(255),
-    label: STRING(30),
-    description: STRING(30),
-    productImage: TEXT(),
-    weChatNumber: STRING(30),
-    phoneNumber: STRING(30),
+    product_id: INTEGER,
+    url: STRING(255),
     updated_at: DATE,
+    dTime: DATE
   }, {
     // 是否需要增加createdAt、updatedAt、deletedAt字段
     timestamps: true,
@@ -28,11 +22,11 @@ module.exports = app => {
     underscored: true,
     classMethods: {
       associate() {
-        ProductList.hasMany(app.model.ReleaseProductsImages, {foreignKey: 'product_id', sourceKey: 'id'});
-        ProductList.belongsTo(app.model.User, {foreignKey: 'user_id', targetKey: 'user_id'});
-      },
+        ReleaseProductsImages.belongsTo(app.model.User, {foreignKey: 'user_id', targetKey: 'user_id'});
+        ReleaseProductsImages.belongsTo(app.model.ProductList, {foreignKey: 'product_id', targetKey: 'product_id'});
+      }
     },
   });
 
-  return ProductList;
+  return ReleaseProductsImages;
 };

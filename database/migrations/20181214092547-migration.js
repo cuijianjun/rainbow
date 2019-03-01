@@ -20,7 +20,7 @@ module.exports = {
     // 产品列表
     await queryInterface.createTable('product_lists', {
       id: {type: INTEGER, primaryKey: true, autoIncrement: true},
-      user_id:INTEGER,
+      user_id: INTEGER,
       name: STRING(255),
       age: STRING(255),
       weChatName: STRING(255),
@@ -33,10 +33,20 @@ module.exports = {
       dTime: DATE,
       updated_at: DATE,
     });
+    // 发布产品的图片表 releaseProducts
+    await queryInterface.createTable('release_products_images', {
+      id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+      user_id: INTEGER,
+      product_id: INTEGER,
+      url: STRING(255),
+      updated_at: DATE,
+      dTime: DATE
+    });
   },
   // 在执行数据库降级时调用的函数，删除 users 表
   down: async queryInterface => {
     await queryInterface.dropTable('users');// 用户表
     await queryInterface.dropTable('product_lists'); // 产品列表
+    await queryInterface.dropTable('release_products_images'); // 发布产品的图片表
   },
 };
