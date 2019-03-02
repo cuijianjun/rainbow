@@ -28,7 +28,6 @@ module.exports = app => {
     underscored: true,
     classMethods: {
       associate() {
-        ProductList.hasMany(app.model.ReleaseProductsImages, {foreignKey: 'product_id', sourceKey: 'id'});
         ProductList.belongsTo(app.model.User, {foreignKey: 'user_id', targetKey: 'user_id'});
       },
     },
