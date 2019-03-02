@@ -32,7 +32,6 @@ class UserController extends Controller {
     });
     //生成当前服务器时间
     let data = JSON.parse(result.data);
-    console.log(data);
     if (result.status == 200) {
       ctx.body = data;
       let sessionKey = String(data.session_key);
@@ -43,11 +42,12 @@ class UserController extends Controller {
       let userInfo = await ctx.service.user.find(openId);//判断是否新用户
       // 新用户注册
       if (userInfo === false) {
-        userInfo = await ctx.service.user.wxRegister(Object.assign(ctx.request.body, {openid: openId}));
+        let body = ctx.request.body;
+        userInfo = await ctx.service.user.wxRegister({body,openid: openId });
       }
       // 生成token
       const token = jwt.sign({user_id: userInfo.id}, app.config.jwtSecret, {expiresIn: '7d'});
-      ctx.body = {token: `${token}`, openId};
+      ctx.body = {token: `${token}`, userInfo};
       ctx.set('authorization', token);
     } else {
       ctx.throw(500, '获取openId失败');

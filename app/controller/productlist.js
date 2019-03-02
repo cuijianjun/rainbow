@@ -8,6 +8,10 @@ class ProductListController extends Controller {
     this.createRule = {
       name: 'string',
       age: { type: 'string' },
+      user_id: {
+        type: 'int',
+        required: true,
+      },
       weChatName: 'string',
       avatar: 'string',
       label: 'string',
@@ -20,7 +24,7 @@ class ProductListController extends Controller {
       id: {
         type: 'int',
         required: true,
-      },
+      }
     };
   }
 
@@ -29,11 +33,13 @@ class ProductListController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.request.body.limit),
       offset: ctx.helper.parseInt(ctx.request.body.offset),
+      user_id: ctx.helper.parseInt(ctx.request.body.user_id)
     };
     // 验证参数
     ctx.validate({
       offset: { type: 'number', format: /\d+/, required: false },
       limit: { type: 'number', format: /\d+/, required: false },
+      user_id: { type: 'number', format: /\d+/, required: false }
     }, query);
     ctx.body = await ctx.service.productList.list(query);
   }
@@ -70,7 +76,6 @@ class ProductListController extends Controller {
   async destroy() { // get
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    console.log(id);
     if (!id) {
       ctx.status = 404;
       ctx.body = 'id不能为空';

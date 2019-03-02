@@ -28,7 +28,7 @@ module.exports = app => {
     underscored: true,
     classMethods: {
       associate() {
-        ProductList.belongsTo(app.model.User, {foreignKey: 'user_id', targetKey: 'user_id'});
+        ProductList.belongsTo(app.model.User, {foreignKey: 'user_id', targetKey: 'id'});
       },
     },
   });

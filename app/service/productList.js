@@ -3,11 +3,13 @@
 const Service = require('egg').Service;
 
 class ProductList extends Service {
-  async list({ offset = 0, limit = 10 }) {
+  async list({offset = 0, limit = 10, user_id = ''}) {
+    console.log(user_id);
     return this.ctx.model.ProductList.findAndCountAll({
       offset,
       limit,
-      order: [[ 'updated_at', 'desc' ], [ 'id', 'desc' ]],
+      where: {user_id},
+      order: [['updated_at', 'desc'], ['id', 'desc']],
     });
   }
 
@@ -23,7 +25,7 @@ class ProductList extends Service {
     return this.ctx.model.ProductList.create(product);
   }
 
-  async update({ id, updates }) {
+  async update({id, updates}) {
     const product = await this.ctx.model.ProductList.findById(id);
     if (!product) {
       this.ctx.throw(404, 'product not found');
