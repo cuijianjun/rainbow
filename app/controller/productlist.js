@@ -32,14 +32,17 @@ class ProductListController extends Controller {
     const ctx = this.ctx;
     const query = {
       limit: ctx.helper.parseInt(ctx.request.body.limit),
-      offset: ctx.helper.parseInt(ctx.request.body.offset),
-      user_id: ctx.helper.parseInt(ctx.request.body.user_id)
+      page: ctx.helper.parseInt(ctx.request.body.page),
+      user_id: ctx.helper.parseInt(ctx.request.body.user_id),
+      label: ctx.helper.parseInt(ctx.request.body.label)
     };
+    console.log(query);
     // 验证参数
     ctx.validate({
       offset: { type: 'number', format: /\d+/, required: false },
       limit: { type: 'number', format: /\d+/, required: false },
-      user_id: { type: 'number', format: /\d+/, required: false }
+      user_id: { type: 'number', format: /\d+/, required: false },
+      label: { type: 'number', format: /\d+/, required: false }
     }, query);
     ctx.body = await ctx.service.productList.list(query);
   }

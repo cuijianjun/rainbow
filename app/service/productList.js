@@ -3,12 +3,12 @@
 const Service = require('egg').Service;
 
 class ProductList extends Service {
-  async list({offset = 0, limit = 10, user_id = ''}) {
-    console.log(user_id);
+  async list({page = 1, limit = 10, user_id = '', label = ''}) {
+    let offset = Math.abs((page - 1)) * limit;
     return this.ctx.model.ProductList.findAndCountAll({
       offset,
       limit,
-      where: {user_id},
+      where: {user_id, label},
       order: [['updated_at', 'desc'], ['id', 'desc']],
     });
   }
