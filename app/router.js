@@ -11,7 +11,9 @@ module.exports = app => {
 
 
 // 图片上传接口
-  router.post('/api/upload', 'qiniu.upload');
+  router.post('/api/image/upload', 'qiniu.upload');
+  router.get('/api/image/list/:product_id', 'qiniu.index');
+  router.get('/api/image/delete/:product_id', 'qiniu.destroy');
   // product_list
   router.post('ProductList', '/api/product_list/list', 'productlist.index');
   router.post('ProductList', '/api/product_list/create', auth, 'productlist.create');

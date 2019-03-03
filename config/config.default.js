@@ -20,6 +20,8 @@ module.exports = appInfo => {
 
   // token凭证
   config.jwtSecret = 'rainbow';
+  // 图片url服务器
+  config.baseImageUrl = 'https://res.pplu.vip/';
   config.session = {
     key: 'EGG_SESS',
     maxAge: 24 * 3600 * 1000, // 1 天

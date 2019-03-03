@@ -28,6 +28,7 @@ module.exports = app => {
     classMethods: {
       associate() {
         User.hasMany(app.model.ProductList, {foreignKey: 'user_id', sourceKey: 'id'});
+        User.hasMany(app.model.ReleaseProductsImages, {foreignKey: 'user_id', sourceKey: 'id'});
       },
     },
   });
