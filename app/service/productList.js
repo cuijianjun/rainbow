@@ -3,14 +3,32 @@
 const Service = require('egg').Service;
 
 class ProductList extends Service {
-  async list({page = 1, limit = 10, user_id = '', label = ''}) {
+
+  async list({page = 1, limit = 10, user_id, label}) {
     let offset = Math.abs((page - 1)) * limit;
-    return this.ctx.model.ProductList.findAndCountAll({
+    const options = {
       offset,
       limit,
-      where: {user_id, label},
       order: [['updated_at', 'desc'], ['id', 'desc']],
-    });
+    };
+    if (user_id) {
+      options.where = {
+        user_id,
+      };
+    }
+    if (label) {
+      options.where = {
+        label,
+      };
+    }
+    if (label && user_id) {
+      options.where = {
+        user_id,
+        label
+      };
+    }
+    return this.ctx.model.ProductList.findAndCountAll(options);
+
   }
 
   async find(id) {

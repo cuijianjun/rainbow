@@ -13,7 +13,6 @@ class UserController extends Controller {
     const ctx = this.ctx;
     const app = this.app;
     let code = ctx.request.body.code;
-    console.log(code);
     ctx.validate({
       code: {
         type: 'string',
@@ -33,7 +32,6 @@ class UserController extends Controller {
     //生成当前服务器时间
     let data = JSON.parse(result.data);
     if (result.status == 200) {
-      ctx.body = data;
       let sessionKey = String(data.session_key);
       let openId = data.openid;
       if (!openId) {
@@ -43,7 +41,7 @@ class UserController extends Controller {
       // 新用户注册
       if (userInfo === false) {
         let body = ctx.request.body;
-        userInfo = await ctx.service.user.wxRegister({body,openid: openId });
+        userInfo = await ctx.service.user.wxRegister({...body,openid: openId });
       }
       // 生成token
       const token = jwt.sign({user_id: userInfo.id}, app.config.jwtSecret, {expiresIn: '7d'});

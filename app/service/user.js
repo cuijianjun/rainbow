@@ -11,7 +11,6 @@ class User extends Service {
    * @return {Promise<*>}
    */
   async wxRegister(user) {
-    console.log(user);
     const userInfo = await this.ctx.model.User.create(user);
     return userInfo.dataValues;
   }
