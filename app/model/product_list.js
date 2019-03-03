@@ -28,12 +28,13 @@ module.exports = app => {
     underscored: true,
     classMethods: {
       associate() {
-        ProductList.belongsTo(app.model.User, {foreignKey: 'user_id', targetKey: 'id'});
         ProductList.hasMany(app.model.ReleaseProductsImages, {foreignKey: 'user_id', sourceKey: 'id'});
-
       },
     },
   });
+  ProductList.associate = function() {
+    app.model.ProductList.belongsTo(app.model.User, {foreignKey: 'user_id', targetKey: 'id'});
+  };
 
   return ProductList;
 };

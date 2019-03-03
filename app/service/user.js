@@ -39,7 +39,7 @@ class User extends Service {
     return this.ctx.model.User.create(user);
   }
 
-  async update({id, updates}) {
+  async update({id = 0, updates}) {
     const user = await this.ctx.model.User.findById(id);
     if (!user) {
       this.ctx.throw(404, 'user not found');
@@ -47,7 +47,7 @@ class User extends Service {
     return user.update(updates);
   }
 
-  async del(id) {
+  async del(id = 0) {
     const user = await this.ctx.model.User.findById(id);
     if (!user) {
       this.ctx.throw(404, 'user not found');
@@ -63,11 +63,13 @@ class User extends Service {
    * @return {Promise<*>}
    */
   async userInfo(user_id) {
-    const user = await this.ctx.model.User.findOne(
-      {
-        where: {user_id: user_id}
-      }
-    );
+    let options = null;
+    if (user_id) {
+      options.where = {
+        user_id,
+      };
+    }
+    const user = await this.ctx.model.User.findOne(options);
     if (!user) {
       this.ctx.throw(404, '用户不存在')
     }
@@ -78,7 +80,13 @@ class User extends Service {
    * 设置用户信息
    */
   async setUserInfo(user_id, user) {
-    await this.ctx.model.User.update(user, {where: {user_id: user_id}});
+    let options = {...user};
+    if (user_id) {
+      options.where = {
+        user_id,
+      };
+    }
+    await this.ctx.model.User.update(options);
   }
 }
 

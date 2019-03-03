@@ -4,11 +4,20 @@ const Service = require('egg').Service;
 
 class ProductList extends Service {
 
-  async list({page = 1, limit = 10, user_id, label}) {
-    let offset = Math.abs((page - 1)) * limit;
+  async list({page = 0, limit = 10, user_id, label}) {
+    page = page >= 1 ? page - 1 : 0;
+    let offset = page * limit;
+    console.log(offset, limit);
     const options = {
       offset,
       limit,
+      include: [{
+        model: this.ctx.model.User,
+        as: 'users',
+        where: {
+          id:user_id
+        },
+      }],
       order: [['updated_at', 'desc'], ['id', 'desc']],
     };
     if (user_id) {
@@ -28,10 +37,9 @@ class ProductList extends Service {
       };
     }
     return this.ctx.model.ProductList.findAndCountAll(options);
-
   }
 
-  async find(id) {
+  async find(id = 0) {
     const product = await this.ctx.model.ProductList.findById(id);
     if (!product) {
       this.ctx.throw(404, 'product not found');
@@ -43,7 +51,7 @@ class ProductList extends Service {
     return this.ctx.model.ProductList.create(product);
   }
 
-  async update({id, updates}) {
+  async update({id = 0, updates}) {
     const product = await this.ctx.model.ProductList.findById(id);
     if (!product) {
       this.ctx.throw(404, 'product not found');
@@ -51,7 +59,7 @@ class ProductList extends Service {
     return product.update(updates);
   }
 
-  async del(id) {
+  async del(id = 0) {
     const product = await this.ctx.model.ProductList.findById(id);
     if (!product) {
       this.ctx.throw(404, 'product not found');

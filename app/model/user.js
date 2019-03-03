@@ -27,11 +27,12 @@ module.exports = app => {
     underscored: true,
     classMethods: {
       associate() {
-        User.hasMany(app.model.ProductList, {foreignKey: 'user_id', sourceKey: 'id'});
         User.hasMany(app.model.ReleaseProductsImages, {foreignKey: 'user_id', sourceKey: 'id'});
       },
     },
   });
-
+  User.associate = function() {
+    app.model.User.hasMany(app.model.ProductList, {foreignKey: 'user_id', sourceKey: 'id'});
+  };
   return User;
 };
