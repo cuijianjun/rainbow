@@ -37,7 +37,7 @@ module.exports = {
     await queryInterface.createTable('release_products_images', {
       id: {type: INTEGER, primaryKey: true, autoIncrement: true},
       product_id: INTEGER,
-      url: STRING(),
+      url: STRING.BINARY,
       updated_at: DATE,
       dTime: DATE
     });
