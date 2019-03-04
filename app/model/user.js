@@ -6,7 +6,7 @@ module.exports = app => {
   const User = app.model.define('users', {
     id: {type: INTEGER, primaryKey: true, autoIncrement: true},//用户id
     openid: STRING(255),//微信open_id
-    nickName: {type: STRING(32), allowNull: false},//姓名
+    nickName: {type: STRING(32), defaultValue: ''},//姓名
     avatarUrl: STRING(256),//头像
     province: {type: STRING(255), defaultValue: ''},//省份
     gender: {type: STRING(255), defaultValue: ''},//性别
