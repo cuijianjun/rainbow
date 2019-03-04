@@ -7,16 +7,16 @@ class ProductList extends Service {
   async list({page = 0, limit = 10, user_id, label}) {
     page = page >= 1 ? page - 1 : 0;
     let offset = page * limit;
-    console.log(offset, limit);
     const options = {
       offset,
       limit,
       include: [{
         model: this.ctx.model.User,
-        as: 'users',
+        as: 'user',
         where: {
           id:user_id
         },
+        attributes:['nickName']
       }],
       order: [['updated_at', 'desc'], ['id', 'desc']],
     };
