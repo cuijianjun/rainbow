@@ -5,7 +5,6 @@ module.exports = app => {
 
   const ReleaseProductsImages = app.model.define('release_products_images', {
     id: {type: INTEGER, primaryKey: true, autoIncrement: true},
-    user_id: INTEGER,
     product_id: INTEGER,
     url: STRING(255),
     updated_at: DATE,
@@ -19,14 +18,10 @@ module.exports = app => {
     // 同时需要设置paranoid为true（此种模式下，删除数据时不会进行物理删除，而是设置deletedAt为当前时间
     deletedAt: 'dTime',
     paranoid: true,
-    underscored: true,
-    classMethods: {
-      associate() {
-        ReleaseProductsImages.belongsTo(app.model.User, {foreignKey: 'user_id', targetKey: 'user_id'});
-        ReleaseProductsImages.belongsTo(app.model.ProductList, {foreignKey: 'product_id', targetKey: 'product_id'});
-      }
-    },
+    underscored: true
   });
-
+  ReleaseProductsImages.associate = function() {
+    ReleaseProductsImages.belongsTo(app.model.ProductList, {foreignKey: 'product_id', targetKey: 'id'});
+  };
   return ReleaseProductsImages;
 };

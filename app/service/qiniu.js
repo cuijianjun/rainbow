@@ -4,7 +4,6 @@ const Service = require('egg').Service;
 
 class Qiniu extends Service {
   async list(product_id = '') {
-    console.log(product_id);
     return this.ctx.model.ReleaseProductsImages.findAndCountAll({
       where: {product_id},
       order: [['updated_at', 'desc'], ['id', 'desc']],

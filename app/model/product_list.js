@@ -25,15 +25,11 @@ module.exports = app => {
     // 同时需要设置paranoid为true（此种模式下，删除数据时不会进行物理删除，而是设置deletedAt为当前时间
     deletedAt: 'dTime',
     paranoid: true,
-    underscored: true,
-    classMethods: {
-      associate() {
-        ProductList.hasMany(app.model.ReleaseProductsImages, {foreignKey: 'user_id', sourceKey: 'id'});
-      },
-    },
+    underscored: true
   });
   ProductList.associate = function() {
     app.model.ProductList.belongsTo(app.model.User, {foreignKey: 'user_id', targetKey: 'id'});
+    app.model.ProductList.hasMany(app.model.ReleaseProductsImages, {foreignKey: 'product_id', sourceKey: 'id'});
   };
 
   return ProductList;
