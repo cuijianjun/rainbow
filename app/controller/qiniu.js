@@ -23,6 +23,7 @@ class QiniuController extends Controller {
       }
     };
   }
+
   // 获取七牛云信息
   async upload() {
     const {app, ctx} = this;
@@ -32,7 +33,7 @@ class QiniuController extends Controller {
     const bucket = app.config.bucket_name;
     const baseImageUrl = app.config.baseImageUrl;
     let options = {
-      scope: bucket,
+      scope: bucket
     };
     const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
     const putPolicy = new qiniu.rs.PutPolicy(options);
@@ -57,24 +58,22 @@ class QiniuController extends Controller {
             resolve(respBody);
           } else {
             reject(respBody);
-            console.log(respInfo.statusCode);
-            console.log(respBody);
           }
         })
       });
     });
     let resData = await Promise.all(promises);
+
+    let imageKey = [];
     let imageUrl = [];
     resData.map((value, index, array) => {
+      imageKey.push(resData[index].key);
       resData[index].key = baseImageUrl + resData[index].key;
       imageUrl.push(resData[index].key);
     });
-    // 入库
-    let user_id = ctx.helper.parseInt(ctx.request.body.user_id);
-    ctx.validate(this.createRule, {user_id});
     let count = await ctx.model.ProductList.count();
-    console.log(ctx.service);
-    const product = await ctx.service.qiniu.create({url:JSON.stringify(imageUrl),product_id: count +1, user_id,});
+    // 入库
+    const product = await ctx.service.qiniu.create({url: JSON.stringify(imageKey), product_id: count + 1});
     ctx.status = 201;
     ctx.body = resData;
   }
@@ -93,7 +92,20 @@ class QiniuController extends Controller {
   }
 
   async destroy() { // 删除 -- get
-    const ctx = this.ctx;
+    const {app, ctx} = this;
+    const accessKey = app.config.accessKey;
+    const secretKey = app.config.secretKey;
+    const bucket = app.config.bucket_name;
+    const baseImageUrl = app.config.baseImageUrl;
+    let options = {
+      scope: bucket
+    };
+    let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+    let config = new qiniu.conf.Config();
+    //config.useHttpsDomain = true;
+    config.zone = qiniu.zone.Zone_z1;
+    let bucketManager = new qiniu.rs.BucketManager(mac, config);
+
     const product_id = ctx.helper.parseInt(ctx.params.product_id);
     if (!product_id) {
       ctx.status = 404;
@@ -103,7 +115,28 @@ class QiniuController extends Controller {
       product_id: ctx.helper.parseInt(product_id),
     });
 
-    await ctx.service.qiniu.del(product_id);
+    let product = await ctx.service.qiniu.del(product_id);
+    const key = JSON.parse(product.dataValues.url);
+    console.log(key);
+    if (!key) {
+      ctx.status = 200;
+      ctx.body = '本产品没有图片';
+    }
+
+    let promises = key.map((value, index, array) => {
+      return new Promise((resolve, reject) => {
+        bucketManager.delete(bucket, value, function(err, respBody, respInfo) {
+          if (err) {
+            reject(err);
+            throw err;
+          } else {
+            resolve(respInfo);
+          }
+        });
+      });
+    });
+    let resData = await Promise.all(promises);
+    console.log(resData);
     ctx.status = 200;
   }
 }

@@ -23,14 +23,13 @@ class Qiniu extends Service {
   }
 
   async del(product_id = '') {
-    const product = await this.ctx.model.ReleaseProductsImages.findOne({
-      where:{product_id}
+    const image = await this.ctx.model.ReleaseProductsImages.findAll({
+      where: {product_id}
     });
-    console.log(product);
-    if (!product) {
+    if (!image) {
       this.ctx.throw(404, 'product not found');
     }
-    return product.destroy();
+    return image.destroy();
   }
 }
 
