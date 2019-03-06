@@ -28,16 +28,18 @@ module.exports = {
       label: STRING(255),
       description: STRING(255),
       productImage: STRING(255),
+      pageView: {type: STRING(30), defaultValue: 0},
       weChatNumber: STRING(255),
       phoneNumber: STRING(255),
       dTime: DATE,
       updated_at: DATE,
     });
-    // 发布产品的图片表 releaseProducts
-    await queryInterface.createTable('release_products_images', {
+    // banner图 + 类别
+    await queryInterface.createTable('banners', {
       id: {type: INTEGER, primaryKey: true, autoIncrement: true},
-      product_id: INTEGER,
-      url: STRING.BINARY,
+      description: INTEGER,
+      jumpUrl: STRING(255),
+      imageUrl: STRING(255),
       updated_at: DATE,
       dTime: DATE
     });
@@ -46,6 +48,6 @@ module.exports = {
   down: async queryInterface => {
     await queryInterface.dropTable('users');// 用户表
     await queryInterface.dropTable('product_lists'); // 产品列表
-    await queryInterface.dropTable('release_products_images'); // 发布产品的图片表
+    await queryInterface.dropTable('banners'); // 发布产品的图片表
   },
 };

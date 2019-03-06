@@ -22,6 +22,29 @@ module.exports = appInfo => {
   config.jwtSecret = 'rainbow';
   // 图片url服务器
   config.baseImageUrl = 'https://res.pplu.vip/';
+  // 产品列表类别
+  config.type = [
+    {
+      code: 1,
+      msg: '家电'
+    },
+    {
+      code: 2,
+      msg: '家具'
+    },
+    {
+      code: 3,
+      msg: '手机'
+    },
+    {
+      code: 4,
+      msg: '自行车'
+    },
+    {
+      code: 5,
+      msg: '互联网'
+    }
+  ];
   config.session = {
     key: 'EGG_SESS',
     maxAge: 24 * 3600 * 1000, // 1 天

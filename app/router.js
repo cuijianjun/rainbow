@@ -7,6 +7,9 @@ module.exports = app => {
   const {router, controller, middleware} = app;
   const auth = middleware.auth();//校验用户token中间件
   router.post('/login', 'user.login'); // 小程序授权
+  // /api/banner/get
+  // banner图 + 类别
+  router.get('Banner', '/api/banner/get', 'productlist.show');
 
 
   // 图片上传接口
