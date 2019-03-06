@@ -5,6 +5,7 @@ const Controller = require('egg').Controller;
 class ProductListController extends Controller {
   constructor(ctx) {
     super(ctx);
+    const baseImageUrl = this.app.config.baseImageUrl;
     this.createRule = {
       name: 'string',
       age: { type: 'string' },
@@ -13,7 +14,6 @@ class ProductListController extends Controller {
       avatar: 'string',
       label: 'string',
       description: 'string',
-      productImage: 'string',
       weChatNumber: 'string',
       phoneNumber: 'string',
     };
@@ -55,8 +55,7 @@ class ProductListController extends Controller {
 
   async create() { // post
     const {app, ctx} = this;
-    const baseImageUrl = app.config.baseImageUrl;
-    // ctx.validate(this.createRule, ctx.request.body);
+    ctx.validate(this.createRule, ctx.request.body);
     const upload = await ctx.service.qiniu.upload();
     let body = ctx.request.body;
     const product = await ctx.service.productList.create({...body, productImage:JSON.stringify(upload)});
@@ -74,10 +73,17 @@ class ProductListController extends Controller {
     ctx.validate(this.idRule, {
       id,
     });
-    ctx.logger.info('some request data: %j', ctx.request.body);
+
+    let product = await ctx.service.productList.find(id);
+    const upload = await ctx.service.qiniu.upload();
+    let productImage = JSON.parse(product.dataValues.productImage);
+    let diff = ctx.helper.getArrDifference(productImage, upload);
+    let lastDiff = ctx.helper.getArrEqual(diff,productImage);
+    // 七牛云删除
+    const del = await ctx.service.qiniu.destroy(lastDiff);
     const body = ctx.request.body;
-    ctx.validate(this.createRule, body);
-    ctx.body = await ctx.service.productList.update({ id, updates: body });
+    // ctx.validate(this.createRule, body); // todo
+    ctx.body = await ctx.service.productList.update({ id, updates: {...body, productImage: JSON.stringify(upload)} });
   }
 
   async destroy() { // get

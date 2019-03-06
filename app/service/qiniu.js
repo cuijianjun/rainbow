@@ -76,7 +76,7 @@ class Qiniu extends Service {
     ctx.body = await ctx.service.qiniu.list(product_id);
   }
 
-  async destroy() { // 删除 -- get
+  async destroy(key = []) { // 删除
     const {app, ctx} = this;
     const accessKey = app.config.accessKey;
     const secretKey = app.config.secretKey;
@@ -90,18 +90,6 @@ class Qiniu extends Service {
     config.zone = qiniu.zone.Zone_z1;
     let bucketManager = new qiniu.rs.BucketManager(mac, config);
 
-    const product_id = ctx.helper.parseInt(ctx.params.id);
-    if (!id) {
-      ctx.status = 404;
-      ctx.body = 'id不能为空';
-    }
-    ctx.validate(this.productIdRule, {
-      id: ctx.helper.parseInt(id),
-    });
-
-    let product = await ctx.service.qiniu.find(id); // 切换不同的模型
-    const key = JSON.parse(product.dataValues.productImage);
-
     let promises = key.map((value, index, array) => {
       return new Promise((resolve, reject) => {
         bucketManager.delete(bucket, value, function(err, respBody, respInfo) {
@@ -114,9 +102,7 @@ class Qiniu extends Service {
         });
       });
     });
-    let resData = await Promise.all(promises);
-    console.log(resData);
-    ctx.status = 200;
+    return await Promise.all(promises);
   }
 }
 
