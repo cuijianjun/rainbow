@@ -8,10 +8,7 @@ class ProductListController extends Controller {
     this.createRule = {
       name: 'string',
       age: { type: 'string' },
-      user_id: {
-        type: 'int',
-        required: true,
-      },
+      user_id: { type: 'string' },
       weChatName: 'string',
       avatar: 'string',
       label: 'string',
@@ -57,9 +54,16 @@ class ProductListController extends Controller {
   }
 
   async create() { // post
-    const ctx = this.ctx;
-    ctx.validate(this.createRule, ctx.request.body);
-    const product = await ctx.service.productList.create(ctx.request.body);
+    const {app, ctx} = this;
+    const baseImageUrl = app.config.baseImageUrl;
+    // ctx.validate(this.createRule, ctx.request.body);
+    const upload = await ctx.service.qiniu.upload();
+    let body = ctx.request.body;
+    const product = await ctx.service.productList.create({...body, productImage:JSON.stringify(upload)});
+    upload.map((value, index) => {
+      value = baseImageUrl + value.key;
+    });
+    product.productImage = JSON.stringify(upload);
     ctx.status = 201;
     ctx.body = product;
   }

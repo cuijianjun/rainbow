@@ -1,36 +1,124 @@
 'use strict';
 
+const qiniu = require('qiniu');
+const pump = require('mz-modules/pump');
+const path = require('path');
+const crypto = require('crypto');
 const Service = require('egg').Service;
+const fs = require('mz/fs');
 
 class Qiniu extends Service {
-  async list(product_id = '') {
-    return this.ctx.model.ReleaseProductsImages.findAndCountAll({
-      where: {product_id},
-      order: [['updated_at', 'desc'], ['id', 'desc']],
+  constructor(ctx) {
+    super(ctx);
+    this.productIdRule = {
+      id: {
+        type: 'int',
+        required: true,
+      }
+    };
+  }
+
+  // 获取七牛云信息
+  async upload() {
+    const {app, ctx} = this;
+    const files = ctx.request.files;
+    const accessKey = app.config.accessKey;
+    const secretKey = app.config.secretKey;
+    const bucket = app.config.bucket_name;
+    let options = {
+      scope: bucket
+    };
+    const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+    const putPolicy = new qiniu.rs.PutPolicy(options);
+    const uploadToken = putPolicy.uploadToken(mac);
+    //上传到七牛后保存的文件名
+    let config = new qiniu.conf.Config();
+    // 空间对应的机房
+    config.zone = qiniu.zone.Zone_z1;
+    let formUploader = new qiniu.form_up.FormUploader(config);
+    let putExtra = new qiniu.form_up.PutExtra();
+    let promises = files.map(file => {
+      const filename = file.filename.toLowerCase();
+      let info = filename.split('.');
+      let name = crypto.createHash('md5').update(info[0]).digest('hex');
+      const key = `${name}.${info[info.length - 1]}`;
+      return new Promise((resolve, reject) => {
+        formUploader.putFile(uploadToken, key, file.filepath, putExtra, function (respErr, respBody, respInfo) {
+          if (respErr) {
+            throw respErr;
+          }
+          if (respInfo.statusCode == 200) {
+            resolve(respBody);
+          } else {
+            reject(respBody);
+          }
+        })
+      });
     });
-  }
-
-  async find(id) { // todo
-    const product = await this.ctx.model.ReleaseProductsImages.findById(id);
-    if (!product) {
-      this.ctx.throw(404, 'product not found');
-    }
-    return product;
-  }
-
-  async create(product) {
-    return this.ctx.model.ReleaseProductsImages.create(product);
-  }
-
-  async del(product_id = '') {
-    const image = await this.ctx.model.ReleaseProductsImages.findAll({
-      where: {product_id}
+    let resData = await Promise.all(promises);
+    let imageKey = [];
+    resData.map((value, index, array) => {
+      imageKey.push(value.key)
     });
-    if (!image) {
-      this.ctx.throw(404, 'product not found');
+    return imageKey;
+  }
+
+  async index() { // get -- 获取
+    const ctx = this.ctx;
+    const product_id = ctx.helper.parseInt(ctx.params.product_id);
+    if (!product_id) {
+      ctx.status = 404;
+      ctx.body = 'product_id不能为空';
     }
-    return image.destroy();
+    ctx.validate(this.productIdRule, {
+      product_id: ctx.helper.parseInt(product_id),
+    });
+    ctx.body = await ctx.service.qiniu.list(product_id);
+  }
+
+  async destroy() { // 删除 -- get
+    const {app, ctx} = this;
+    const accessKey = app.config.accessKey;
+    const secretKey = app.config.secretKey;
+    const bucket = app.config.bucket_name;
+    let options = {
+      scope: bucket
+    };
+    let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+    let config = new qiniu.conf.Config();
+    //config.useHttpsDomain = true;
+    config.zone = qiniu.zone.Zone_z1;
+    let bucketManager = new qiniu.rs.BucketManager(mac, config);
+
+    const product_id = ctx.helper.parseInt(ctx.params.id);
+    if (!id) {
+      ctx.status = 404;
+      ctx.body = 'id不能为空';
+    }
+    ctx.validate(this.productIdRule, {
+      id: ctx.helper.parseInt(id),
+    });
+
+    let product = await ctx.service.qiniu.find(id); // 切换不同的模型
+    const key = JSON.parse(product.dataValues.productImage);
+
+    let promises = key.map((value, index, array) => {
+      return new Promise((resolve, reject) => {
+        bucketManager.delete(bucket, value, function(err, respBody, respInfo) {
+          if (err) {
+            reject(err);
+            throw err;
+          } else {
+            resolve(respInfo);
+          }
+        });
+      });
+    });
+    let resData = await Promise.all(promises);
+    console.log(resData);
+    ctx.status = 200;
   }
 }
 
 module.exports = Qiniu;
+
