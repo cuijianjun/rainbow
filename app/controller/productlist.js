@@ -8,8 +8,8 @@ class ProductListController extends Controller {
     const baseImageUrl = this.app.config.baseImageUrl;
     this.createRule = {
       name: 'string',
-      age: { type: 'string' },
-      user_id: { type: 'string' },
+      age: {type: 'string'},
+      user_id: {type: 'string'},
       weChatName: 'string',
       avatar: 'string',
       label: 'string',
@@ -36,20 +36,23 @@ class ProductListController extends Controller {
     console.log(query);
     // 验证参数
     ctx.validate({
-      offset: { type: 'number', format: /\d+/, required: false },
-      limit: { type: 'number', format: /\d+/, required: false },
-      user_id: { type: 'number', format: /\d+/, required: false },
-      label: { type: 'number', format: /\d+/, required: false }
+      offset: {type: 'number', format: /\d+/, required: false},
+      limit: {type: 'number', format: /\d+/, required: false},
+      user_id: {type: 'number', format: /\d+/, required: false},
+      label: {type: 'number', format: /\d+/, required: false}
     }, query);
     ctx.body = await ctx.service.productList.list(query);
   }
 
   async show() { // get
     const ctx = this.ctx;
-    const id = ctx.helper.parseInt(ctx.query.id);
+    const id = ctx.helper.parseInt(ctx.params.product_id);
     ctx.validate(this.idRule, {
       id,
     });
+    let product_detail = await ctx.service.productList.find(id);
+    let pageView = ctx.helper.parseInt(product_detail.dataValues.pageView) + 1;
+    let product_detail_new = await ctx.service.productList.update({id, updates: {pageView: pageView}});
     ctx.body = await ctx.service.productList.find(id);
   }
 
@@ -58,7 +61,7 @@ class ProductListController extends Controller {
     ctx.validate(this.createRule, ctx.request.body);
     const upload = await ctx.service.qiniu.upload();
     let body = ctx.request.body;
-    const product = await ctx.service.productList.create({...body, productImage:JSON.stringify(upload)});
+    const product = await ctx.service.productList.create({...body, productImage: JSON.stringify(upload)});
     upload.map((value, index) => {
       value = baseImageUrl + value.key;
     });
@@ -78,12 +81,12 @@ class ProductListController extends Controller {
     const upload = await ctx.service.qiniu.upload();
     let productImage = JSON.parse(product.dataValues.productImage);
     let diff = ctx.helper.getArrDifference(productImage, upload);
-    let lastDiff = ctx.helper.getArrEqual(diff,productImage);
+    let lastDiff = ctx.helper.getArrEqual(diff, productImage);
     // 七牛云删除
     const del = await ctx.service.qiniu.destroy(lastDiff);
     const body = ctx.request.body;
     // ctx.validate(this.createRule, body); // todo
-    ctx.body = await ctx.service.productList.update({ id, updates: {...body, productImage: JSON.stringify(upload)} });
+    ctx.body = await ctx.service.productList.update({id, updates: {...body, productImage: JSON.stringify(upload)}});
   }
 
   async destroy() { // get

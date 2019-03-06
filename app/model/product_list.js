@@ -13,6 +13,7 @@ module.exports = app => {
     label: STRING(30),
     description: STRING(30),
     productImage: TEXT(),
+    pageView: {type: STRING(30), defaultValue: 0},
     weChatNumber: STRING(30),
     phoneNumber: STRING(30),
     updated_at: DATE,

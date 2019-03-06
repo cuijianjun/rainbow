@@ -15,6 +15,7 @@ module.exports = app => {
   //   router.get('/api/image/delete/:product_id', 'qiniu.destroy');
   // product_list
   router.post('ProductList', '/api/product_list/list', 'productlist.index');
+  router.get('ProductList', '/api/product_list/detail/:product_id', 'productlist.show');
   router.post('ProductList', '/api/product_list/create', auth, 'productlist.create');
   router.post('ProductList', '/api/product_list/update', auth, 'productlist.update');
   router.get('ProductList', '/api/product_list/delete/:id', auth, 'productlist.destroy');
