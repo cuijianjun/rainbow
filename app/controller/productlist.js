@@ -5,7 +5,7 @@ const Controller = require('egg').Controller;
 class ProductListController extends Controller {
   constructor(ctx) {
     super(ctx);
-    const baseImageUrl = this.app.config.baseImageUrl;
+    this.baseImageUrl = this.app.config.baseImageUrl;
     this.createRule = {
       name: 'string',
       age: {type: 'string'},
@@ -63,7 +63,7 @@ class ProductListController extends Controller {
     let body = ctx.request.body;
     const product = await ctx.service.productList.create({...body, productImage: JSON.stringify(upload)});
     upload.map((value, index) => {
-      value = baseImageUrl + value.key;
+      value = this.baseImageUrl + value.key;
     });
     product.productImage = JSON.stringify(upload);
     ctx.status = 201;
@@ -85,7 +85,6 @@ class ProductListController extends Controller {
     // 七牛云删除
     const del = await ctx.service.qiniu.destroy(lastDiff);
     const body = ctx.request.body;
-    // ctx.validate(this.createRule, body); // todo
     ctx.body = await ctx.service.productList.update({id, updates: {...body, productImage: JSON.stringify(upload)}});
   }
 

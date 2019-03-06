@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = app => {
-  const {STRING, INTEGER, DATE, TEXT} = app.Sequelize;
+  const { STRING, INTEGER, DATE, TEXT } = app.Sequelize;
 
   const ProductList = app.model.define('product_list', {
-    id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+    id: { type: INTEGER, primaryKey: true, autoIncrement: true },
     user_id: INTEGER,
     name: STRING(30),
     age: STRING(30),
@@ -13,7 +13,7 @@ module.exports = app => {
     label: STRING(30),
     description: STRING(30),
     productImage: TEXT(),
-    pageView: {type: STRING(30), defaultValue: 0},
+    pageView: { type: STRING(30), defaultValue: 0 },
     weChatNumber: STRING(30),
     phoneNumber: STRING(30),
     updated_at: DATE,
@@ -26,10 +26,10 @@ module.exports = app => {
     // 同时需要设置paranoid为true（此种模式下，删除数据时不会进行物理删除，而是设置deletedAt为当前时间
     deletedAt: 'dTime',
     paranoid: true,
-    underscored: true
+    underscored: true,
   });
   ProductList.associate = function() {
-    app.model.ProductList.belongsTo(app.model.User, {foreignKey: 'user_id', targetKey: 'id'});
+    app.model.ProductList.belongsTo(app.model.User, { foreignKey: 'user_id', targetKey: 'id' });
   };
 
   return ProductList;

@@ -10,40 +10,34 @@ const fs = require('mz/fs');
 class Qiniu extends Service {
   constructor(ctx) {
     super(ctx);
-    this.productIdRule = {
-      id: {
-        type: 'int',
-        required: true,
-      }
-    };
   }
 
   // 获取七牛云信息
   async upload() {
-    const {app, ctx} = this;
+    const { app, ctx } = this;
     const files = ctx.request.files;
     const accessKey = app.config.accessKey;
     const secretKey = app.config.secretKey;
     const bucket = app.config.bucket_name;
-    let options = {
-      scope: bucket
+    const options = {
+      scope: bucket,
     };
     const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
     const putPolicy = new qiniu.rs.PutPolicy(options);
     const uploadToken = putPolicy.uploadToken(mac);
-    //上传到七牛后保存的文件名
-    let config = new qiniu.conf.Config();
+    // 上传到七牛后保存的文件名
+    const config = new qiniu.conf.Config();
     // 空间对应的机房
     config.zone = qiniu.zone.Zone_z1;
-    let formUploader = new qiniu.form_up.FormUploader(config);
-    let putExtra = new qiniu.form_up.PutExtra();
-    let promises = files.map(file => {
+    const formUploader = new qiniu.form_up.FormUploader(config);
+    const putExtra = new qiniu.form_up.PutExtra();
+    const promises = files.map(file => {
       const filename = file.filename.toLowerCase();
-      let info = filename.split('.');
-      let name = crypto.createHash('md5').update(info[0]).digest('hex');
+      const info = filename.split('.');
+      const name = crypto.createHash('md5').update(info[0]).digest('hex');
       const key = `${name}.${info[info.length - 1]}`;
       return new Promise((resolve, reject) => {
-        formUploader.putFile(uploadToken, key, file.filepath, putExtra, function (respErr, respBody, respInfo) {
+        formUploader.putFile(uploadToken, key, file.filepath, putExtra, function(respErr, respBody, respInfo) {
           if (respErr) {
             throw respErr;
           }
@@ -52,45 +46,32 @@ class Qiniu extends Service {
           } else {
             reject(respBody);
           }
-        })
+        });
       });
     });
-    let resData = await Promise.all(promises);
-    let imageKey = [];
+    const resData = await Promise.all(promises);
+    const imageKey = [];
     resData.map((value, index, array) => {
-      imageKey.push(value.key)
+      imageKey.push(value.key);
     });
-    return imageKey;
-  }
-
-  async index() { // get -- 获取
-    const ctx = this.ctx;
-    const product_id = ctx.helper.parseInt(ctx.params.product_id);
-    if (!product_id) {
-      ctx.status = 404;
-      ctx.body = 'product_id不能为空';
-    }
-    ctx.validate(this.productIdRule, {
-      product_id: ctx.helper.parseInt(product_id),
-    });
-    ctx.body = await ctx.service.qiniu.list(product_id);
+    return imageKey.length === 1 ? imageKey[0] : imageKey;
   }
 
   async destroy(key = []) { // 删除
-    const {app, ctx} = this;
+    const { app, ctx } = this;
     const accessKey = app.config.accessKey;
     const secretKey = app.config.secretKey;
     const bucket = app.config.bucket_name;
-    let options = {
-      scope: bucket
+    const options = {
+      scope: bucket,
     };
-    let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-    let config = new qiniu.conf.Config();
-    //config.useHttpsDomain = true;
+    const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+    const config = new qiniu.conf.Config();
+    // config.useHttpsDomain = true;
     config.zone = qiniu.zone.Zone_z1;
-    let bucketManager = new qiniu.rs.BucketManager(mac, config);
+    const bucketManager = new qiniu.rs.BucketManager(mac, config);
 
-    let promises = key.map((value, index, array) => {
+    const promises = key.map((value, index, array) => {
       return new Promise((resolve, reject) => {
         bucketManager.delete(bucket, value, function(err, respBody, respInfo) {
           if (err) {
@@ -103,6 +84,12 @@ class Qiniu extends Service {
       });
     });
     return await Promise.all(promises);
+  }
+
+  async update(key = []) {
+    let upload = await this.upload();
+    let destroy = await this.destroy(key);
+    return upload;
   }
 }
 

@@ -26,30 +26,30 @@ module.exports = appInfo => {
   config.type = [
     {
       code: 1,
-      msg: '家电'
+      msg: '家电',
     },
     {
       code: 2,
-      msg: '家具'
+      msg: '家具',
     },
     {
       code: 3,
-      msg: '手机'
+      msg: '手机',
     },
     {
       code: 4,
-      msg: '自行车'
+      msg: '自行车',
     },
     {
       code: 5,
-      msg: '互联网'
-    }
+      msg: '互联网',
+    },
   ];
   config.session = {
     key: 'EGG_SESS',
     maxAge: 24 * 3600 * 1000, // 1 天
     renew: true,
-    httpOnly: false
+    httpOnly: false,
   };
   config.auth = {
     test: 'tst',
@@ -82,7 +82,7 @@ module.exports = appInfo => {
     mode: 'file',
     fileSize: '50mb',
   };
-// 关闭安全威胁csrf的防范
+  // 关闭安全威胁csrf的防范
   config.security = {
     csrf: {
       enable: false,
