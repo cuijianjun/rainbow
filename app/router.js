@@ -12,7 +12,8 @@ module.exports = app => {
   router.post('Banner', '/api/banner/create', 'banner.create');
   router.post('Banner', '/api/banner/update', 'banner.update');
   router.get('Banner', '/api/banner/delete/:id', 'banner.destroy');
-
+  // 收藏
+  router.post('Collect', '/api/collect/collect', 'collect.collect');
 
   // 图片上传接口
   //   router.post('/api/image/upload', 'qiniu.upload');

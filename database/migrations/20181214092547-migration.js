@@ -3,7 +3,7 @@
 module.exports = {
   // 在执行数据库升级时调用的函数，创建 users 表
   up: async (queryInterface, Sequelize) => {
-    const { INTEGER, DATE, STRING } = Sequelize;
+    const { INTEGER, DATE, STRING, BOOLEAN } = Sequelize;
     // 用户表
     await queryInterface.createTable('users', {
       id: { type: INTEGER, primaryKey: true, autoIncrement: true },
@@ -37,17 +37,25 @@ module.exports = {
     // banner图 + 类别
     await queryInterface.createTable('banners', {
       id: { type: INTEGER, primaryKey: true, autoIncrement: true },
-      description: INTEGER,
+      description: STRING(255),
       jumpUrl: STRING(255),
       imageUrl: STRING(255),
       updated_at: DATE,
       dTime: DATE,
+    });
+    // 收藏表 Collection
+    await queryInterface.createTable('collects', {
+      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
+      user_id: INTEGER,
+      product_id: INTEGER,
+      isCollect: { type: BOOLEAN, allowNull: false, defaultValue: false},
+      updated_at: DATE
     });
   },
   // 在执行数据库降级时调用的函数，删除 users 表
   down: async queryInterface => {
     await queryInterface.dropTable('users');// 用户表
     await queryInterface.dropTable('product_lists'); // 产品列表
-    await queryInterface.dropTable('banners'); // 发布产品的图片表
+    await queryInterface.dropTable('banners'); // banner图 + 类别
   },
 };
