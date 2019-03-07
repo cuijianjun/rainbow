@@ -7,15 +7,17 @@ class ProductListController extends Controller {
     super(ctx);
     this.baseImageUrl = this.app.config.baseImageUrl;
     this.createRule = {
-      name: 'string',
-      age: {type: 'string'},
+      name: {type: 'string', required: false},
+      age: {type: 'string', required: false},
       user_id: {type: 'string'},
-      weChatName: 'string',
-      avatar: 'string',
+      weChatName: {type: 'string', required: false},
+      avatar: {type: 'string', required: false},
       label: 'string',
-      description: 'string',
-      weChatNumber: 'string',
+      description: {type: 'string', required: false},
+      weChatNumber: {type: 'string', required: false},
       phoneNumber: 'string',
+      price: 'string',
+      address: {type: 'string', required: false},
     };
     this.idRule = {
       id: {
@@ -50,10 +52,29 @@ class ProductListController extends Controller {
     ctx.validate(this.idRule, {
       id,
     });
-    let product_detail = await ctx.service.productList.find(id);
-    let pageView = ctx.helper.parseInt(product_detail.dataValues.pageView) + 1;
-    let product_detail_new = await ctx.service.productList.update({id, updates: {pageView: pageView}});
-    ctx.body = await ctx.service.productList.find(id);
+    // 浏览量加1
+    // let product_detail = await ctx.service.productList.find(id);
+    // let pageView = ctx.helper.parseInt(product_detail.dataValues.pageView) + 1;
+    // let product_detail_new = await ctx.service.productList.update({id, updates: {pageView: pageView}});
+
+    // 获取收藏状态
+    let user_id = ctx.helper.parseInt(ctx.params.user_id);
+    let isCollect = false;
+    if (typeof user_id === 'number') {
+      let product_id = [];
+      let collect = await ctx.service.collect.list({user_id});
+      collect.map((value) => {
+        product_id.push(value.dataValues.product_id);
+      });
+      console.log(product_id, id);
+      isCollect = product_id.includes(id);
+      console.log(isCollect);
+    }
+    let body = await ctx.service.productList.find(id);
+    body.dataValues.collect = {
+      isCollect
+    }
+    ctx.body = body;
   }
 
   async create() { // post
