@@ -6,6 +6,7 @@ class ProductListController extends Controller {
   constructor(ctx) {
     super(ctx);
     this.baseImageUrl = this.app.config.baseImageUrl;
+    this.type = this.app.config.type;
     this.createRule = {
       name: {type: 'string', required: false},
       age: {type: 'string', required: false},
@@ -33,7 +34,8 @@ class ProductListController extends Controller {
       limit: ctx.helper.parseInt(ctx.request.body.limit),
       page: ctx.helper.parseInt(ctx.request.body.page),
       user_id: ctx.helper.parseInt(ctx.request.body.user_id),
-      label: ctx.helper.parseInt(ctx.request.body.label)
+      searchQuery: ctx.request.body.searchQuery,
+      label: ctx.request.body.label
     };
     console.log(query);
     // 验证参数

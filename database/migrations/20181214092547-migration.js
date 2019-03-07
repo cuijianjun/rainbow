@@ -3,7 +3,7 @@
 module.exports = {
   // 在执行数据库升级时调用的函数，创建 users 表
   up: async (queryInterface, Sequelize) => {
-    const { INTEGER, DATE, STRING, BOOLEAN } = Sequelize;
+    const { INTEGER, DATE, STRING, BOOLEAN, TEXT } = Sequelize;
     // 用户表
     await queryInterface.createTable('users', {
       id: { type: INTEGER, primaryKey: true, autoIncrement: true },
@@ -26,7 +26,7 @@ module.exports = {
       weChatName: STRING(255),
       avatar: STRING(255),
       label: STRING(255),
-      description: STRING(255),
+      description: TEXT(),
       productImage: STRING(255),
       pageView: { type: STRING(30), defaultValue: 0 },
       weChatNumber: STRING(255),

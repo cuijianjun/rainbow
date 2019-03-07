@@ -11,7 +11,7 @@ module.exports = app => {
     weChatName: STRING(30),
     avatar: STRING(255),
     label: STRING(30),
-    description: STRING(30),
+    description: TEXT(),
     productImage: TEXT(),
     pageView: { type: STRING(30), defaultValue: 0 },
     weChatNumber: STRING(30),
