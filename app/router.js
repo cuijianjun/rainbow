@@ -14,6 +14,9 @@ module.exports = app => {
   router.get('Banner', '/api/banner/delete/:id', 'banner.destroy');
   // 收藏
   router.post('Collect', '/api/collect/collect', 'collect.collect');
+  // 热搜
+  // router.post('HotSearch', '/api/hot_search/get', 'collect.collect');
+
 
   // 图片上传接口
   //   router.post('/api/image/upload', 'qiniu.upload');

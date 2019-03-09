@@ -35,7 +35,7 @@ class ProductListController extends Controller {
       page: ctx.helper.parseInt(ctx.request.body.page),
       user_id: ctx.helper.parseInt(ctx.request.body.user_id),
       searchQuery: ctx.request.body.searchQuery,
-      label: ctx.request.body.label
+      label: ctx.helper.parseInt(ctx.request.body.label)
     };
     console.log(query);
     // 验证参数
@@ -55,9 +55,9 @@ class ProductListController extends Controller {
       id,
     });
     // 浏览量加1
-    // let product_detail = await ctx.service.productList.find(id);
-    // let pageView = ctx.helper.parseInt(product_detail.dataValues.pageView) + 1;
-    // let product_detail_new = await ctx.service.productList.update({id, updates: {pageView: pageView}});
+    let product_detail = await ctx.service.productList.find(id);
+    let pageView = ctx.helper.parseInt(product_detail.dataValues.pageView) + 1;
+    let product_detail_new = await ctx.service.productList.update({id, updates: {pageView: pageView}});
 
     // 获取收藏状态
     let user_id = ctx.helper.parseInt(ctx.params.user_id);
@@ -68,14 +68,12 @@ class ProductListController extends Controller {
       collect.map((value) => {
         product_id.push(value.dataValues.product_id);
       });
-      console.log(product_id, id);
       isCollect = product_id.includes(id);
-      console.log(isCollect);
     }
     let body = await ctx.service.productList.find(id);
     body.dataValues.collect = {
       isCollect
-    }
+    };
     ctx.body = body;
   }
 

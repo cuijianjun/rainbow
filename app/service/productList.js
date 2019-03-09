@@ -16,6 +16,14 @@ class ProductList extends Service {
     const options = {
       offset,
       limit,
+      include: [{
+        model: this.ctx.model.User,
+        as: 'user',
+        where: {
+          id: user_id,
+        },
+        attributes: ['nickName'],
+      }],
       order: [['updated_at', 'desc'], ['id', 'desc']],
     };
     if (user_id) {
