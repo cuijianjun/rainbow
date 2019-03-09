@@ -15,7 +15,7 @@ module.exports = {
       country: STRING(255), // 国家
       city: STRING(255), // 城市
       updated_at: DATE, // 更新时间
-      dTime: DATE, // 更新时间
+      dTime: DATE, // 删除时间
     });
     // 产品列表
     await queryInterface.createTable('product_lists', {
@@ -51,11 +51,20 @@ module.exports = {
       isCollect: { type: BOOLEAN, allowNull: false, defaultValue: false},
       updated_at: DATE
     });
+    // HotSearch
+    await queryInterface.createTable('hot_searches', {
+      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
+      hot_search: STRING(),
+      updated_at: DATE
+    });
+
   },
   // 在执行数据库降级时调用的函数，删除 users 表
   down: async queryInterface => {
     await queryInterface.dropTable('users');// 用户表
     await queryInterface.dropTable('product_lists'); // 产品列表
     await queryInterface.dropTable('banners'); // banner图 + 类别
+    await queryInterface.dropTable('collects'); // 收藏表
+    await queryInterface.dropTable('hot_searches'); // HotSearch
   },
 };

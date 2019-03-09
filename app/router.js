@@ -15,7 +15,10 @@ module.exports = app => {
   // 收藏
   router.post('Collect', '/api/collect/collect', 'collect.collect');
   // 热搜
-  // router.post('HotSearch', '/api/hot_search/get', 'collect.collect');
+  router.get('HotSearch', '/api/hot_search/list', 'hotsearch.index');
+  router.post('HotSearch', '/api/hot_search/create', 'hotsearch.create');
+  router.post('HotSearch', '/api/hot_search/update', 'hotsearch.update');
+  router.get('HotSearch', '/api/hot_search/delete/:id', 'hotsearch.destroy');
 
 
   // 图片上传接口
