@@ -8,8 +8,6 @@ module.exports = app => {
     user_id: INTEGER,
     name: STRING(30),
     age: STRING(30),
-    weChatName: STRING(30),
-    avatar: STRING(255),
     label: STRING(30),
     description: TEXT(),
     productImage: TEXT(),

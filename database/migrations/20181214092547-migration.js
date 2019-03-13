@@ -23,8 +23,6 @@ module.exports = {
       user_id: INTEGER,
       name: STRING(255),
       age: STRING(255),
-      weChatName: STRING(255),
-      avatar: STRING(255),
       label: STRING(255),
       description: TEXT(),
       productImage: STRING(255),

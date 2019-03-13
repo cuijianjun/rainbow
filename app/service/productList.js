@@ -21,8 +21,7 @@ class ProductList extends Service {
         as: 'user',
         where: {
           id: user_id,
-        },
-        attributes: ['nickName'],
+        }
       }],
       order: [['updated_at', 'desc'], ['id', 'desc']],
     };
