@@ -27,9 +27,7 @@ class UserController extends Controller {
         let body = ctx.request.body;
         userInfo = await ctx.service.user.wxRegister({...body, openid: openId});
       }
-      // 生成token
       ctx.body = {userInfo};
-      ctx.set('authorization', token);
     } else {
       ctx.throw(500, '获取openId失败');
     }
@@ -38,8 +36,7 @@ class UserController extends Controller {
   async update() { // post
     const ctx = this.ctx;
     ctx.status = 201;
-    ctx.body = await ctx.service.hotSearch.update({id, updates: ctx.request.body});
-    ;
+    ctx.body = await ctx.service.user.update({id, updates: ctx.request.body});
   }
 
   async getOpenId(code) {
