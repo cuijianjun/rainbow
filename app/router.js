@@ -4,9 +4,9 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const { router, controller, middleware } = app;
+  const {router, controller, middleware} = app;
   const auth = middleware.auth();// 校验用户token中间件
-  router.post('/login', 'user.login'); // 小程序授权
+  router.post('/login', auth, 'user.login'); // 小程序授权
   // banner图 + 类别
   router.get('Banner', '/api/banner/get', 'banner.index');
   router.post('Banner', '/api/banner/create', 'banner.create');

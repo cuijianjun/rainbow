@@ -75,12 +75,13 @@ module.exports = appInfo => {
   };
 
   config.bodyParser = {
-    jsonLimit: '1mb',
-    formLimit: '1mb',
+    jsonLimit: '100mb',
+    formLimit: '100mb',
   };
   config.multipart = {
     mode: 'file',
     fileSize: '50mb',
+    files: 10
   };
   // 关闭安全威胁csrf的防范
   config.security = {

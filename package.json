@@ -11,13 +11,11 @@
     "egg-sequelize": "^4.2.0",
     "egg-validate": "^2.0.2",
     "github-webhook-handler": "^0.7.1",
-    "jsonwebtoken": "^8.4.0",
     "moment": "^2.23.0",
     "moment-timezone": "^0.5.23",
     "mysql2": "^1.6.4",
-    "qiniu": "^7.2.1",
     "mz": "^2.7.0",
-    "mz-modules": "^2.1.0"
+    "qiniu": "^7.2.1"
   },
   "devDependencies": {
     "autod": "^3.0.1",
