@@ -12,7 +12,7 @@ class UserController extends Controller {
     // 登录信息会被存储到 ctx.state.$wxInfo
     const ctx = this.ctx;
     const app = this.app;
-    this.getOpenId(code);
+    this.getOpenId(ctx.request.code);
 
     let data = JSON.parse(result.data);
     if (result.status == 200) {

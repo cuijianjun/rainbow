@@ -16,13 +16,20 @@ class ProductList extends Service {
     const options = {
       offset,
       limit,
-      include: [{
-        model: this.ctx.model.User,
-        as: 'user',
-        where: {
-          id: user_id,
+      include: [
+        {
+          model: this.ctx.model.Label,
+          where: {
+            code: this.Sequelize.col('product_list.labelCode')
+          }
+        },
+        {
+          model: this.ctx.model.User,
+          where: {
+            id: this.Sequelize.col('product_list.user_id')
+          }
         }
-      }],
+      ],
       order: [['updated_at', 'desc'], ['id', 'desc']],
     };
     if (user_id) {
@@ -49,7 +56,6 @@ class ProductList extends Service {
         ]
       };
     }
-
     return this.ctx.model.ProductList.findAndCountAll(options);
   }
 

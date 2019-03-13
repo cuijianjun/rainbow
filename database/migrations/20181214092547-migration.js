@@ -23,7 +23,7 @@ module.exports = {
       user_id: INTEGER,
       name: STRING(255),
       age: STRING(255),
-      label: STRING(255),
+      labelCode: STRING(255),
       description: TEXT(),
       productImage: STRING(255),
       pageView: { type: STRING(30), defaultValue: 0 },
@@ -56,6 +56,13 @@ module.exports = {
       updated_at: DATE
     });
 
+    // label
+    await queryInterface.createTable('labels', {
+      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
+      labelName: STRING(),
+      code: STRING()
+    });
+
   },
   // 在执行数据库降级时调用的函数，删除 users 表
   down: async queryInterface => {
@@ -64,5 +71,6 @@ module.exports = {
     await queryInterface.dropTable('banners'); // banner图 + 类别
     await queryInterface.dropTable('collects'); // 收藏表
     await queryInterface.dropTable('hot_searches'); // HotSearch
+    await queryInterface.dropTable('labels'); // label
   },
 };

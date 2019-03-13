@@ -8,7 +8,7 @@ module.exports = app => {
     user_id: INTEGER,
     name: STRING(30),
     age: STRING(30),
-    label: STRING(30),
+    labelCode: STRING(30),
     description: TEXT(),
     productImage: TEXT(),
     pageView: { type: STRING(30), defaultValue: 0 },
@@ -28,6 +28,7 @@ module.exports = app => {
   });
   ProductList.associate = function() {
     app.model.ProductList.belongsTo(app.model.User, { foreignKey: 'user_id', targetKey: 'id' });
+    app.model.ProductList.hasOne(app.model.Label, { foreignKey: 'code', sourceKey: 'labelCode' });
   };
 
   return ProductList;
