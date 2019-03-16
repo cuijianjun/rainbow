@@ -4,7 +4,7 @@ module.exports = appInfo => {
   const config = exports = {};
   config.cluster = {
     listen: {
-      port: 3001,
+      port: 3002,
       hostname: '0.0.0.0'
     },
   };
