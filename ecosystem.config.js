@@ -23,6 +23,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'git@github.com:cuijianjun/rainbow.git',
       path: '/work/rainbow/production',
+      'pre-deploy': "git fetch",
       'post-deploy': 'npm install && npm run init-database && pm2 reload ecosystem.config.js --env production',
     },
     dev: {
@@ -31,6 +32,7 @@ module.exports = {
       ref: 'origin/dev',
       repo: 'git@github.com:cuijianjun/rainbow.git',
       path: '/work/rainbow/development',
+      'pre-deploy': "git fetch",
       'post-deploy': 'npm install && npm run init-database && pm2 reload ecosystem.config.js --env dev',
       env: {
         NODE_ENV: 'dev',
