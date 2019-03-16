@@ -74,6 +74,20 @@ module.exports = appInfo => {
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
   };
 
+  config.cluster = {
+    listen: {
+      port: 3002,
+      hostname: '0.0.0.0'
+    },
+  };
+
+  config.sequelize = {
+    dialect: 'mysql',
+    host: '127.0.0.1',
+    port: 3306,
+    database: 'database_development',
+    password: '123456',
+  };
   // 阿里云监控
   // config.alinode = {
   //   enable: true,
