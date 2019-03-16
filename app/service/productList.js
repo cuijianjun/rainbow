@@ -10,7 +10,7 @@ class ProductList extends Service {
     this.Op = ctx.app.Sequelize.Op;
   }
 
-  async list({page = 0, limit = 10, user_id, label, searchQuery}) {
+  async list({page = 0, limit = 10, user_id, labelCode, searchQuery}) {
     page = page >= 1 ? page - 1 : 0;
     const offset = page * limit;
     const options = {
@@ -37,15 +37,15 @@ class ProductList extends Service {
         user_id,
       };
     }
-    if (label) {
+    if (labelCode) {
       options.where = {
-        label,
+        labelCode,
       };
     }
-    if (label && user_id) {
+    if (labelCode && user_id) {
       options.where = {
         user_id,
-        label,
+        labelCode,
       };
     }
     if (searchQuery) {
