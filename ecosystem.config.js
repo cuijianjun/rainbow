@@ -1,14 +1,20 @@
 module.exports = {
-  apps: [{
-    name: 'rainbow',
-    script: 'server.js',
-    env: {
-      NODE_ENV: 'development',
+  apps: [
+    {
+      name: 'rainbow',
+      script: 'server.js',
+      env_production: {
+        NODE_ENV: 'production',
+      },
     },
-    env_production: {
-      NODE_ENV: 'production',
-    },
-  }],
+    {
+      name: 'rainbow-dev',
+      script: 'server.js',
+      env: {
+        NODE_ENV: 'development',
+      }
+    }
+  ],
 
   deploy: {
     production: {
