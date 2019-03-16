@@ -3,8 +3,6 @@ module.exports = {
     {
       name: 'rainbow',
       script: 'server.js',
-      instances: "max",
-      // exec_mode: "cluster", // 多实例多进程 可以复用端口
       env_production: {
         NODE_ENV: 'production',
         "PORT": 3001
@@ -13,7 +11,6 @@ module.exports = {
     {
       name: 'rainbow-dev',
       script: 'server.js',
-      instances: "max",
       env: {
         NODE_ENV: 'development',
         "PORT": 3002
