@@ -4,18 +4,19 @@ module.exports = {
       name: 'rainbow',
       script: 'server.js',
       instances: "max",
-      exec_mode: "cluster",
+      // exec_mode: "cluster", // 多实例多进程 可以复用端口
       env_production: {
         NODE_ENV: 'production',
+        "PORT": 3001
       },
     },
     {
       name: 'rainbow-dev',
       script: 'server.js',
       instances: "max",
-      exec_mode: "cluster",
       env: {
         NODE_ENV: 'development',
+        "PORT": 3002
       }
     }
   ],
@@ -28,7 +29,10 @@ module.exports = {
       repo: 'git@github.com:cuijianjun/rainbow.git',
       path: '/work/rainbow/production',
       'pre-deploy': "git fetch",
-      'post-deploy': 'npm install && npm run init-database && pm2 reload ecosystem.config.js --env production',
+      'post-deploy': 'npm install && npm run init-database && pm2 startOrRestart ecosystem.config.js --only rainbow',
+      env: {
+        NODE_ENV: 'production',
+      }
     },
     dev: {
       user: 'cuijianjun',
@@ -37,7 +41,7 @@ module.exports = {
       repo: 'git@github.com:cuijianjun/rainbow.git',
       path: '/work/rainbow/development',
       'pre-deploy': "git fetch",
-      'post-deploy': 'npm install && npm run init-database && pm2 reload ecosystem.config.js --env dev',
+      'post-deploy': 'npm install && npm run init-database && pm2 startOrRestart ecosystem.config.js --only rainbow-dev',
       env: {
         NODE_ENV: 'dev',
       },
