@@ -27,8 +27,10 @@ module.exports = {
       description: TEXT(),
       productImage: STRING(255),
       pageView: { type: STRING(30), defaultValue: 0 },
-      weChatNumber: STRING(255),
-      phoneNumber: STRING(255),
+      weChatNumber: STRING(),
+      phoneNumber: STRING(),
+      price: STRING(),
+      address: STRING(),
       dTime: DATE,
       updated_at: DATE,
     });
