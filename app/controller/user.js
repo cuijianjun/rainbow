@@ -12,8 +12,8 @@ class UserController extends Controller {
     // 登录信息会被存储到 ctx.state.$wxInfo
     const ctx = this.ctx;
     const app = this.app;
-    this.getOpenId(ctx.request.code);
-
+    let result = await this.getOpenId(ctx.request.body.code);
+    console.log(result);
     let data = JSON.parse(result.data);
     if (result.status == 200) {
       let sessionKey = String(data.session_key);
@@ -50,7 +50,7 @@ class UserController extends Controller {
     }, {
       code
     });
-    const result = await ctx.curl('https://api.weixin.qq.com/sns/jscode2session', {
+    return await ctx.curl('https://api.weixin.qq.com/sns/jscode2session', {
       data: {
         js_code: code,
         appid: app.config.AppID,

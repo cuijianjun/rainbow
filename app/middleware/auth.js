@@ -14,7 +14,8 @@
 module.exports = () => {
   return async function(ctx, next) {
     const token = ctx.header.authorization;
-    const timeStamp = ctx.header.timeStamp;
+    const timestamp = ctx.header.timestamp;
+
     if (!token) {
       ctx.status = 401;
       ctx.body = 'token不能为空';
@@ -27,10 +28,10 @@ module.exports = () => {
       let payLoad = '';
       if (method === 'GET') {
         payLoad = ctx.params;
-      } else if(method === 'GET') {
-        payLoad = ctx.request;
+      } else if(method === 'POST') {
+        payLoad = ctx.request.body;
       }
-      let signBuffer = `${key}${JSON.stringify(payLoad)}${timeStamp}`;
+      let signBuffer = `${key}${JSON.stringify(payLoad)}${timestamp}`;
       const md5 = ctx.helper.md5(signBuffer);
       if (md5 !== token) {
         ctx.status = 401;
@@ -38,6 +39,7 @@ module.exports = () => {
         return;
       }
     } catch (err) {
+      console.log(2222);
       ctx.status = 401;
       ctx.body = 'token无效';
       return;
