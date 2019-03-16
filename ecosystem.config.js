@@ -3,6 +3,8 @@ module.exports = {
     {
       name: 'rainbow',
       script: 'server.js',
+      instances: "max",
+      exec_mode: "cluster",
       env_production: {
         NODE_ENV: 'production',
       },
@@ -10,6 +12,8 @@ module.exports = {
     {
       name: 'rainbow-dev',
       script: 'server.js',
+      instances: "max",
+      exec_mode: "cluster",
       env: {
         NODE_ENV: 'development',
       }

@@ -80,12 +80,5 @@ module.exports = appInfo => {
   //   appid: '68663',
   //   secret: '327fbbf38c7f56fdbf2269eb57c88460c410ae00',
   // };
-  config.cluster = {
-    listen: {
-      port: 3001,
-      hostname: '0.0.0.0',
-      // path: '/var/run/egg.sock',
-    },
-  };
   return config;
 };
