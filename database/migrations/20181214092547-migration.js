@@ -31,6 +31,7 @@ module.exports = {
       phoneNumber: STRING(),
       price: STRING(),
       address: STRING(),
+      detailAddress:STRING(),
       dTime: DATE,
       updated_at: DATE,
     });

@@ -15,7 +15,8 @@ class ProductListController extends Controller {
       description: {type: 'string', required: false},
       phoneNumber: 'string',
       price: 'string',
-      address: {type: 'string', required: false},
+      address: 'string',
+      detailAddress: 'string',
     };
     this.idRule = {
       id: {
@@ -37,7 +38,7 @@ class ProductListController extends Controller {
     let body = await ctx.service.productList.list(query);
     let payLoad = {
       base: this.baseImageUrl,
-      filed:'productImage',
+      filed: 'productImage',
       data: body.rows
     };
     let result = ctx.helper.addBaseUrl(payLoad);
@@ -71,7 +72,7 @@ class ProductListController extends Controller {
     let body = await ctx.service.productList.find(id);
     let payLoad = {
       base: this.baseImageUrl,
-      filed:'productImage',
+      filed: 'productImage',
       data: body.dataValues
     };
     let result = ctx.helper.addBaseUrl(payLoad);

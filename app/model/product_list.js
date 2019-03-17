@@ -12,6 +12,9 @@ module.exports = app => {
     description: TEXT(),
     productImage: TEXT(),
     pageView: { type: STRING(30), defaultValue: 0 },
+    price: STRING(30),
+    address: STRING(255),
+    detailAddress:STRING(255),
     phoneNumber: STRING(30),
     updated_at: DATE,
   }, {
