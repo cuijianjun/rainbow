@@ -32,7 +32,7 @@ class Qiniu extends Service {
     const formUploader = new qiniu.form_up.FormUploader(config);
     const putExtra = new qiniu.form_up.PutExtra();
     const promises = files.map(file => {
-      const filename = file.filename.toLowerCase();
+      const filename = file.filepath.toLowerCase();
       const info = filename.split('.');
       const name = crypto.createHash('md5').update(info[0]).digest('hex');
       const key = `${name}.${info[info.length - 1]}`;
