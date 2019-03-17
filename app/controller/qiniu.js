@@ -16,8 +16,6 @@ class QiniuController extends Controller {
   async upload() {
     const {app, ctx} = this;
     const files = ctx.request.files;
-    console.log(ctx.request);
-    console.log(ctx.request.files);
     const accessKey = app.config.accessKey;
     const secretKey = app.config.secretKey;
     const bucket = app.config.bucket_name;
@@ -35,7 +33,7 @@ class QiniuController extends Controller {
     let formUploader = new qiniu.form_up.FormUploader(config);
     let putExtra = new qiniu.form_up.PutExtra();
     let promises = files.map(file => {
-      const filename = file.filename.toLowerCase();
+      const filename = file.filepath.toLowerCase(); // filepath
       let info = filename.split('.');
       let name = crypto.createHash('md5').update(info[0]).digest('hex');
       const key = `${name}.${info[info.length - 1]}`;
@@ -53,15 +51,6 @@ class QiniuController extends Controller {
       });
     });
     let resData = await Promise.all(promises);
-
-    let imageKey = [];
-    let imageUrl = [];
-    resData.map((value, index, array) => {
-      imageKey.push(resData[index].key);
-      resData[index].key = baseImageUrl + resData[index].key;
-      imageUrl.push(resData[index].key);
-    });
-    // 入库
     ctx.status = 201;
     ctx.body = resData;
   }
@@ -72,6 +61,7 @@ class QiniuController extends Controller {
     const secretKey = app.config.secretKey;
     const bucket = app.config.bucket_name;
     const baseImageUrl = app.config.baseImageUrl;
+    const key = ctx.params.imageKey;
     let options = {
       scope: bucket
     };
@@ -80,23 +70,14 @@ class QiniuController extends Controller {
     //config.useHttpsDomain = true;
     config.zone = qiniu.zone.Zone_z1;
     let bucketManager = new qiniu.rs.BucketManager(mac, config);
-    const key = JSON.parse(product.dataValues.url);
 
-    let promises = key.map((value, index, array) => {
-      return new Promise((resolve, reject) => {
-        bucketManager.delete(bucket, value, function(err, respBody, respInfo) {
-          if (err) {
-            reject(err);
-            throw err;
-          } else {
-            resolve(respInfo);
-          }
-        });
-      });
+    bucketManager.delete(bucket, key, function(err, respBody, respInfo) {
+      if (!err) {
+        ctx.status = 200;
+      } else {
+        throw err;
+      }
     });
-    let resData = await Promise.all(promises);
-    console.log(resData);
-    ctx.status = 200;
   }
 }
 
