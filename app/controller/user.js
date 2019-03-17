@@ -13,7 +13,6 @@ class UserController extends Controller {
     const ctx = this.ctx;
     const app = this.app;
     let result = await this.getOpenId(ctx.request.body.code);
-    console.log(result);
     let data = JSON.parse(result.data);
     if (result.status == 200) {
       let sessionKey = String(data.session_key);

@@ -69,15 +69,12 @@ class ProductListController extends Controller {
   async create() { // post
     const {app, ctx} = this;
     ctx.validate(this.createRule, ctx.request.body);
-    const upload = await ctx.service.qiniu.upload();
     let body = ctx.request.body;
-    const product = await ctx.service.productList.create({...body, productImage: JSON.stringify(upload)});
-    upload.map((value, index) => {
-      value = this.baseImageUrl + value.key;
-    });
-    product.productImage = JSON.stringify(upload);
+    const product = await ctx.service.productList.create({...body});
     ctx.status = 201;
-    ctx.body = product;
+    ctx.body = {
+      msg: 'create success'
+    };
   }
 
   async update() { // post
@@ -86,16 +83,8 @@ class ProductListController extends Controller {
     ctx.validate(this.idRule, {
       id,
     });
-
-    let product = await ctx.service.productList.find(id);
-    const upload = await ctx.service.qiniu.upload();
-    let productImage = JSON.parse(product.dataValues.productImage);
-    let diff = ctx.helper.getArrDifference(productImage, upload);
-    let lastDiff = ctx.helper.getArrEqual(diff, productImage);
-    // 七牛云删除
-    const del = await ctx.service.qiniu.destroy(lastDiff);
     const body = ctx.request.body;
-    ctx.body = await ctx.service.productList.update({id, updates: {...body, productImage: JSON.stringify(upload)}});
+    ctx.body = await ctx.service.productList.update({id, updates: body});
   }
 
   async destroy() { // get
