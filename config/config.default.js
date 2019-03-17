@@ -87,6 +87,7 @@ module.exports = appInfo => {
     port: 3306,
     database: 'database_development',
     password: '123456',
+    timezone: '+08:00' //东八时区
   };
   // 阿里云监控
   // config.alinode = {

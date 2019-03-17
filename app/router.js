@@ -26,9 +26,10 @@ module.exports = app => {
   router.post('/api/image/upload', 'qiniu.upload');
   router.get('/api/image/delete/:imageKey', 'qiniu.destroy');
   // product_list
-  router.post('ProductList', '/api/product_list/list', 'productlist.index'); // ok
-  router.get('ProductList', '/api/product_list/detail/:product_id/:user_id', 'productlist.show'); // ok
-  router.post('ProductList', '/api/product_list/create', 'productlist.create');// ok
+  router.post('ProductList', '/api/product_list/list', 'productlist.index');
+  router.get('ProductList', '/api/product_list/detail/:product_id/:user_id', 'productlist.show');
+  router.post('ProductList', '/api/product_list/create', 'productlist.create');
   router.post('ProductList', '/api/product_list/update', 'productlist.update');
   router.get('ProductList', '/api/product_list/delete/:id', 'productlist.destroy');
+  router.get('ProductList', '/api/product_list/updateTime/:id', 'productlist.updateTime');
 };

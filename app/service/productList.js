@@ -1,12 +1,14 @@
 'use strict';
 
 const Service = require('egg').Service;
+let moment = require('moment');
 
 class ProductList extends Service {
   constructor(ctx) {
     super(ctx);
     this.type = ctx.app.config.type;
     this.Sequelize = ctx.app.Sequelize;
+    this.now = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     this.Op = ctx.app.Sequelize.Op;
   }
 
@@ -77,6 +79,25 @@ class ProductList extends Service {
       this.ctx.throw(404, 'product not found');
     }
     return product.update(updates);
+  }
+
+  async updateTime({id = 0}) {
+    const product = await this.ctx.model.ProductList.findById(id);
+    if (!product) {
+      this.ctx.throw(404, 'product not found');
+    }
+    await this.ctx.model.ProductList.update({
+        updatedAt: this.now,
+      },
+      {
+        where: {
+          id
+        }
+      });
+    return {
+      code: 200,
+      message: 'update success'
+    }
   }
 
   async del(id = 0) {

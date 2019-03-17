@@ -104,6 +104,15 @@ class ProductListController extends Controller {
     ctx.body = await ctx.service.productList.update({id, updates: body});
   }
 
+  async updateTime() { // post
+    const ctx = this.ctx;
+    const id = ctx.helper.parseInt(ctx.params.id);
+    ctx.validate(this.idRule, {
+      id,
+    });
+    ctx.body = await ctx.service.productList.updateTime({id});
+  }
+
   async destroy() { // get
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
@@ -115,7 +124,7 @@ class ProductListController extends Controller {
       id: ctx.helper.parseInt(id),
     });
     let body = await ctx.service.productList.find(id);
-    let image = body.dataValues[productImage].split(',');
+    let image = body.dataValues['productImage'].split(',');
     const del = await ctx.service.qiniu.destroy(image);
     await ctx.service.productList.del(id);
     ctx.status = 200;
