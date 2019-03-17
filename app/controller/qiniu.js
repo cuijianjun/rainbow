@@ -60,9 +60,7 @@ class QiniuController extends Controller {
     const accessKey = app.config.accessKey;
     const secretKey = app.config.secretKey;
     const bucket = app.config.bucket_name;
-    const baseImageUrl = app.config.baseImageUrl;
     const key = ctx.params.imageKey;
-    console.log(key);
     let options = {
       scope: bucket
     };
@@ -71,14 +69,31 @@ class QiniuController extends Controller {
     //config.useHttpsDomain = true;
     config.zone = qiniu.zone.Zone_z1;
     let bucketManager = new qiniu.rs.BucketManager(mac, config);
-
-    bucketManager.delete(bucket, key, function(err, respBody, respInfo) {
-      if (!err) {
-        ctx.status = 200;
-      } else {
-        throw err;
-      }
+    let a = new Promise((resolve, reject) => {
+      bucketManager.delete(bucket, key, function (err, respBody, respInfo) {
+        if (err) {
+          throw err;
+        } else {
+          if (respInfo.statusCode == 200) {
+            console.log(respBody);
+            console.log(respInfo);
+            console.log(1);
+            resolve(respInfo.data);
+          } else {
+            console.log(2);
+            console.log(respBody);
+            console.log(respInfo);
+            reject(respBody);
+          }
+        }
+      });
     });
+    a.then((data) => {
+      console.log(data);
+    })
+    // ctx.status = 201;
+    // ctx.body = res;
+
   }
 }
 
