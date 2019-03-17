@@ -62,6 +62,7 @@ class QiniuController extends Controller {
     const bucket = app.config.bucket_name;
     const baseImageUrl = app.config.baseImageUrl;
     const key = ctx.params.imageKey;
+    console.log(key);
     let options = {
       scope: bucket
     };

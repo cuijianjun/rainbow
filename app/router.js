@@ -24,11 +24,11 @@ module.exports = app => {
 
   // 图片上传接口
   router.post('/api/image/upload', 'qiniu.upload');
-  router.post('/api/image/delete/:imageKey', 'qiniu.destroy');
+  router.get('/api/image/delete/:imageKey', 'qiniu.destroy');
   // product_list
   router.post('ProductList', '/api/product_list/list', 'productlist.index');
-  router.get('ProductList', '/api/product_list/detail/:product_id/:user_id', auth, 'productlist.show');
+  router.get('ProductList', '/api/product_list/detail/:product_id/:user_id', 'productlist.show');
   router.post('ProductList', '/api/product_list/create', 'productlist.create');
-  router.post('ProductList', '/api/product_list/update', auth, 'productlist.update');
-  router.get('ProductList', '/api/product_list/delete/:id', auth, 'productlist.destroy');
+  router.post('ProductList', '/api/product_list/update', 'productlist.update');
+  router.get('ProductList', '/api/product_list/delete/:id', 'productlist.destroy');
 };

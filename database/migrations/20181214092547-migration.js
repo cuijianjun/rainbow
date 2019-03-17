@@ -21,11 +21,11 @@ module.exports = {
     await queryInterface.createTable('product_lists', {
       id: {type: INTEGER, primaryKey: true, autoIncrement: true},
       user_id: INTEGER,
-      name: STRING(255),
+      title: STRING(255),
       age: STRING(255),
       labelCode: STRING(255),
       description: TEXT(),
-      productImage: STRING(255),
+      productImage: TEXT(),
       pageView: {type: STRING(30), defaultValue: 0},
       weChatNumber: STRING(),
       phoneNumber: STRING(),

@@ -34,10 +34,17 @@ class ProductListController extends Controller {
       searchQuery: ctx.request.body.searchQuery,
       labelCode: ctx.helper.parseInt(ctx.request.body.labelCode)
     };
-    ctx.body = await ctx.service.productList.list(query);
+    let body = await ctx.service.productList.list(query);
+    let payLoad = {
+      base: this.baseImageUrl,
+      filed:'productImage',
+      data: body.rows
+    };
+    let result = ctx.helper.addBaseUrl(payLoad);
+    ctx.body = result;
   }
 
-  async show() { // get
+  async show() { // get 详情
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.product_id);
     ctx.validate(this.idRule, {
@@ -55,6 +62,7 @@ class ProductListController extends Controller {
       let product_id = [];
       let collect = await ctx.service.collect.list({user_id});
       collect.map((value) => {
+        // 收藏
         product_id.push(value.dataValues.product_id);
       });
       isCollect = product_id.includes(id);

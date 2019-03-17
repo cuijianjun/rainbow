@@ -52,7 +52,7 @@ class ProductList extends Service {
       options.where = {
         [this.Op.or]: [
           {description: {[this.Op.like]: `%${searchQuery}%`}},
-          {weChatName: {[this.Op.like]: `%${searchQuery}%`}}
+          {title: {[this.Op.like]: `%${searchQuery}%`}}
         ]
       };
     }

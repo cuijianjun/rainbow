@@ -6,13 +6,12 @@ module.exports = app => {
   const ProductList = app.model.define('product_list', {
     id: { type: INTEGER, primaryKey: true, autoIncrement: true },
     user_id: INTEGER,
-    name: STRING(30),
+    title: STRING(30),
     age: STRING(30),
     labelCode: STRING(30),
     description: TEXT(),
     productImage: TEXT(),
     pageView: { type: STRING(30), defaultValue: 0 },
-    weChatNumber: STRING(30),
     phoneNumber: STRING(30),
     updated_at: DATE,
   }, {
