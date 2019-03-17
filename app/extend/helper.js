@@ -229,10 +229,13 @@ module.exports = {
       return;
     }
     data.map((value, index, Array) => {
+      if (!value.dataValues[filed]){
+        return;
+      }
       let temp = value.dataValues[filed].split(',');
       // let relValue = eval("(" + value.dataValues[filed] + ")");
       let last = temp.map((value, index, Array) => {
-        return base + value;
+        return base + value.trim();
       });
       value.dataValues[filed] = last;
     });

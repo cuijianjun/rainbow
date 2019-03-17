@@ -27,7 +27,7 @@ module.exports = app => {
   });
   ProductList.associate = function() {
     app.model.ProductList.belongsTo(app.model.User, { foreignKey: 'user_id', targetKey: 'id' });
-    app.model.ProductList.hasOne(app.model.Label, { foreignKey: 'code', sourceKey: 'labelCode' });
+    app.model.ProductList.hasMany(app.model.Label, { foreignKey: 'code', sourceKey: 'labelCode' });
   };
 
   return ProductList;
