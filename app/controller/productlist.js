@@ -41,6 +41,7 @@ class ProductListController extends Controller {
       data: body.rows
     };
     let result = ctx.helper.addBaseUrl(payLoad);
+    ctx.status = 201;
     ctx.body = result;
   }
 
@@ -68,10 +69,17 @@ class ProductListController extends Controller {
       isCollect = product_id.includes(id);
     }
     let body = await ctx.service.productList.find(id);
+    let payLoad = {
+      base: this.baseImageUrl,
+      filed:'productImage',
+      data: body.dataValues
+    };
+    let result = ctx.helper.addBaseUrl(payLoad);
     body.dataValues.collect = {
       isCollect
     };
-    ctx.body = body;
+    ctx.status = 200;
+    ctx.body = result;
   }
 
   async create() { // post
@@ -81,7 +89,7 @@ class ProductListController extends Controller {
     const product = await ctx.service.productList.create({...body});
     ctx.status = 201;
     ctx.body = {
-      msg: 'create success'
+      message: 'create success'
     };
   }
 
@@ -105,9 +113,14 @@ class ProductListController extends Controller {
     ctx.validate(this.idRule, {
       id: ctx.helper.parseInt(id),
     });
-
+    let body = await ctx.service.productList.find(id);
+    let image = body.dataValues[productImage].split(',');
+    const del = await ctx.service.qiniu.destroy(image);
     await ctx.service.productList.del(id);
     ctx.status = 200;
+    ctx.body = {
+      message: 'delete product success'
+    }
   }
 }
 

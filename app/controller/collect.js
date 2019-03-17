@@ -33,13 +33,13 @@ class BannerController extends Controller {
       await ctx.service.collect.create(query);
       ctx.status = 201;
       ctx.body = {
-        msg:'收藏成功'
+        message:'收藏成功'
       };
     } else {
       await ctx.service.collect.del(query);
       ctx.status = 200;
       ctx.body = {
-        msg:'取消收藏'
+        message:'取消收藏'
       };
     }
   }

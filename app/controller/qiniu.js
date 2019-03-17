@@ -25,7 +25,7 @@ class QiniuController extends Controller {
     const del = await ctx.service.qiniu.destroy([key]);
     ctx.status = 201;
     ctx.body = {
-      msg: 'delete success'
+      message: 'delete success'
     };
   }
 }

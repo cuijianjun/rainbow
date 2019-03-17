@@ -10,6 +10,7 @@ const fs = require('mz/fs');
 class Qiniu extends Service {
   constructor(ctx) {
     super(ctx);
+    this.baseImageUrl = this.app.config.baseImageUrl;
   }
 
   // 获取七牛云信息
@@ -50,11 +51,10 @@ class Qiniu extends Service {
       });
     });
     const resData = await Promise.all(promises);
-    const imageKey = [];
     resData.map((value, index, array) => {
-      imageKey.push(value.key);
+      resData[index].realUrl = this.baseImageUrl + resData[index].key;
     });
-    return imageKey.length === 1 ? imageKey[0] : imageKey;
+    return resData;
   }
 
   async destroy(key = []) { // 删除

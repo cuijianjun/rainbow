@@ -223,23 +223,37 @@ module.exports = {
     }
     return (md5_WordToHex(a) + md5_WordToHex(b) + md5_WordToHex(c) + md5_WordToHex(d)).toLowerCase();
   },
+  isArray(o) {
+    return Object.prototype.toString.call(o);
+  },
   addBaseUrl({base, filed, data}) {
     let a = [];
     if (!data) {
       return;
     }
-    data.map((value, index, Array) => {
-      if (!value.dataValues[filed]){
-        return;
-      }
-      let temp = value.dataValues[filed].split(',');
+    if (this.isArray(data)) {
+      data.map((value, index, Array) => {
+        if (!value.dataValues[filed]) {
+          return;
+        }
+        let temp = value.dataValues[filed].split(',');
+        // let relValue = eval("(" + value.dataValues[filed] + ")");
+        let last = temp.map((value, index, Array) => {
+          return base + value.trim();
+        });
+        value.dataValues[filed] = last;
+      });
+      return data;
+    } else {
+      let temp = data[filed].split(',');
       // let relValue = eval("(" + value.dataValues[filed] + ")");
       let last = temp.map((value, index, Array) => {
         return base + value.trim();
       });
-      value.dataValues[filed] = last;
-    });
-    return data;
+      data.dataValues[filed] = last;
+      return data;
+    }
+
   }
 };
 
