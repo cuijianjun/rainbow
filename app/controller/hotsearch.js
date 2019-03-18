@@ -1,4 +1,4 @@
-'use strict';
+
 
 const Controller = require('egg').Controller;
 
@@ -9,7 +9,7 @@ class HotSearchController extends Controller {
       id: {
         type: 'int',
         required: true,
-      }
+      },
     };
   }
 
@@ -19,8 +19,8 @@ class HotSearchController extends Controller {
   }
 
   async create() { // post
-    const {app, ctx} = this;
-    let hot_search = await ctx.service.hotSearch.create(ctx.request.body);
+    const { app, ctx } = this;
+    const hot_search = await ctx.service.hotSearch.create(ctx.request.body);
     ctx.status = 201;
     ctx.body = hot_search;
   }
@@ -29,10 +29,10 @@ class HotSearchController extends Controller {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.request.body.id);
     ctx.validate(this.idRule, {
-      id
+      id,
     });
     ctx.status = 201;
-    ctx.body = await ctx.service.hotSearch.update({id, updates: ctx.request.body});;
+    ctx.body = await ctx.service.hotSearch.update({ id, updates: ctx.request.body });
   }
 
   async destroy() { // get

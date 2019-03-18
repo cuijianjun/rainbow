@@ -1,4 +1,4 @@
-'use strict';
+
 
 const qiniu = require('qiniu');
 const pump = require('mz-modules/pump');
@@ -87,8 +87,8 @@ class Qiniu extends Service {
   }
 
   async update(key = []) {
-    let upload = await this.upload();
-    let destroy = await this.destroy(key);
+    const upload = await this.upload();
+    const destroy = await this.destroy(key);
     return upload;
   }
 }

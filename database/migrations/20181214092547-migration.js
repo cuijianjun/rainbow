@@ -1,12 +1,12 @@
-'use strict';
+
 
 module.exports = {
   // 在执行数据库升级时调用的函数，创建 users 表
   up: async (queryInterface, Sequelize) => {
-    const {INTEGER, DATE, STRING, BOOLEAN, TEXT} = Sequelize;
+    const { INTEGER, DATE, STRING, BOOLEAN, TEXT } = Sequelize;
     // 用户表
     await queryInterface.createTable('users', {
-      id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
       openid: STRING(255),
       nickName: STRING(255), // 姓名
       avatarUrl: STRING(255), // 头像
@@ -19,7 +19,7 @@ module.exports = {
     });
     // 产品列表
     await queryInterface.createTable('product_lists', {
-      id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
       user_id: INTEGER,
       title: STRING(255),
       labelCode: STRING(30),
@@ -35,7 +35,7 @@ module.exports = {
     });
     // banner图 + 类别
     await queryInterface.createTable('banners', {
-      id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
       description: STRING(255),
       jumpUrl: STRING(255),
       imageUrl: STRING(255),
@@ -44,24 +44,24 @@ module.exports = {
     });
     // 收藏表 Collection
     await queryInterface.createTable('collects', {
-      id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
       user_id: INTEGER,
       product_id: INTEGER,
-      isCollect: {type: BOOLEAN, allowNull: false, defaultValue: false},
-      updated_at: DATE
+      isCollect: { type: BOOLEAN, allowNull: false, defaultValue: false },
+      updated_at: DATE,
     });
     // HotSearch
     await queryInterface.createTable('hot_searches', {
-      id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
       hot_search: STRING(),
-      updated_at: DATE
+      updated_at: DATE,
     });
 
     // label
     await queryInterface.createTable('labels', {
-      id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
       labelName: STRING(),
-      code: STRING()
+      code: STRING(),
     });
 
   },

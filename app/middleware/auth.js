@@ -1,4 +1,4 @@
-'use strict';
+
 /**
  * TOKEN 校验中间件
  * @author cuijianjun
@@ -9,7 +9,6 @@
  * @return {Promise<void>}
  */
 
-'use strict';
 
 module.exports = () => {
   return async function(ctx, next) {
@@ -23,15 +22,15 @@ module.exports = () => {
     }
     // 验证token是否过期
     try {
-      let key = ctx.app.config.jwtSecret;
-      let method = ctx.request.method;
+      const key = ctx.app.config.jwtSecret;
+      const method = ctx.request.method;
       let payLoad = '';
       if (method === 'GET') {
         payLoad = ctx.params;
-      } else if(method === 'POST') {
+      } else if (method === 'POST') {
         payLoad = ctx.request.body;
       }
-      let signBuffer = `${key}${JSON.stringify(payLoad)}${timestamp}`;
+      const signBuffer = `${key}${JSON.stringify(payLoad)}${timestamp}`;
       const md5 = ctx.helper.md5(signBuffer);
       if (md5 !== token) {
         ctx.status = 401;

@@ -1,11 +1,11 @@
-'use strict';
+
 
 module.exports = appInfo => {
   const config = exports = {};
   config.cluster = {
     listen: {
       port: 3001,
-      hostname: '0.0.0.0'
+      hostname: '0.0.0.0',
     },
   };
   config.sequelize = {

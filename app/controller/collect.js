@@ -1,5 +1,3 @@
-'use strict';
-
 const Controller = require('egg').Controller;
 
 class BannerController extends Controller {
@@ -17,29 +15,29 @@ class BannerController extends Controller {
       isCollect: {
         type: 'boolean',
         required: true,
-      }
+      },
     };
   }
 
   async collect() { // post
-    const {app, ctx} = this;
+    const { app, ctx } = this;
     const query = {
-      isCollect:ctx.request.body.isCollect,
+      isCollect: ctx.request.body.isCollect,
       user_id: ctx.helper.parseInt(ctx.request.body.user_id),
-      product_id: ctx.helper.parseInt(ctx.request.body.product_id)
+      product_id: ctx.helper.parseInt(ctx.request.body.product_id),
     };
     ctx.validate(this.idRule, query);
     if (ctx.request.body.isCollect) {
       await ctx.service.collect.create(query);
       ctx.status = 201;
       ctx.body = {
-        message:'收藏成功'
+        message: '收藏成功',
       };
     } else {
       await ctx.service.collect.del(query);
       ctx.status = 200;
       ctx.body = {
-        message:'取消收藏'
+        message: '取消收藏',
       };
     }
   }

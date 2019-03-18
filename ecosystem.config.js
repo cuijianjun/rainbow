@@ -5,7 +5,7 @@ module.exports = {
       script: 'server.js',
       env_production: {
         NODE_ENV: 'production',
-        "PORT": 3001
+        PORT: 3001,
       },
     },
     {
@@ -13,9 +13,9 @@ module.exports = {
       script: 'server.js',
       env: {
         NODE_ENV: 'development',
-        "PORT": 3002
-      }
-    }
+        PORT: 3002,
+      },
+    },
   ],
 
   deploy: {
@@ -25,11 +25,11 @@ module.exports = {
       ref: 'origin/master',
       repo: 'git@github.com:cuijianjun/rainbow.git',
       path: '/work/rainbow/production',
-      'pre-deploy': "git fetch",
+      'pre-deploy': 'git fetch',
       'post-deploy': 'npm install && npm run init-database && pm2 startOrRestart ecosystem.config.js --only rainbow',
       env: {
         NODE_ENV: 'production',
-      }
+      },
     },
     dev: {
       user: 'cuijianjun',
@@ -37,7 +37,7 @@ module.exports = {
       ref: 'origin/dev',
       repo: 'git@github.com:cuijianjun/rainbow.git',
       path: '/work/rainbow/development',
-      'pre-deploy': "git fetch",
+      'pre-deploy': 'git fetch',
       'post-deploy': 'npm install && npm run init-database && pm2 startOrRestart ecosystem.config.js --only rainbow-dev',
       env: {
         NODE_ENV: 'dev',

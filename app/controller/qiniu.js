@@ -1,11 +1,5 @@
-'use strict';
-
 const qiniu = require('qiniu');
-const pump = require('mz-modules/pump');
-const path = require('path');
-const crypto = require('crypto');
 const Controller = require('egg').Controller;
-const fs = require('mz/fs');
 
 class QiniuController extends Controller {
   constructor(ctx) {
@@ -13,19 +7,19 @@ class QiniuController extends Controller {
   }
 
   async upload() {
-    const {app, ctx} = this;
+    const { app, ctx } = this;
     const upload = await ctx.service.qiniu.upload();
     ctx.status = 201;
     ctx.body = upload;
   }
 
   async destroy() { // 删除 -- get
-    const {app, ctx} = this;
+    const { app, ctx } = this;
     const key = ctx.params.imageKey;
     const del = await ctx.service.qiniu.destroy([key]);
     ctx.status = 201;
     ctx.body = {
-      message: 'delete success'
+      message: 'delete success',
     };
   }
 }

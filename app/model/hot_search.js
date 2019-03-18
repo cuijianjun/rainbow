@@ -1,4 +1,4 @@
-'use strict';
+
 
 module.exports = app => {
   const { STRING, INTEGER, DATE, TEXT } = app.Sequelize;
@@ -6,7 +6,7 @@ module.exports = app => {
   const HotSearch = app.model.define('hot_search', {
     id: { type: INTEGER, primaryKey: true, autoIncrement: true }, // id
     hot_search: STRING(), // 具体数据
-    updated_at: DATE
+    updated_at: DATE,
   }, {
     // 是否需要增加createdAt、updatedAt、deletedAt字段
     timestamps: true,

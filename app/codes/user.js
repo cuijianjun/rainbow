@@ -1,7 +1,7 @@
 /**
  * 逻辑文案管理
  */
-
+'use strict';
 const userCode = {
   ERROR_USER_NAME: '用户名格式为6-16位的小写字母，包括-、_',
   ERROR_EMAIL: '请输入正确的邮箱地址',

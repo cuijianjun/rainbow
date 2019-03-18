@@ -1,5 +1,3 @@
-'use strict';
-
 const Service = require('egg').Service;
 
 class Banner extends Service {

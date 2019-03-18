@@ -1,4 +1,4 @@
-'use strict';
+
 
 module.exports = appInfo => {
   const config = exports = {};
@@ -59,7 +59,7 @@ module.exports = appInfo => {
   config.multipart = {
     mode: 'file',
     fileSize: '50mb',
-    files: 10
+    files: 10,
   };
   // 关闭安全威胁csrf的防范
   config.security = {
@@ -77,7 +77,7 @@ module.exports = appInfo => {
   config.cluster = {
     listen: {
       port: 3002,
-      hostname: '0.0.0.0'
+      hostname: '0.0.0.0',
     },
   };
 
@@ -87,7 +87,7 @@ module.exports = appInfo => {
     port: 3306,
     database: 'database_development',
     password: '123456',
-    timezone: '+08:00' //东八时区
+    timezone: '+08:00', // 东八时区
   };
   // 阿里云监控
   // config.alinode = {

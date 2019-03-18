@@ -1,4 +1,4 @@
-'use strict';
+
 
 module.exports = {
   parseInt(string) {
@@ -7,7 +7,7 @@ module.exports = {
     return parseInt(string) || 0;
   },
   getArrDifference(arr1, arr2) {
-    return arr1.concat(arr2).filter(function (v, i, arr) {
+    return arr1.concat(arr2).filter(function(v, i, arr) {
       return arr.indexOf(v) === arr.lastIndexOf(v);
     });
   },
@@ -28,7 +28,11 @@ module.exports = {
     }
 
     function md5_AddUnsigned(lX, lY) {
-      let lX4, lY4, lX8, lY8, lResult;
+      let lX4,
+        lY4,
+        lX8,
+        lY8,
+        lResult;
       lX8 = (lX & 0x80000000);
       lY8 = (lY & 0x80000000);
       lX4 = (lX & 0x40000000);
@@ -40,12 +44,12 @@ module.exports = {
       if (lX4 | lY4) {
         if (lResult & 0x40000000) {
           return (lResult ^ 0xC0000000 ^ lX8 ^ lY8);
-        } else {
-          return (lResult ^ 0x40000000 ^ lX8 ^ lY8);
         }
-      } else {
-        return (lResult ^ lX8 ^ lY8);
+        return (lResult ^ 0x40000000 ^ lX8 ^ lY8);
+
       }
+      return (lResult ^ lX8 ^ lY8);
+
     }
 
     function md5_F(x, y, z) {
@@ -67,30 +71,30 @@ module.exports = {
     function md5_FF(a, b, c, d, x, s, ac) {
       a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_F(b, c, d), x), ac));
       return md5_AddUnsigned(md5_RotateLeft(a, s), b);
-    };
+    }
 
     function md5_GG(a, b, c, d, x, s, ac) {
       a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_G(b, c, d), x), ac));
       return md5_AddUnsigned(md5_RotateLeft(a, s), b);
-    };
+    }
 
     function md5_HH(a, b, c, d, x, s, ac) {
       a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_H(b, c, d), x), ac));
       return md5_AddUnsigned(md5_RotateLeft(a, s), b);
-    };
+    }
 
     function md5_II(a, b, c, d, x, s, ac) {
       a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_I(b, c, d), x), ac));
       return md5_AddUnsigned(md5_RotateLeft(a, s), b);
-    };
+    }
 
     function md5_ConvertToWordArray(string) {
       let lWordCount;
-      let lMessageLength = string.length;
-      let lNumberOfWords_temp1 = lMessageLength + 8;
-      let lNumberOfWords_temp2 = (lNumberOfWords_temp1 - (lNumberOfWords_temp1 % 64)) / 64;
-      let lNumberOfWords = (lNumberOfWords_temp2 + 1) * 16;
-      let lWordArray = Array(lNumberOfWords - 1);
+      const lMessageLength = string.length;
+      const lNumberOfWords_temp1 = lMessageLength + 8;
+      const lNumberOfWords_temp2 = (lNumberOfWords_temp1 - (lNumberOfWords_temp1 % 64)) / 64;
+      const lNumberOfWords = (lNumberOfWords_temp2 + 1) * 16;
+      const lWordArray = Array(lNumberOfWords - 1);
       let lBytePosition = 0;
       let lByteCount = 0;
       while (lByteCount < lMessageLength) {
@@ -105,23 +109,26 @@ module.exports = {
       lWordArray[lNumberOfWords - 2] = lMessageLength << 3;
       lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
       return lWordArray;
-    };
+    }
 
     function md5_WordToHex(lValue) {
-      let WordToHexValue = "", WordToHexValue_temp = "", lByte, lCount;
+      let WordToHexValue = '',
+        WordToHexValue_temp = '',
+        lByte,
+        lCount;
       for (lCount = 0; lCount <= 3; lCount++) {
         lByte = (lValue >>> (lCount * 8)) & 255;
-        WordToHexValue_temp = "0" + lByte.toString(16);
+        WordToHexValue_temp = '0' + lByte.toString(16);
         WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
       }
       return WordToHexValue;
-    };
+    }
 
     function md5_Utf8Encode(string) {
-      string = string.replace(/\r\n/g, "\n");
-      let utftext = "";
+      string = string.replace(/\r\n/g, '\n');
+      let utftext = '';
       for (let n = 0; n < string.length; n++) {
-        let c = string.charCodeAt(n);
+        const c = string.charCodeAt(n);
         if (c < 128) {
           utftext += String.fromCharCode(c);
         } else if ((c > 127) && (c < 2048)) {
@@ -134,13 +141,33 @@ module.exports = {
         }
       }
       return utftext;
-    };
+    }
     let x = Array();
-    let k, AA, BB, CC, DD, a, b, c, d;
-    let S11 = 7, S12 = 12, S13 = 17, S14 = 22;
-    let S21 = 5, S22 = 9, S23 = 14, S24 = 20;
-    let S31 = 4, S32 = 11, S33 = 16, S34 = 23;
-    let S41 = 6, S42 = 10, S43 = 15, S44 = 21;
+    let k,
+      AA,
+      BB,
+      CC,
+      DD,
+      a,
+      b,
+      c,
+      d;
+    let S11 = 7,
+      S12 = 12,
+      S13 = 17,
+      S14 = 22;
+    let S21 = 5,
+      S22 = 9,
+      S23 = 14,
+      S24 = 20;
+    let S31 = 4,
+      S32 = 11,
+      S33 = 16,
+      S34 = 23;
+    let S41 = 6,
+      S42 = 10,
+      S43 = 15,
+      S44 = 21;
     string = md5_Utf8Encode(string);
     x = md5_ConvertToWordArray(string);
     a = 0x67452301;
@@ -226,8 +253,8 @@ module.exports = {
   isArray(o) {
     return Object.prototype.toString.call(o);
   },
-  addBaseUrl({base, filed, data}) {
-    let a = [];
+  addBaseUrl({ base, filed, data }) {
+    const a = [];
     if (!data) {
       return;
     }
@@ -236,24 +263,24 @@ module.exports = {
         if (!value.dataValues[filed]) {
           return;
         }
-        let temp = value.dataValues[filed].split(',');
+        const temp = value.dataValues[filed].split(',');
         // let relValue = eval("(" + value.dataValues[filed] + ")");
-        let last = temp.map((value, index, Array) => {
+        const last = temp.map((value, index, Array) => {
           return base + value.trim();
         });
         value.dataValues[filed] = last;
       });
       return data;
-    } else {
-      let temp = data[filed].split(',');
-      // let relValue = eval("(" + value.dataValues[filed] + ")");
-      let last = temp.map((value, index, Array) => {
-        return base + value.trim();
-      });
-      data.dataValues[filed] = last;
-      return data;
     }
+    const temp = data[filed].split(',');
+    // let relValue = eval("(" + value.dataValues[filed] + ")");
+    const last = temp.map((value, index, Array) => {
+      return base + value.trim();
+    });
+    data.dataValues[filed] = last;
+    return data;
 
-  }
+
+  },
 };
 

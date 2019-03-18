@@ -1,10 +1,10 @@
-'use strict';
+
 
 /**
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const {router, controller, middleware} = app;
+  const { router, controller, middleware } = app;
   const auth = middleware.auth();// 校验用户token中间件
   router.post('/login', auth, 'user.login'); // 小程序授权
   router.post('/api/user/update', auth, 'user.update'); // 小程序用户信息更新

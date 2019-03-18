@@ -1,10 +1,10 @@
-'use strict';
+
 
 module.exports = app => {
-  const {INTEGER, DATE, STRING} = app.Sequelize;
+  const { INTEGER, DATE, STRING } = app.Sequelize;
 
   const Label = app.model.define('label', {
-    id: {type: INTEGER, primaryKey: true, autoIncrement: true}, // id
+    id: { type: INTEGER, primaryKey: true, autoIncrement: true }, // id
     labelName: STRING(), // 具体类别
     code: STRING(), // 具体类别
   }, {
@@ -18,8 +18,8 @@ module.exports = app => {
     updatedAt: false,
     underscored: true,
   });
-  Label.associate = function () {
-    app.model.Label.belongsTo(app.model.ProductList, {foreignKey: 'code', targetKey: 'labelCode'});
+  Label.associate = function() {
+    app.model.Label.belongsTo(app.model.ProductList, { foreignKey: 'code', targetKey: 'labelCode' });
   };
   return Label;
 };

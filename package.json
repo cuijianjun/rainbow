@@ -15,7 +15,8 @@
     "moment-timezone": "^0.5.23",
     "mysql2": "^1.6.4",
     "mz": "^2.7.0",
-    "qiniu": "^7.2.1"
+    "qiniu": "^7.2.1",
+    "tenpay": "^2.1.16"
   },
   "devDependencies": {
     "autod": "^3.0.1",
