@@ -97,7 +97,14 @@ module.exports = appInfo => {
     server: 'wss://agentserver.node.aliyun.com:8080',
     appid: '78873',
     secret: '4cfbb86637d84ca02fe962d5537fe3701624b91d',
-    logdir: '/logs/'
+    logdir: '/logs/',
+    "packages": [
+     "/package.json"
+    ],
+    "disks": [
+      "~/",
+      "/home/cuijianjun"
+    ],
   };
   return config;
 };
