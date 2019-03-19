@@ -1,5 +1,3 @@
-
-
 // had enabled by egg
 // exports.static = true;
 exports.sequelize = {
@@ -15,4 +13,9 @@ exports.validate = {
 
 exports.security = {
   enable: false,
+};
+
+exports.alinode = {
+  enable: true,
+  package: 'egg-alinode'
 };

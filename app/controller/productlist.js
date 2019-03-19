@@ -1,5 +1,3 @@
-
-
 const Controller = require('egg').Controller;
 
 class ProductListController extends Controller {

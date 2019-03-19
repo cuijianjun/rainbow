@@ -1,5 +1,3 @@
-
-
 const response_formatter = ctx => {
   // 如果有返回数据，将返回数据添加到data中
   if (ctx.body) {

@@ -32,4 +32,8 @@ module.exports = app => {
   router.post('ProductList', '/api/product_list/update', 'productlist.update');
   router.get('ProductList', '/api/product_list/delete/:id', 'productlist.destroy');
   router.get('ProductList', '/api/product_list/updateTime/:id', 'productlist.updateTime');
+
+  // 微信支付
+  router.post('Pay', '/api/pay/unifiedOrder', 'pay.unifiedOrder'); // 统一下单接口
+  router.post('Pay', '/api/pay/notify', 'pay.notify'); // 统一下单接口
 };

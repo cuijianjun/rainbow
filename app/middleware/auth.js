@@ -8,13 +8,10 @@
  * @modified by cuijianjun on 15:01 2018/7/19
  * @return {Promise<void>}
  */
-
-
 module.exports = () => {
   return async function(ctx, next) {
     const token = ctx.header.authorization;
     const timestamp = ctx.header.timestamp;
-
     if (!token) {
       ctx.status = 401;
       ctx.body = 'token不能为空';

@@ -1,5 +1,3 @@
-
-
 module.exports = appInfo => {
   const config = exports = {};
 
@@ -17,7 +15,11 @@ module.exports = appInfo => {
   // -------------------------微信相关---------------------------
   config.AppID = 'wxbcf2234f129139b7';
   config.AppSecret = '70c7ebe774c6cee3833e495e39f830a4';
-
+  config.mchid = '1528758491';// 微信商户号
+  config.partnerKey = 'c399862d3b9d6b76c8436e924a68c45b'; // 微信支付安全密钥
+  config.notify_url = 'https://rainbow.pplu.vip/api/pay/notify';// '支付回调网址',
+  config.spbill_create_ip = '123.56.24.253';//  'IP地址'
+  // -----------------------------------------------------------
   // token凭证
   config.jwtSecret = 'rainbow';
   // 图片url服务器
@@ -90,10 +92,12 @@ module.exports = appInfo => {
     timezone: '+08:00', // 东八时区
   };
   // 阿里云监控
-  // config.alinode = {
-  //   enable: true,
-  //   appid: '68663',
-  //   secret: '327fbbf38c7f56fdbf2269eb57c88460c410ae00',
-  // };
+  config.alinode = {
+    enable: true,
+    server: 'wss://agentserver.node.aliyun.com:8080',
+    appid: '78873',
+    secret: '4cfbb86637d84ca02fe962d5537fe3701624b91d',
+    logdir: '/logs/'
+  };
   return config;
 };
