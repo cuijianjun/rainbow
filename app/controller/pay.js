@@ -23,15 +23,24 @@ class PayController extends Controller {
     let openId = app.controller.user.getOpenId(ctx.request.body.code);
     let result = await this.api.unifiedOrder({
       out_trade_no: ctx.helper.md5(+new Date()),
-      body: '腾讯充值中心-QQ会员充值',
-      total_fee: '66.6',
+      body: '充值',
+      total_fee: ctx.request.price, // todo
       openid: openId
     });
+    console.log(result);
   }
 
   async notify() { // 回调通知
     const {app, ctx} = this;
     console.log(ctx.request);
+  }
+
+  async orderQuery() { // 查询订单
+    let result = await this.api.orderQuery({
+      // transaction_id, out_trade_no 二选一
+      // transaction_id: '微信的订单号',
+      out_trade_no: '商户内部订单号'
+    });
   }
 }
 
