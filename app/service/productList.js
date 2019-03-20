@@ -98,6 +98,7 @@ class ProductList extends Service {
       message: 'update success',
     };
   }
+
   async del(id = 0) {
     const product = await this.ctx.model.ProductList.findById(id);
     if (!product) {
