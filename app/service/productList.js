@@ -8,7 +8,6 @@ class ProductList extends Service {
     super(ctx);
     this.type = ctx.app.config.type;
     this.Sequelize = ctx.app.Sequelize;
-    this.now = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     this.Op = ctx.app.Sequelize.Op;
   }
 
@@ -99,7 +98,6 @@ class ProductList extends Service {
       message: 'update success',
     };
   }
-
   async del(id = 0) {
     const product = await this.ctx.model.ProductList.findById(id);
     if (!product) {
