@@ -6,15 +6,14 @@ class ProductListController extends Controller {
     this.baseImageUrl = this.app.config.baseImageUrl;
     this.type = this.app.config.type;
     this.createRule = {
-      name: {type: 'string', required: false},
-      age: {type: 'string', required: false},
+      title: 'string',
       user_id: {type: 'string'},
       labelCode: 'string',
       description: {type: 'string', required: false},
       phoneNumber: 'string',
       price: 'string',
       address: 'string',
-      detailAddress: 'string',
+      city: 'string',
     };
     this.idRule = {
       id: {
