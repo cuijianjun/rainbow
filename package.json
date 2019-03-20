@@ -45,8 +45,8 @@
     "init-dev-database": "mysql -u root -p123456 -e 'CREATE DATABASE IF NOT EXISTS `database_development`;'",
     "init-pro-database": "mysql -u root -p123456 -e 'CREATE DATABASE IF NOT EXISTS `database_production`;'",
     "autod": "autod",
-    "sequelize-dev": "NODE_ENV=development sequelize db:migrate",
-    "sequelize-pro": "NODE_ENV=production sequelize db:migrate",
+    "sequelize-dev": "NODE_ENV=development sequelize db:migrate && NODE_ENV=development sequelize db:seed:all",
+    "sequelize-pro": "NODE_ENV=production sequelize db:migrate && NODE_ENV=production sequelize db:seed:all",
     "sequelize": "npm run sequelize-dev && npm run sequelize-pro",
     "init-database": "npm run init-dev-database && npm run init-pro-database && npm run sequelize"
   },
