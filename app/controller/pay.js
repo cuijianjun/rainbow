@@ -42,6 +42,35 @@ class PayController extends Controller {
       out_trade_no: '商户内部订单号'
     });
   }
+
+  async getPayParamsByPrepay(){
+    const {app, ctx} = this;
+    let result = await this.api.getPayParamsByPrepay({
+      prepay_id: '预支付会话标识'
+    });
+    ctx.body = {
+      result
+    }
+  }
+
+  // //支付回调通知
+  // notify: function(obj) {
+  //   var output = "";
+  //   if (obj.return_code == "SUCCESS") {
+  //     var reply = {
+  //       return_code: "SUCCESS",
+  //       return_msg: "OK"
+  //     };
+  //     output = "<xml><return_code><![CDATA[" + reply.return_code + "]]></return_code><return_msg><![CDATA[" + reply.return_msg + "]]></return_msg></xml>";
+  //   } else {
+  //     var reply = {
+  //       return_code: "FAIL",
+  //       return_msg: "FAIL"
+  //     };
+  //     output = "<xml><return_code><![CDATA[" + reply.return_code + "]]></return_code><return_msg><![CDATA[" + reply.return_msg + "]]></return_msg></xml>";
+  //   }
+  //   return output;
+  // },
 }
 
 module.exports = PayController;
