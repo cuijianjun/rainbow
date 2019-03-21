@@ -1,5 +1,3 @@
-
-
 module.exports = {
   parseInt(string) {
     if (typeof string === 'number') return string;
@@ -7,7 +5,7 @@ module.exports = {
     return parseInt(string) || 0;
   },
   getArrDifference(arr1, arr2) {
-    return arr1.concat(arr2).filter(function(v, i, arr) {
+    return arr1.concat(arr2).filter(function (v, i, arr) {
       return arr.indexOf(v) === arr.lastIndexOf(v);
     });
   },
@@ -142,6 +140,7 @@ module.exports = {
       }
       return utftext;
     }
+
     let x = Array();
     let k,
       AA,
@@ -253,7 +252,7 @@ module.exports = {
   isArray(o) {
     return Object.prototype.toString.call(o);
   },
-  addBaseUrl({ base, filed, data }) {
+  addBaseUrl({base, filed, data}) {
     const a = [];
     if (!data) {
       return;
@@ -264,11 +263,12 @@ module.exports = {
           return;
         }
         const temp = value.dataValues[filed].split(',');
-        // let relValue = eval("(" + value.dataValues[filed] + ")");
+        // let relValue = eval("(" + value.dataValues[filed] + ")"); 转化字符串数组
         const last = temp.map((value, index, Array) => {
           return base + value.trim();
         });
-        value.dataValues[filed] = last;
+        let len = last.length;
+        value.dataValues[filed] = len === 1 ? last[0] : last;
       });
       return data;
     }

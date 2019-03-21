@@ -13,6 +13,7 @@ see [egg docs][egg] for more detail.
 ```bash
 $ npm i
 $ npm run init-database // create database
+$ npm run insert  // insert label table default filed
 $ npm run dev
 $ open http://localhost:3001/
 ```

@@ -4,7 +4,6 @@ class BannerController extends Controller {
   constructor(ctx) {
     super(ctx);
     this.baseImageUrl = this.app.config.baseImageUrl;
-    this.type = this.app.config.type;
     this.createRule = {
       jumpUrl: {
         type: 'string',
@@ -26,7 +25,14 @@ class BannerController extends Controller {
   async index() { // get
     const ctx = this.ctx;
     let banner = await ctx.service.banner.list();
-    banner.type = this.type;
+    let label = await ctx.service.label.list();
+    let payLoad = {
+      base: this.baseImageUrl,
+      filed: 'imageUrl',
+      data: banner.rows
+    };
+    let result = ctx.helper.addBaseUrl(payLoad);
+    banner['label'] = label;
     ctx.body = banner;
   }
 
