@@ -250,7 +250,7 @@ module.exports = {
     return (md5_WordToHex(a) + md5_WordToHex(b) + md5_WordToHex(c) + md5_WordToHex(d)).toLowerCase();
   },
   isArray(o) {
-    return Object.prototype.toString.call(o);
+    return Object.prototype.toString.call(o) === '[object Array]';
   },
   addBaseUrl({base, filed, data}) {
     const a = [];
@@ -279,8 +279,6 @@ module.exports = {
     });
     data.dataValues[filed] = last;
     return data;
-
-
   },
 };
 
