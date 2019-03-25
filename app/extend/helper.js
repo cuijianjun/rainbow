@@ -253,7 +253,6 @@ module.exports = {
     return Object.prototype.toString.call(o) === '[object Array]';
   },
   addBaseUrl({base, filed, data}) {
-    const a = [];
     if (!data) {
       return;
     }
@@ -277,7 +276,7 @@ module.exports = {
     const last = temp.map((value, index, Array) => {
       return base + value.trim();
     });
-    data.dataValues[filed] = last;
+    data[filed] = last;
     return data;
   },
 };
