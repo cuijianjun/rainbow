@@ -23,13 +23,13 @@ class User extends Service {
     });
   }
 
-  async find(openid) {
+  async find(user_id) {
     const user = await this.ctx.model.User.findOne(
       {
-        where: {openid: openid}
+        where: {user_id: user_id}
       }
     );
-    if (user && user.dataValues.openid) { // todo
+    if (user && user.dataValues.user_id) { // todo
       return user;
     }
     return false;

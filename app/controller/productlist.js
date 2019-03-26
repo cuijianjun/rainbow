@@ -46,16 +46,18 @@ class ProductListController extends Controller {
   async show() { // get 详情
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.product_id);
+    let user_id = ctx.helper.parseInt(ctx.params.user_id);
     ctx.validate(this.idRule, {
       id,
     });
     // 浏览量加1
-    let product_detail = await ctx.service.productList.find(id);
+    let product_detail = await ctx.service.productList.find({id, user_id});
+    console.log(product_detail);
     let pageView = ctx.helper.parseInt(product_detail.dataValues.pageView) + 1;
     let product_detail_new = await ctx.service.productList.update({id, updates: {pageView: pageView}});
 
     // 获取收藏状态
-    let user_id = ctx.helper.parseInt(ctx.params.user_id);
+
     let isCollect = false;
     if (typeof user_id === 'number') {
       let product_id = [];
