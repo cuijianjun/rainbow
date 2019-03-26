@@ -20,7 +20,7 @@ class UserController extends Controller {
       if (!openId) {
         ctx.throw(500, '获取openId失败');
       }
-      let userInfo = await ctx.service.user.find(openId);//判断是否新用户
+      let userInfo = await ctx.service.user.check(openId);//判断是否新用户
       // 新用户注册
       if (userInfo === false) {
         let body = ctx.request.body;
