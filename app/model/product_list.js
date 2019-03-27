@@ -1,8 +1,6 @@
 
-
 module.exports = app => {
   const { STRING, INTEGER, DATE, TEXT } = app.Sequelize;
-
   const ProductList = app.model.define('product_list', {
     id: { type: INTEGER, primaryKey: true, autoIncrement: true },
     user_id: INTEGER,
@@ -15,7 +13,13 @@ module.exports = app => {
     address: STRING(255),
     city:STRING(255),
     phoneNumber: STRING(30),
-    updated_at: DATE,
+    updated_at: {
+      type: DATE,
+      get() {
+        const dateText = this.getDataValue('updated_at').toString();
+        return +new Date(dateText);
+      }
+    }
   }, {
     // 是否需要增加createdAt、updatedAt、deletedAt字段
     timestamps: true,

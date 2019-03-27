@@ -58,6 +58,7 @@ class ProductList extends Service {
     return this.ctx.model.ProductList.findAndCountAll(options);
   }
 
+  // raw: true, // 设置为 true，即可返回源数据
   async find({id = 0, user_id}) {
     const options = {
       id,

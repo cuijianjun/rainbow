@@ -42,6 +42,17 @@ module.exports = appInfo => {
     password: '123456',
     database: 'database_development',
     timezone: '+08:00',
+    dialectOptions: {
+      useUTC: false, // for reading from database
+      dateStrings: true,
+      typeCast(field, next) {
+        // for reading from database
+        if (field.type === 'DATE') {
+          return field.string();
+        }
+        return next();
+      }
+    },
   };
 
   config.errorHandler = {

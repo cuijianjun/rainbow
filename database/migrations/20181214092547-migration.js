@@ -30,8 +30,8 @@ module.exports = {
       price: STRING(),
       address: STRING(),
       city:STRING(),
-      dTime: DATE,
-      updated_at: DATE,
+      dTime: "DATETIME",
+      updated_at: "DATETIME",
     });
     // banner图 + 类别
     await queryInterface.createTable('banners', {
