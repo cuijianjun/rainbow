@@ -52,7 +52,6 @@ class ProductListController extends Controller {
     });
     // 浏览量加1
     let product_detail = await ctx.service.productList.find({id, user_id});
-    console.log(product_detail);
     let pageView = ctx.helper.parseInt(product_detail.dataValues.pageView) + 1;
     let product_detail_new = await ctx.service.productList.update({id, updates: {pageView: pageView}});
 
@@ -68,7 +67,7 @@ class ProductListController extends Controller {
       });
       isCollect = product_id.includes(id);
     }
-    let body = await ctx.service.productList.find(id);
+    let body = await ctx.service.productList.find({id});
     let payLoad = {
       base: this.baseImageUrl,
       filed: 'productImage',
@@ -79,7 +78,7 @@ class ProductListController extends Controller {
       isCollect
     };
     ctx.status = 200;
-    ctx.body = result;
+    ctx.body = body;
   }
 
   async create() { // post
