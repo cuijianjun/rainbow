@@ -266,8 +266,7 @@ module.exports = {
         const last = temp.map((value, index, Array) => {
           return base + value.trim();
         });
-        let len = last.length;
-        value.dataValues[filed] = len === 1 ? last[0] : last;
+        value.dataValues[filed] = last;
       });
       return data;
     }
