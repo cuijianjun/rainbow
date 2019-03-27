@@ -1,5 +1,3 @@
-
-
 const Controller = require('egg').Controller;
 // const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -34,6 +32,20 @@ class UserController extends Controller {
 
   async update() { // post
     const ctx = this.ctx;
+    const id = ctx.helper.parseInt(ctx.request.body.id);
+    if (!id) {
+      ctx.status = 404;
+      ctx.body = 'id不能为空';
+    }
+    ctx.validate(
+      {
+        id: {
+          type: 'int',
+          required: true,
+        }
+      }, {
+        id,
+      });
     ctx.status = 201;
     ctx.body = await ctx.service.user.update({id, updates: ctx.request.body});
   }
