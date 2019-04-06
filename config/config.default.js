@@ -31,6 +31,7 @@ module.exports = appInfo => {
     renew: true,
     httpOnly: false,
   };
+
   config.auth = {
     test: 'tst',
   };
@@ -65,10 +66,11 @@ module.exports = appInfo => {
     allowDebugAtProd: true,
   };
 
-  config.bodyParser = {
+  config.bodyParser = { // 最大长度限制
     jsonLimit: '100mb',
     formLimit: '100mb',
   };
+
   config.multipart = {
     mode: 'file',
     fileSize: '50mb',

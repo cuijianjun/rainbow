@@ -21,6 +21,30 @@ class ProductListController extends Controller {
         required: true,
       }
     };
+    this.queryRule = {
+      limit: {
+        type: 'int',
+        required: false,
+        max: 20,
+        min: 0
+      },
+      page: {
+        type: 'int',
+        required: false,
+      },
+      user_id: {
+        type: 'int',
+        required: false,
+      },
+      searchQuery: {
+        type: 'string',
+        required: false,
+      },
+      labelCode: {
+        type: 'int',
+        required: false,
+      }
+    };
   }
 
   async index() { // post
@@ -32,6 +56,7 @@ class ProductListController extends Controller {
       searchQuery: ctx.request.body.searchQuery,
       labelCode: ctx.helper.parseInt(ctx.request.body.labelCode)
     };
+    ctx.validate(this.queryRule, query);
     let body = await ctx.service.productList.list(query);
     let payLoad = {
       base: this.baseImageUrl,
