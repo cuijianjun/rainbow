@@ -41,6 +41,10 @@ class BannerController extends Controller {
       };
     }
   }
+
+  async list () {
+
+  }
 }
 
 module.exports = BannerController;
