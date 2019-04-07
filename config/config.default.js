@@ -103,6 +103,12 @@ module.exports = appInfo => {
     database: 'database_development',
     password: '123456',
     timezone: '+08:00', // 东八时区
+    dialectOptions: {
+      charset: "utf8",
+      collate: "utf8_general_ci",
+      supportBigNumbers: true,
+      bigNumberStrings: true
+    }
   };
   // 阿里云监控
   config.alinode = {
