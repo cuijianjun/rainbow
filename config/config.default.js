@@ -105,7 +105,7 @@ module.exports = appInfo => {
     timezone: '+08:00', // 东八时区
     dialectOptions: {
       charset: "utf8",
-      collate: "utf8_general_ci",
+      collate: "utf8_unicode_ci",
       supportBigNumbers: true,
       bigNumberStrings: true
     }
