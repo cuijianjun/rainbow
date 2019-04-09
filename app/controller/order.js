@@ -25,7 +25,6 @@ class ProductListController extends Controller {
   // 用户ID 产品ID
   async placeOrder() { // post
     const ctx = this.ctx;
-    console.log(ctx.request.body);
     const query = {
       product_id: ctx.helper.parseInt(ctx.request.body.product_id),
       user_id: ctx.helper.parseInt(ctx.request.body.user_id),

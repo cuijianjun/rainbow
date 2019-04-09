@@ -39,6 +39,6 @@ module.exports = app => {
   router.post('Order', '/api/order/getOrderDetail/:id', 'order.index'); // 显示订单详情
   router.post('Order', '/api/order/delete/:id', 'order.del'); // 删除订单
   // 微信支付
-  // router.post('Pay', '/api/pay/unifiedOrder', 'pay.unifiedOrder'); // 统一下单接口
+  router.post('Pay', '/api/pay/unifiedOrder', 'pay.unifiedOrder'); // 统一下单接口
   // router.post('Pay', '/api/pay/notify', 'pay.notify'); // 微信通知
 };

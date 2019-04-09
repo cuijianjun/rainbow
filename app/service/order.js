@@ -15,7 +15,13 @@ class ProductList extends Service {
     await this.getUser(user_id);
     return await this.snapOrder();
   }
-
+  async find(order_id) {
+    const order = await this.ctx.model.Order.findOne({order_id});
+    if (!order) {
+      this.ctx.throw(404, 'order not found');
+    }
+    return order;
+  }
   async list() {
 
   }
@@ -35,6 +41,7 @@ class ProductList extends Service {
       this.ctx.throw(404, 'product not found');
     }
     this.product = product
+    return product;
   }
 
   async getUser(user_id) {
@@ -43,7 +50,8 @@ class ProductList extends Service {
     if (!user) {
       this.ctx.throw(404, 'user not found');
     }
-    this.user = user
+    this.user = user;
+    return this.user;
   }
 
   async snapOrder() {

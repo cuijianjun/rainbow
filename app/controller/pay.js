@@ -1,5 +1,6 @@
 const Controller = require('egg').Controller;
 const tenpay = require('tenpay');
+const fs = require('fs');
 
 class PayController extends Controller {
   constructor(ctx) {
@@ -11,7 +12,7 @@ class PayController extends Controller {
       partnerKey: defaultConfig.partnerKey,
       notify_url: defaultConfig.notify_url,
       // spbill_create_ip: defaultConfig.spbill_create_ip,
-      pfx: require('fs').readFileSync('./apiclient_cert.p12'),
+      pfx: fs.readFileSync(__dirname + '/apiclient_cert.p12'),
     };
     // const api = new tenpay(config);
     // 调试模式(传入第二个参数为true, 可在控制台输出数据)
@@ -20,14 +21,34 @@ class PayController extends Controller {
 
   async unifiedOrder() { // post 统一下单接口
     const {app, ctx} = this;
-    let openId = app.controller.user.getOpenId(ctx.request.body.code);
+    const {total_price, user_id, order_id} = ctx.request.body;
+    let user = await ctx.service.order.getUser(user_id);
+    const openid = user.dataValues.openid;
+    if (!openid) {
+      ctx.status = 404;
+      ctx.body = {
+        message: '对不起, 请授权登录'
+      };
+    }
+    let product = await ctx.service.order.find(order_id);
+    const out_trade_no = product.dataValues.order_no;
+    if (!out_trade_no) {
+      ctx.status = 404;
+      ctx.body = {
+        message: '对不起, 请确认商品准确性'
+      };
+    }
     let result = await this.api.unifiedOrder({
-      out_trade_no: ctx.helper.md5(+new Date()),
+      out_trade_no: out_trade_no,
       body: '充值',
-      total_fee: ctx.request.price, // todo
-      openid: openId
+      total_fee: total_price, // todo
+      openid: openid
     });
-    console.log(result);
+    let data = this.api.getPayParamsByPrepay({
+      prepay_id:result.prepay_id,
+    })
+    ctx.status = 200;
+    ctx.body = data;
   }
 
   async notify() { // 回调通知
