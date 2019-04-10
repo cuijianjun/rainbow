@@ -14,7 +14,6 @@ class PayController extends Controller {
       // spbill_create_ip: defaultConfig.spbill_create_ip,
       pfx: fs.readFileSync(__dirname + '/apiclient_cert.p12'),
     };
-    // const api = new tenpay(config);
     // 调试模式(传入第二个参数为true, 可在控制台输出数据)
     this.api = new tenpay(config, true);
   }
@@ -32,7 +31,6 @@ class PayController extends Controller {
     }
     let product = await ctx.service.order.find(order_id);
     const out_trade_no = product.dataValues.order_no;
-    console.log(out_trade_no);
     if (!out_trade_no) {
       ctx.status = 404;
       ctx.body = {
@@ -42,12 +40,12 @@ class PayController extends Controller {
     let result = await this.api.unifiedOrder({
       out_trade_no: out_trade_no,
       body: '充值',
-      total_fee: total_price, // todo
+      total_fee: total_price * 100, // todo
       openid: openid
     });
     let data = this.api.getPayParamsByPrepay({
       prepay_id:result.prepay_id,
-    })
+    });
     ctx.status = 200;
     ctx.body = data;
   }
