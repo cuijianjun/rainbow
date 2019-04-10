@@ -16,7 +16,9 @@ class Order extends Service {
     return await this.snapOrder();
   }
   async find(order_id) {
-    const order = await this.ctx.model.Order.findOne({order_id});
+    const order = await this.ctx.model.Order.findOne({
+      where: {id: order_id}
+    });
     if (!order) {
       this.ctx.throw(404, 'order not found');
     }
