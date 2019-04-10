@@ -39,7 +39,7 @@ class User extends Service {
   async find(user_id) {
     const user = await this.ctx.model.User.findOne(
       {
-        where: {user_id: user_id}
+        where: {id: user_id}
       }
     );
     if (user && user.dataValues.user_id) { // todo

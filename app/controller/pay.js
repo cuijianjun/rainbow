@@ -22,12 +22,9 @@ class PayController extends Controller {
   async unifiedOrder() { // post 统一下单接口
     const {app, ctx} = this;
     const {total_price, user_id, order_id} = ctx.request.body;
-    console.log(total_price, 'total_price');
-    console.log(user_id, 'user_id');
-    console.log(order_id, 'order_id');
-    let user = await ctx.service.order.getUser(user_id);
+    let user = await ctx.service.order.getUser(1);
+    console.log(user);
     const openid = user.dataValues.openid;
-    console.log(openid);
     if (!openid) {
       ctx.status = 404;
       ctx.body = {

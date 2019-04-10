@@ -1,6 +1,6 @@
 const Service = require('egg').Service;
 
-class ProductList extends Service {
+class Order extends Service {
   constructor(ctx) {
     super(ctx);
     this.baseImageUrl = this.app.config.baseImageUrl;
@@ -46,7 +46,10 @@ class ProductList extends Service {
 
   async getUser(user_id) {
     // 查询用户
-    const user = await this.ctx.model.User.findOne({user_id});
+    const user = await this.ctx.model.User.find(
+      {
+      where: {id: user_id}
+    });
     if (!user) {
       this.ctx.throw(404, 'user not found');
     }
@@ -78,4 +81,4 @@ class ProductList extends Service {
   }
 }
 
-module.exports = ProductList;
+module.exports = Order;
