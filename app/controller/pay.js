@@ -51,6 +51,16 @@ class PayController extends Controller {
   }
 
   async notify() { // 回调通知
+  // <xml><return_code><![CDATA[SUCCESS]]></return_code>
+  //   29|rainbow-dev  | <return_msg><![CDATA[OK]]></return_msg>
+  //   29|rainbow-dev  | <appid><![CDATA[wxbcf2234f129139b7]]></appid>
+  //   29|rainbow-dev  | <mch_id><![CDATA[1528758491]]></mch_id>
+  //   29|rainbow-dev  | <nonce_str><![CDATA[AHSBD5DEcIDt9BUG]]></nonce_str>
+  //   29|rainbow-dev  | <sign><![CDATA[5790E37CDA29F2EDBDAA5B17D532BE26]]></sign>
+  //   29|rainbow-dev  | <result_code><![CDATA[SUCCESS]]></result_code>
+  //   29|rainbow-dev  | <prepay_id><![CDATA[wx110111305878816ede5c2e3a4034136120]]></prepay_id>
+  //   29|rainbow-dev  | <trade_type><![CDATA[JSAPI]]></trade_type>
+  //   29|rainbow-dev  | </xml>
     const {app, ctx} = this;
     console.log(ctx.request);
   }
