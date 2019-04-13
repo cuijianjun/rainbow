@@ -82,6 +82,7 @@ class PayController extends Controller {
         });
       });
     });
+    console.log(return_data);
     ctx.status = 200;
     ctx.body = await _self.handleOutput(return_data);
   }
@@ -91,21 +92,28 @@ class PayController extends Controller {
     let output = '';
     if (return_data.return_code == 'SUCCESS') {
       const order = await ctx.service.order.findByOutTradeNo(return_data.out_trade_no);
+      console.log(order);
       const reply = {
         return_code: 'SUCCESS',
         return_msg: 'OK',
       };
+      console.log(order.dataValues.total_price, 'order.dataValues.total_price');
       if (order.dataValues.total_price === return_data.total_fee) {
+        console.log(order.dataValues.status, 'order.dataValues.status');
         if (order.dataValues.status === 1) {
           order.dataValues.status = 2;
           output = '<xml><return_code><![CDATA[' + reply.return_code + ']]></return_code><return_msg><![CDATA[' + reply.return_msg + ']]></return_msg></xml>';
+          console.log(output, 'reply');
+          return output;
         }
+        return;
       }
       const reply_error = {
         return_code: 'FAIL',
         return_msg: 'FAIL',
       };
       output = '<xml><return_code><![CDATA[' + reply_error.return_code + ']]></return_code><return_msg><![CDATA[' + reply_error.return_msg + ']]></return_msg></xml>';
+      console.log(output, 'reply_error');
     } else {
       const reply_error = {
         return_code: 'FAIL',
