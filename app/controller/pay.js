@@ -92,12 +92,12 @@ class PayController extends Controller {
     let output = '';
     if (return_data.return_code == 'SUCCESS') {
       const order = await ctx.service.order.findByOutTradeNo(return_data.out_trade_no);
-      console.log(order);
       const reply = {
         return_code: 'SUCCESS',
         return_msg: 'OK',
       };
       console.log(order.dataValues.total_price, 'order.dataValues.total_price');
+      console.log(order.dataValues.total_price * 100 === return_data.total_fee);
       if (order.dataValues.total_price * 100 === return_data.total_fee) {
         console.log(order.dataValues.status, 'order.dataValues.status');
         if (order.dataValues.status === 1) {
