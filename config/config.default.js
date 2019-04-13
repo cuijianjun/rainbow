@@ -17,7 +17,7 @@ module.exports = appInfo => {
   config.AppSecret = '70c7ebe774c6cee3833e495e39f830a4';
   config.mchid = '1528758491';// 微信商户号
   config.partnerKey = 'c399862d3b9d6b76c8436e924a68c45b'; // 微信支付安全密钥
-  config.notify_url = 'https://rainbow.pplu.vip:3002/api/pay/notify';// '支付回调网址',
+  config.notify_url = 'https://rainbow-dev.pplu.vip/api/pay/notify';// '支付回调网址',
   config.spbill_create_ip = '123.56.24.253';//  'IP地址'
   // -----------------------------------------------------------
   // token凭证
