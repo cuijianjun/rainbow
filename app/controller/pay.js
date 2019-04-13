@@ -1,6 +1,8 @@
 const Controller = require('egg').Controller;
 const tenpay = require('tenpay');
 const fs = require('fs');
+const xml2js = require('xml2js').parseString;
+
 
 class PayController extends Controller {
   constructor(ctx) {
@@ -21,6 +23,22 @@ class PayController extends Controller {
   async unifiedOrder() { // post 统一下单接口
     const {app, ctx} = this;
     const {total_price, user_id, order_id} = ctx.request.body;
+    let openid = await this.getOpenId(user_id);
+    let out_trade_no = await this.getOutTradeNo(order_id);
+    let result = await this.api.unifiedOrder({
+      out_trade_no: out_trade_no,
+      body: '充值',
+      total_fee: total_price * 100, // todo
+      openid: openid
+    });
+    let data = this.api.getPayParamsByPrepay({
+      prepay_id: result.prepay_id,
+    });
+    ctx.status = 200;
+    ctx.body = data;
+  }
+
+  async getOpenId (user_id) {
     let user = await ctx.service.order.getUser(user_id);
     const openid = user.dataValues.openid;
     if (!openid) {
@@ -29,6 +47,10 @@ class PayController extends Controller {
         message: '对不起, 请授权登录'
       };
     }
+    return openid;
+  }
+
+  async getOutTradeNo (order_id) {
     let product = await ctx.service.order.find(order_id);
     const out_trade_no = product.dataValues.order_no;
     if (!out_trade_no) {
@@ -37,32 +59,24 @@ class PayController extends Controller {
         message: '对不起, 请确认商品准确性'
       };
     }
-    let result = await this.api.unifiedOrder({
-      out_trade_no: out_trade_no,
-      body: '充值',
-      total_fee: total_price * 100, // todo
-      openid: openid
-    });
-    let data = this.api.getPayParamsByPrepay({
-      prepay_id:result.prepay_id,
-    });
-    ctx.status = 200;
-    ctx.body = data;
+    return out_trade_no;
   }
 
   async notify() { // 回调通知
-  // <xml><return_code><![CDATA[SUCCESS]]></return_code>
-  //   29|rainbow-dev  | <return_msg><![CDATA[OK]]></return_msg>
-  //   29|rainbow-dev  | <appid><![CDATA[wxbcf2234f129139b7]]></appid>
-  //   29|rainbow-dev  | <mch_id><![CDATA[1528758491]]></mch_id>
-  //   29|rainbow-dev  | <nonce_str><![CDATA[AHSBD5DEcIDt9BUG]]></nonce_str>
-  //   29|rainbow-dev  | <sign><![CDATA[5790E37CDA29F2EDBDAA5B17D532BE26]]></sign>
-  //   29|rainbow-dev  | <result_code><![CDATA[SUCCESS]]></result_code>
-  //   29|rainbow-dev  | <prepay_id><![CDATA[wx110111305878816ede5c2e3a4034136120]]></prepay_id>
-  //   29|rainbow-dev  | <trade_type><![CDATA[JSAPI]]></trade_type>
-  //   29|rainbow-dev  | </xml>
     const {app, ctx} = this;
-    console.log(ctx.request);
+    let data = '';
+    let json = {};
+    this.ctx.req.setEncoding('utf8');
+    this.ctx.req.on('data',function(chunk){
+      data += chunk;
+    });
+    let that = this;
+    this.ctx.req.on('end',function() {
+      xml2js(data, {explicitArray: false}, function (err, json) {
+        console.log(json);//这里的json便是xml转为json的内容
+        that.ctx.body = 'success';
+      });
+    });
   }
 
   async orderQuery() { // 查询订单
@@ -73,7 +87,7 @@ class PayController extends Controller {
     });
   }
 
-  async getPayParamsByPrepay(){
+  async getPayParamsByPrepay() {
     const {app, ctx} = this;
     let result = await this.api.getPayParamsByPrepay({
       prepay_id: '预支付会话标识'
@@ -82,25 +96,6 @@ class PayController extends Controller {
       result
     }
   }
-
-  // //支付回调通知
-  // notify: function(obj) {
-  //   var output = "";
-  //   if (obj.return_code == "SUCCESS") {
-  //     var reply = {
-  //       return_code: "SUCCESS",
-  //       return_msg: "OK"
-  //     };
-  //     output = "<xml><return_code><![CDATA[" + reply.return_code + "]]></return_code><return_msg><![CDATA[" + reply.return_msg + "]]></return_msg></xml>";
-  //   } else {
-  //     var reply = {
-  //       return_code: "FAIL",
-  //       return_msg: "FAIL"
-  //     };
-  //     output = "<xml><return_code><![CDATA[" + reply.return_code + "]]></return_code><return_msg><![CDATA[" + reply.return_msg + "]]></return_msg></xml>";
-  //   }
-  //   return output;
-  // },
 }
 
 module.exports = PayController;

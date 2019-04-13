@@ -4,6 +4,7 @@
 module.exports = app => {
   const {router, controller, middleware} = app;
   const auth = middleware.auth();// 校验用户token中间件
+  const xmlparse = app.middleware.xmlparse();
   router.post('/login', auth, 'user.login'); // 小程序授权
   router.post('/api/user/update', auth, 'user.update'); // 小程序用户信息更新
   // banner图 + 类别
@@ -40,5 +41,5 @@ module.exports = app => {
   router.post('Order', '/api/order/delete/:id', 'order.del'); // 删除订单
   // 微信支付
   router.post('Pay', '/api/pay/unifiedOrder', 'pay.unifiedOrder'); // 统一下单接口
-  router.post('Pay', '/api/pay/notify', 'pay.notify'); // 微信通知
+  router.post('Pay', '/api/pay/notify',xmlparse, 'pay.notify'); // 微信通知
 };

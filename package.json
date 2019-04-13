@@ -4,6 +4,7 @@
   "description": "",
   "private": true,
   "dependencies": {
+    "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
     "egg": "^2.2.1",
     "egg-alinode": "^2.0.1",
@@ -16,7 +17,8 @@
     "mysql2": "^1.6.4",
     "mz": "^2.7.0",
     "qiniu": "^7.2.1",
-    "tenpay": "^2.1.17"
+    "tenpay": "^2.1.17",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "autod": "^3.0.1",
