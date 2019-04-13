@@ -103,10 +103,15 @@ class PayController extends Controller {
           await ctx.service.order.update(query);
           output = '<xml><return_code><![CDATA[' + reply.return_code + ']]></return_code><return_msg><![CDATA[' + reply.return_msg + ']]></return_msg></xml>';
           console.log(output, 'reply');
-          return 'success';
+          return output;
         }
         console.log(1111);
-        return 'fail';
+        const reply_error = {
+          return_code: 'FAIL',
+          return_msg: 'FAIL',
+        };
+        output = '<xml><return_code><![CDATA[' + reply_error.return_code + ']]></return_code><return_msg><![CDATA[' + reply_error.return_msg + ']]></return_msg></xml>';
+        return output;
       }
       const reply_error = {
         return_code: 'FAIL',
