@@ -73,6 +73,7 @@ class PayController extends Controller {
       data += chunk;
     });
     console.log(data);
+    console.log(1);
     ctx.req.on('end',function() {
       xml2js(data, {explicitArray: false}, function (err, json) {
         console.log(json);//这里的json便是xml转为json的内容
