@@ -98,7 +98,7 @@ class PayController extends Controller {
         return_msg: 'OK',
       };
       console.log(order.dataValues.total_price, 'order.dataValues.total_price');
-      if (order.dataValues.total_price === return_data.total_fee) {
+      if (order.dataValues.total_price * 100 === return_data.total_fee) {
         console.log(order.dataValues.status, 'order.dataValues.status');
         if (order.dataValues.status === 1) {
           order.dataValues.status = 2;
