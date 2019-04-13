@@ -82,7 +82,6 @@ class PayController extends Controller {
         });
       });
     });
-    console.log(return_data);
     ctx.status = 200;
     console.log(await _self.handleOutput(return_data));
     ctx.body = await _self.handleOutput(return_data);
