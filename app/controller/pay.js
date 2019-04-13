@@ -65,17 +65,15 @@ class PayController extends Controller {
   }
 
   async notify() { // 回调通知
-    console.log(3333);
     const {app, ctx} = this;
     let data = '';
     let json = {};
-    console.log(1111);
-    ctx.request.setEncoding('utf8');
-    ctx.request.on('data',function(chunk){
+    ctx.req.setEncoding('utf8');
+    ctx.req.on('data',function(chunk){
       data += chunk;
     });
     console.log(data);
-    ctx.request.on('end',function() {
+    ctx.req.on('end',function() {
       xml2js(data, {explicitArray: false}, function (err, json) {
         console.log(json);//这里的json便是xml转为json的内容
         ctx.body = 'success';
