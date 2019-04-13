@@ -104,7 +104,7 @@ class PayController extends Controller {
             order_no: return_data.out_trade_no,
             updates: {status: 2}
           };
-          await ctx.service.order.update({id, updates: body});
+          await ctx.service.order.update(query);
           output = '<xml><return_code><![CDATA[' + reply.return_code + ']]></return_code><return_msg><![CDATA[' + reply.return_msg + ']]></return_msg></xml>';
           console.log(output, 'reply');
           return output;
