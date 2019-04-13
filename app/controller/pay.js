@@ -39,6 +39,7 @@ class PayController extends Controller {
   }
 
   async getOpenId (user_id) {
+    const {app, ctx} = this;
     let user = await ctx.service.order.getUser(user_id);
     const openid = user.dataValues.openid;
     if (!openid) {
@@ -51,6 +52,7 @@ class PayController extends Controller {
   }
 
   async getOutTradeNo (order_id) {
+    const {app, ctx} = this;
     let product = await ctx.service.order.find(order_id);
     const out_trade_no = product.dataValues.order_no;
     if (!out_trade_no) {
