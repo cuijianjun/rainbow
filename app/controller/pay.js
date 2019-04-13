@@ -24,7 +24,7 @@ class PayController extends Controller {
     const { app, ctx } = this;
     const { total_price, user_id, order_id } = ctx.request.body;
     const openid = await this.getOpenId(user_id);
-    const out_trade_no = await this.getOutTradeNo(order_id).dataValues.order_no;
+    const out_trade_no = await this.getOrder(order_id).dataValues.order_no;
     const result = await this.api.unifiedOrder({
       out_trade_no,
       body: '充值',
