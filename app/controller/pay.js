@@ -84,6 +84,7 @@ class PayController extends Controller {
     });
     console.log(return_data);
     ctx.status = 200;
+    console.log(await _self.handleOutput(return_data));
     ctx.body = await _self.handleOutput(return_data);
   }
 
@@ -96,10 +97,7 @@ class PayController extends Controller {
         return_code: 'SUCCESS',
         return_msg: 'OK',
       };
-      console.log(order.dataValues.total_price, 'order.dataValues.total_price');
-      console.log(order.dataValues.total_price * 100 === ctx.helper.parseInt(return_data.total_fee));
       if (order.dataValues.total_price * 100 === ctx.helper.parseInt(return_data.total_fee)) {
-        console.log(order.dataValues.status, 'order.dataValues.status');
         if (order.dataValues.status === 1) {
           order.dataValues.status = 2;
           output = '<xml><return_code><![CDATA[' + reply.return_code + ']]></return_code><return_msg><![CDATA[' + reply.return_msg + ']]></return_msg></xml>';
