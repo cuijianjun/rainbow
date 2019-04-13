@@ -7,7 +7,7 @@ class Label extends Service {
   }
 
   async find(id = 0) {
-    const label = await this.ctx.model.Label.findById(id);
+    const label = await this.ctx.model.Label.findByPk(id);
     if (!label) {
       this.ctx.throw(404, 'label not found');
     }
@@ -19,7 +19,7 @@ class Label extends Service {
   }
 
   async update({ id = 0, updates }) {
-    const label = await this.ctx.model.Label.findById(id);
+    const label = await this.ctx.model.Label.findByPk(id);
     if (!label) {
       this.ctx.throw(404, 'label not found');
     }
@@ -27,7 +27,7 @@ class Label extends Service {
   }
 
   async del(id = 0) {
-    const label = await this.ctx.model.Label.findById(id);
+    const label = await this.ctx.model.Label.findByPk(id);
     if (!label) {
       this.ctx.throw(404, 'label not found');
     }

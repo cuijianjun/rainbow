@@ -68,10 +68,12 @@ class PayController extends Controller {
     const {app, ctx} = this;
     let data = '';
     let json = {};
+    console.log(1111);
     this.ctx.req.setEncoding('utf8');
     this.ctx.req.on('data',function(chunk){
       data += chunk;
     });
+    console.log(data);
     let that = this;
     this.ctx.req.on('end',function() {
       xml2js(data, {explicitArray: false}, function (err, json) {
