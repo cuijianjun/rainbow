@@ -97,7 +97,7 @@ class PayController extends Controller {
       if (order.dataValues.total_price * 100 === ctx.helper.parseInt(return_data.total_fee)) {
         if (order.dataValues.status === 1) {
           let query = {
-            order_no: return_data.order_no,
+            order_no: return_data.out_trade_no,
             updates: {status: 2}
           };
           await ctx.service.order.update(query);
