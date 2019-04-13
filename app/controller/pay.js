@@ -24,7 +24,7 @@ class PayController extends Controller {
     const { app, ctx } = this;
     const { total_price, user_id, order_id } = ctx.request.body;
     const openid = await this.getOpenId(user_id);
-    const out_trade_no = await this.getOrder(order_id).dataValues.order_no;
+    const out_trade_no = await this.getOutTradeNo(order_id);
     const result = await this.api.unifiedOrder({
       out_trade_no,
       body: '充值',
@@ -51,16 +51,17 @@ class PayController extends Controller {
     return openid;
   }
 
-  async getOrder(order_id) {
+  async getOutTradeNo(order_id) {
     const { app, ctx } = this;
     const product = await ctx.service.order.find(order_id);
-    if (!product) {
+    let order_no = product.dataValues.order_no
+    if (!order_no) {
       ctx.status = 404;
       ctx.body = {
         message: '对不起, 请确认商品准确性',
       };
     }
-    return product;
+    return order_no;
   }
 
   async notify() { // 回调通知
