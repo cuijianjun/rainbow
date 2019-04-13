@@ -105,7 +105,6 @@ class PayController extends Controller {
           console.log(output, 'reply');
           return output;
         }
-        console.log(1111);
         const reply_error = {
           return_code: 'FAIL',
           return_msg: 'FAIL',

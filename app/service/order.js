@@ -41,7 +41,6 @@ class Order extends Service {
   }
 
   async update({ order_no, updates }) {
-    console.log({ order_no, updates });
     const order = await this.ctx.model.Order.findOne({
       where: { order_no }
     });
