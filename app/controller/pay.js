@@ -82,8 +82,6 @@ class PayController extends Controller {
         });
       });
     });
-    ctx.status = 200;
-    console.log(await _self.handleOutput(return_data));
     ctx.body = await _self.handleOutput(return_data);
   }
 
@@ -99,22 +97,22 @@ class PayController extends Controller {
       if (order.dataValues.total_price * 100 === ctx.helper.parseInt(return_data.total_fee)) {
         if (order.dataValues.status === 1) {
           let query = {
-            order_no: 201904140115723,
+            order_no: return_data.order_no,
             updates: {status: 2}
           };
           await ctx.service.order.update(query);
           output = '<xml><return_code><![CDATA[' + reply.return_code + ']]></return_code><return_msg><![CDATA[' + reply.return_msg + ']]></return_msg></xml>';
           console.log(output, 'reply');
-          return output;
+          return 'success';
         }
-        return;
+        console.log(1111);
+        return 'fail';
       }
       const reply_error = {
         return_code: 'FAIL',
         return_msg: 'FAIL',
       };
       output = '<xml><return_code><![CDATA[' + reply_error.return_code + ']]></return_code><return_msg><![CDATA[' + reply_error.return_msg + ']]></return_msg></xml>';
-      console.log(output, 'reply_error');
     } else {
       const reply_error = {
         return_code: 'FAIL',

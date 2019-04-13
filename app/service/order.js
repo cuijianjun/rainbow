@@ -45,7 +45,6 @@ class Order extends Service {
     const order = await this.ctx.model.Order.findOne({
       where: { order_no }
     });
-    console.log(order);
     if (!order) {
       this.ctx.throw(404, 'order not found');
     }
