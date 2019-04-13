@@ -17,5 +17,5 @@ exports.security = {
 
 exports.alinode = {
   enable: true,
-  package: 'egg-alinode'
+  package: 'egg-alinode',
 };

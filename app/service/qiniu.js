@@ -20,7 +20,7 @@ class Qiniu extends Service {
   }
 
   async upload() {
-    const {app, ctx} = this;
+    const { app, ctx } = this;
     const files = ctx.request.files;
 
 
@@ -37,7 +37,7 @@ class Qiniu extends Service {
       const name = crypto.createHash('md5').update(info[0]).digest('hex');
       const key = `${name}.${info[info.length - 1]}`;
       return new Promise((resolve, reject) => {
-        formUploader.putFile(uploadToken, key, file.filepath, putExtra, function (respErr, respBody, respInfo) {
+        formUploader.putFile(uploadToken, key, file.filepath, putExtra, function(respErr, respBody, respInfo) {
           if (respErr) {
             throw respErr;
           }
@@ -57,14 +57,14 @@ class Qiniu extends Service {
   }
 
   async destroy(key = []) { // 删除
-    const {app, ctx} = this;
+    const { app, ctx } = this;
     const options = {
       scope: this.bucket,
     };
     const bucketManager = new qiniu.rs.BucketManager(this.mac, this.config);
     const promises = key.map((value, index, array) => {
       return new Promise((resolve, reject) => {
-        bucketManager.delete(this.bucket, value, function (err, respBody, respInfo) {
+        bucketManager.delete(this.bucket, value, function(err, respBody, respInfo) {
           if (err) {
             reject(err);
             throw err;
@@ -83,55 +83,55 @@ class Qiniu extends Service {
     return upload;
   }
 
-  async getFileList(marker = '') {// 获取指定前缀的文件列表
+  async getFileList(marker = '') { // 获取指定前缀的文件列表
     // @param options 列举操作的可选参数
     //  prefix    列举的文件前缀
     //  marker    上一次列举返回的位置标记，作为本次列举的起点信息
     //  limit     每次返回的最大列举文件数量
     //  delimiter 指定目录分隔符
-    let bucketManager = new qiniu.rs.BucketManager(this.mac, this.config);
-    let options = {
+    const bucketManager = new qiniu.rs.BucketManager(this.mac, this.config);
+    const options = {
       limit: 2,
       prefix: '',
-      marker: marker,
+      marker,
     };
     return new Promise((resolve, reject) => {
-      bucketManager.listPrefix(this.bucket, options, function (err, respBody, respInfo) {
+      bucketManager.listPrefix(this.bucket, options, function(err, respBody, respInfo) {
         if (err) {
           reject(err);
         }
         if (respInfo.statusCode == 200) {
-          //如果这个nextMarker不为空，那么还有未列举完毕的文件列表，下次调用listPrefix的时候，
-          //指定options里面的marker为这个值
-          let nextMarker = respBody.marker? respBody.marker: '';
-          let commonPrefixes = respBody.commonPrefixes;
-          let items = respBody.items;
+          // 如果这个nextMarker不为空，那么还有未列举完毕的文件列表，下次调用listPrefix的时候，
+          // 指定options里面的marker为这个值
+          const nextMarker = respBody.marker ? respBody.marker : '';
+          const commonPrefixes = respBody.commonPrefixes;
+          const items = respBody.items;
           let imageData = {};
-          let imageKey = items.map((value, index) => {
+          const imageKey = items.map((value, index) => {
             return value.key;
           });
           imageData = {
             imageKey,
-            nextMarker
+            nextMarker,
           };
           resolve(imageData);
         } else {
           reject({
             respInfo,
-            respBody
+            respBody,
           });
         }
       });
-    })
+    });
   }
 
   async getQiniuFile(mark = '') {
-    const {app, ctx} = this;
-    let tempList = await ctx.service.qiniu.getFileList(mark);
+    const { app, ctx } = this;
+    const tempList = await ctx.service.qiniu.getFileList(mark);
     this.qiniuFile = this.qiniuFile.concat(tempList.imageKey);
     mark = tempList.nextMarker;
     if (mark !== '') {
-      await this.getQiniuFile(mark)
+      await this.getQiniuFile(mark);
     }
   }
 }

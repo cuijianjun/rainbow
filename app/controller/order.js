@@ -9,7 +9,7 @@ class ProductListController extends Controller {
       id: {
         type: 'int',
         required: true,
-      }
+      },
     };
     this.queryRule = {
       product_id: {
@@ -19,7 +19,7 @@ class ProductListController extends Controller {
       user_id: {
         type: 'int',
         required: true,
-      }
+      },
     };
   }
   // 用户ID 产品ID
@@ -31,7 +31,7 @@ class ProductListController extends Controller {
     };
     // total_count: ctx.helper.parseInt(ctx.request.body.total_count),
     ctx.validate(this.queryRule, query);
-    let body = await ctx.service.order.create(query);
+    const body = await ctx.service.order.create(query);
     ctx.status = 201;
     ctx.body = body;
 

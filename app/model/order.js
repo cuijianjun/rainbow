@@ -1,7 +1,7 @@
 module.exports = app => {
-  const {STRING, INTEGER, DATE, TEXT} = app.Sequelize;
+  const { STRING, INTEGER, DATE, TEXT } = app.Sequelize;
   const Order = app.model.define('order', {
-    id: {type: INTEGER, primaryKey: true, autoIncrement: true},
+    id: { type: INTEGER, primaryKey: true, autoIncrement: true },
     order_no: STRING(20),
     user_id: INTEGER,
     total_price: INTEGER,
@@ -13,7 +13,7 @@ module.exports = app => {
     price: INTEGER,
     snap_address: STRING(500),
     prepay_id: STRING(100),
-    updated_at: DATE
+    updated_at: DATE,
   }, {
     // 是否需要增加createdAt、updatedAt、deletedAt字段
     timestamps: true,

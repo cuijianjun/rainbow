@@ -52,7 +52,7 @@ module.exports = appInfo => {
           return field.string();
         }
         return next();
-      }
+      },
     },
   };
 
@@ -111,12 +111,12 @@ module.exports = appInfo => {
     appid: '78873',
     secret: '4cfbb86637d84ca02fe962d5537fe3701624b91d',
     logdir: '/logs/',
-    "packages": [
-     "/package.json"
+    packages: [
+      '/package.json',
     ],
-    "disks": [
-      "~/",
-      "/home/cuijianjun"
+    disks: [
+      '~/',
+      '/home/cuijianjun',
     ],
   };
   return config;

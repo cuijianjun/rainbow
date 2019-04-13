@@ -5,7 +5,7 @@ module.exports = {
     return parseInt(string) || 0;
   },
   getArrDifference(arr1, arr2) {
-    return arr1.concat(arr2).filter(function (v, i, arr) {
+    return arr1.concat(arr2).filter(function(v, i, arr) {
       return arr.indexOf(v) === arr.lastIndexOf(v);
     });
   },
@@ -252,7 +252,7 @@ module.exports = {
   isArray(o) {
     return Object.prototype.toString.call(o) === '[object Array]';
   },
-  addBaseUrl({base, filed, data}) {
+  addBaseUrl({ base, filed, data }) {
     if (!data) {
       return;
     }
@@ -281,11 +281,11 @@ module.exports = {
 
   utc2beijing(utc_datetime) {
     // 转为正常的时间格式 年-月-日 时:分:秒
-    let T_pos = utc_datetime.indexOf('T');
-    let Z_pos = utc_datetime.indexOf('Z');
-    let year_month_day = utc_datetime.substr(0, T_pos);
-    let hour_minute_second = utc_datetime.substr(T_pos + 1, Z_pos - T_pos - 1);
-    let new_datetime = year_month_day + " " + hour_minute_second; // 2017-03-31 08:02:06
+    const T_pos = utc_datetime.indexOf('T');
+    const Z_pos = utc_datetime.indexOf('Z');
+    const year_month_day = utc_datetime.substr(0, T_pos);
+    const hour_minute_second = utc_datetime.substr(T_pos + 1, Z_pos - T_pos - 1);
+    const new_datetime = year_month_day + ' ' + hour_minute_second; // 2017-03-31 08:02:06
 
     // 处理成为时间戳
     timestamp = new Date(Date.parse(new_datetime));
@@ -300,12 +300,12 @@ module.exports = {
     return timestamp; // 2017-03-31 16:02:06
   },
   generate() {
-    let date = new Date();
-    let pad2 = function (n) {
-      return n < 10 ? '0' + n : n
+    const date = new Date();
+    const pad2 = function(n) {
+      return n < 10 ? '0' + n : n;
     };
     return date.getFullYear().toString() + pad2(date.getMonth() + 1) + pad2(date.getDate()) + pad2(date.getHours())
       + pad2(date.getMinutes()) + (Math.floor(Math.random() * 900) + 100);
-  }
+  },
 };
 

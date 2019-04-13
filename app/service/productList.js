@@ -9,7 +9,7 @@ class ProductList extends Service {
     this.Op = ctx.app.Sequelize.Op;
   }
 
-  async list({page = 0, limit = 10, user_id, labelCode, searchQuery}) {
+  async list({ page = 0, limit = 10, user_id, labelCode, searchQuery }) {
     page = page >= 1 ? page - 1 : 0;
     const offset = page * limit;
     const options = {
@@ -50,12 +50,12 @@ class ProductList extends Service {
     if (searchQuery) {
       options.where = {
         [this.Op.or]: [
-          {description: {[this.Op.like]: `%${searchQuery}%`}},
-          {title: {[this.Op.like]: `%${searchQuery}%`}},
+          { description: { [this.Op.like]: `%${searchQuery}%` } },
+          { title: { [this.Op.like]: `%${searchQuery}%` } },
         ],
       };
     }
-    const product =  await this.ctx.model.ProductList.findAndCountAll(options);
+    const product = await this.ctx.model.ProductList.findAndCountAll(options);
     if (!product) {
       this.ctx.throw(404, 'product not found');
     }
@@ -63,10 +63,10 @@ class ProductList extends Service {
   }
 
   // raw: true, // 设置为 true，即可返回源数据
-  async find({id = 0, user_id}) {
+  async find({ id = 0, user_id }) {
     const options = {
-      where:{
-        id
+      where: {
+        id,
       },
       include: [
         {
@@ -88,7 +88,7 @@ class ProductList extends Service {
     return this.ctx.model.ProductList.create(product);
   }
 
-  async update({id = 0, updates}) {
+  async update({ id = 0, updates }) {
     const product = await this.ctx.model.ProductList.findByPk(id);
     if (!product) {
       this.ctx.throw(404, 'product not found');
@@ -96,19 +96,19 @@ class ProductList extends Service {
     return product.update(updates);
   }
 
-  async updateTime({id = 0}) {
+  async updateTime({ id = 0 }) {
     const product = await this.ctx.model.ProductList.findByPk(id);
     if (!product) {
       this.ctx.throw(404, 'product not found');
     }
     await this.ctx.model.ProductList.update({
-        updatedAt: this.now,
+      updatedAt: this.now,
+    },
+    {
+      where: {
+        id,
       },
-      {
-        where: {
-          id,
-        },
-      });
+    });
     return {
       code: 200,
       message: 'update success',

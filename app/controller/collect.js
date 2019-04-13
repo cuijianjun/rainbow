@@ -42,7 +42,7 @@ class BannerController extends Controller {
     }
   }
 
-  async list () {
+  async list() {
 
   }
 }

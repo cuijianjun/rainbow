@@ -11,15 +11,15 @@ module.exports = app => {
     price: STRING(30),
     address: STRING(255),
     course_url: STRING(500),
-    city:STRING(255),
+    city: STRING(255),
     phoneNumber: STRING(30),
     updated_at: {
       type: DATE,
       get() {
         const dateText = this.getDataValue('updated_at').toString();
         return +new Date(dateText);
-      }
-    }
+      },
+    },
   }, {
     // 是否需要增加createdAt、updatedAt、deletedAt字段
     timestamps: true,

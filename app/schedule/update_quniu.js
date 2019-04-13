@@ -11,23 +11,23 @@ class UpdateCache extends Subscription {
 
   // subscribe 是真正定时任务执行时被运行的函数
   async subscribe() {
-    const {app, ctx} = this;
+    const { app, ctx } = this;
     const product_list = await ctx.model.ProductList.findAll();
     const banner_list = await ctx.model.Banner.findAll();
     const qiniu_temp = await ctx.service.qiniu.getQiniuFile();
     const qiniuFile = ctx.service.qiniu.qiniuFile;
-    let productPayLoad = {
+    const productPayLoad = {
       filed: 'productImage',
-      data: product_list
+      data: product_list,
     };
-    let bannerPayLoad = {
+    const bannerPayLoad = {
       filed: 'imageUrl',
-      data: banner_list
+      data: banner_list,
     };
-    let image = [].concat(this.getImage(productPayLoad), this.getImage(bannerPayLoad));
+    const image = [].concat(this.getImage(productPayLoad), this.getImage(bannerPayLoad));
     console.log(qiniuFile);
     console.log(image);
-    let diffImage = ctx.helper.getArrDifference(qiniuFile, image);
+    const diffImage = ctx.helper.getArrDifference(qiniuFile, image);
     const del = await ctx.service.qiniu.destroy(diffImage);
     ctx.logger.info('status: %j', del);
   }
@@ -35,19 +35,19 @@ class UpdateCache extends Subscription {
   /**
    *
    * @param data find mysql one or one+
-   * @returns Array
+   * @return Array
    */
-  getImage({filed, data}) {
-    const {app, ctx} = this;
+  getImage({ filed, data }) {
+    const { app, ctx } = this;
     if (!data) {
       return [];
     }
     if ((ctx.helper.isArray(data) && data.length === 0)) {
       return [];
     }
-    let image = [];
+    const image = [];
     if (ctx.helper.isArray(data)) {
-      let image = data.map((value, index, Array) => {
+      const image = data.map((value, index, Array) => {
         if (!value.dataValues[filed]) {
           return;
         }

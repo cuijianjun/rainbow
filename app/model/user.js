@@ -1,16 +1,16 @@
 module.exports = app => {
-  const {STRING, INTEGER, DATE} = app.Sequelize;
+  const { STRING, INTEGER, DATE } = app.Sequelize;
 
   const User = app.model.define('users', {
-    id: {type: INTEGER, primaryKey: true, autoIncrement: true}, // 用户id
+    id: { type: INTEGER, primaryKey: true, autoIncrement: true }, // 用户id
     openid: STRING(255), // 微信open_id
-    nickName: {type: STRING(32), defaultValue: ''}, // 姓名
+    nickName: { type: STRING(32), defaultValue: '' }, // 姓名
     avatarUrl: STRING(256), // 头像
-    province: {type: STRING(255), defaultValue: ''}, // 省份
-    gender: {type: STRING(255), defaultValue: ''}, // 性别
-    country: {type: STRING(255), defaultValue: ''}, // 国家
-    city: {type: STRING(255), defaultValue: ''}, // 城市
-    tel: INTEGER(11),// 电话
+    province: { type: STRING(255), defaultValue: '' }, // 省份
+    gender: { type: STRING(255), defaultValue: '' }, // 性别
+    country: { type: STRING(255), defaultValue: '' }, // 国家
+    city: { type: STRING(255), defaultValue: '' }, // 城市
+    tel: INTEGER(11), // 电话
     updated_at: DATE, // 更新时间
   }, {
     // 是否需要增加createdAt、updatedAt、deletedAt字段
@@ -23,8 +23,8 @@ module.exports = app => {
     paranoid: true,
     underscored: true,
   });
-  User.associate = function () {
-    app.model.User.hasMany(app.model.ProductList, {foreignKey: 'user_id', sourceKey: 'id'});
+  User.associate = function() {
+    app.model.User.hasMany(app.model.ProductList, { foreignKey: 'user_id', sourceKey: 'id' });
   };
   return User;
 };
