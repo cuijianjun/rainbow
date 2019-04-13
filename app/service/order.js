@@ -41,11 +41,13 @@ class Order extends Service {
   }
 
   async update({ order_no, updates }) {
-    const order = await this.ctx.model.Order.findByPk({
-      where: { order_no },
+    console.log({ order_no, updates });
+    const order = await this.ctx.model.Order.findOne({
+      where: { order_no }
     });
+    console.log(order);
     if (!order) {
-      this.ctx.throw(404, 'product not found');
+      this.ctx.throw(404, 'order not found');
     }
     return order.update(updates);
   }

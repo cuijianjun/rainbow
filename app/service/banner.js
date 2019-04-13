@@ -7,7 +7,7 @@ class Banner extends Service {
   }
 
   async find(id = 0) {
-    const banner = await this.ctx.model.Banner.findByPk(id);
+    const banner = await this.ctx.model.Banner.findOne(id);
     if (!banner) {
       this.ctx.throw(404, 'banner not found');
     }
@@ -19,7 +19,7 @@ class Banner extends Service {
   }
 
   async update({ id = 0, updates }) {
-    const banner = await this.ctx.model.Banner.findByPk(id);
+    const banner = await this.ctx.model.Banner.findOne(id);
     if (!banner) {
       this.ctx.throw(404, 'banner not found');
     }
@@ -27,7 +27,7 @@ class Banner extends Service {
   }
 
   async del(id = 0) {
-    const banner = await this.ctx.model.Banner.findByPk(id);
+    const banner = await this.ctx.model.Banner.findOne(id);
     if (!banner) {
       this.ctx.throw(404, 'banner not found');
     }

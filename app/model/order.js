@@ -1,6 +1,6 @@
 module.exports = app => {
   const { STRING, INTEGER, DATE, TEXT } = app.Sequelize;
-  const Order = app.model.define('order', {
+  const Order = app.model.define('orders', {
     id: { type: INTEGER, primaryKey: true, autoIncrement: true },
     order_no: STRING(20),
     user_id: INTEGER,

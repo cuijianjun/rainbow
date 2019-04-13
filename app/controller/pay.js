@@ -97,10 +97,9 @@ class PayController extends Controller {
         return_msg: 'OK',
       };
       if (order.dataValues.total_price * 100 === ctx.helper.parseInt(return_data.total_fee)) {
-        console.log(order.dataValues.status === 1, 'order.dataValues.status === 1');
         if (order.dataValues.status === 1) {
           let query = {
-            order_no: return_data.out_trade_no,
+            order_no: 201904140115723,
             updates: {status: 2}
           };
           await ctx.service.order.update(query);

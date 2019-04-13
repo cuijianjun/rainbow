@@ -89,7 +89,7 @@ class ProductList extends Service {
   }
 
   async update({ id = 0, updates }) {
-    const product = await this.ctx.model.ProductList.findByPk(id);
+    const product = await this.ctx.model.ProductList.findOne(id);
     if (!product) {
       this.ctx.throw(404, 'product not found');
     }
@@ -97,7 +97,7 @@ class ProductList extends Service {
   }
 
   async updateTime({ id = 0 }) {
-    const product = await this.ctx.model.ProductList.findByPk(id);
+    const product = await this.ctx.model.ProductList.findOne(id);
     if (!product) {
       this.ctx.throw(404, 'product not found');
     }
@@ -116,7 +116,7 @@ class ProductList extends Service {
   }
 
   async del(id = 0) {
-    const product = await this.ctx.model.ProductList.findByPk(id);
+    const product = await this.ctx.model.ProductList.findOne(id);
     if (!product) {
       this.ctx.throw(404, 'product not found');
     }
