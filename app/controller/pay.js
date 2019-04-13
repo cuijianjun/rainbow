@@ -69,16 +69,15 @@ class PayController extends Controller {
     let data = '';
     let json = {};
     console.log(1111);
-    this.ctx.req.setEncoding('utf8');
-    this.ctx.req.on('data',function(chunk){
+    ctx.request.setEncoding('utf8');
+    ctx.request.on('data',function(chunk){
       data += chunk;
     });
     console.log(data);
-    let that = this;
-    this.ctx.req.on('end',function() {
+    ctx.request.on('end',function() {
       xml2js(data, {explicitArray: false}, function (err, json) {
         console.log(json);//这里的json便是xml转为json的内容
-        that.ctx.body = 'success';
+        ctx.body = 'success';
       });
     });
   }
