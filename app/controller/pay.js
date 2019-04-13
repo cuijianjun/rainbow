@@ -65,6 +65,7 @@ class PayController extends Controller {
   }
 
   async notify() { // 回调通知
+    console.log(3333);
     const {app, ctx} = this;
     let data = '';
     let json = {};
