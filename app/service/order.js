@@ -40,6 +40,16 @@ class Order extends Service {
 
   }
 
+  async update({ out_trade_no = 0, updates }) {
+    const order = await this.ctx.model.Order.findByPk({
+      where: { order_no: out_trade_no },
+    });
+    if (!order) {
+      this.ctx.throw(404, 'product not found');
+    }
+    return order.update(updates);
+  }
+
   async index() {
 
   }

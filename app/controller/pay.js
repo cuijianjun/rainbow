@@ -21,8 +21,8 @@ class PayController extends Controller {
   }
 
   async unifiedOrder() { // post 统一下单接口
-    const { app, ctx } = this;
-    const { total_price, user_id, order_id } = ctx.request.body;
+    const {app, ctx} = this;
+    const {total_price, user_id, order_id} = ctx.request.body;
     const openid = await this.getOpenId(user_id);
     const out_trade_no = await this.getOutTradeNo(order_id);
     const result = await this.api.unifiedOrder({
@@ -39,7 +39,7 @@ class PayController extends Controller {
   }
 
   async getOpenId(user_id) {
-    const { app, ctx } = this;
+    const {app, ctx} = this;
     const user = await ctx.service.order.getUser(user_id);
     const openid = user.dataValues.openid;
     if (!openid) {
@@ -52,7 +52,7 @@ class PayController extends Controller {
   }
 
   async getOutTradeNo(order_id) {
-    const { app, ctx } = this;
+    const {app, ctx} = this;
     const product = await ctx.service.order.find(order_id);
     let order_no = product.dataValues.order_no
     if (!order_no) {
@@ -65,17 +65,17 @@ class PayController extends Controller {
   }
 
   async notify() { // 回调通知
-    const { app, ctx } = this;
+    const {app, ctx} = this;
     let data = '';
     const json = {};
     ctx.req.setEncoding('utf8');
-    ctx.req.on('data', function(chunk) {
+    ctx.req.on('data', function (chunk) {
       data += chunk;
     });
     const _self = this;
-    const return_data = await new Promise(function(resolve) {
-      ctx.req.on('end', function() {
-        xml2js(data, { explicitArray: false }, async function(err, json) {
+    const return_data = await new Promise(function (resolve) {
+      ctx.req.on('end', function () {
+        xml2js(data, {explicitArray: false}, async function (err, json) {
           // console.log(json);//这里的json便是xml转为json的内容
           const return_data = json.xml;
           resolve(return_data);
@@ -89,7 +89,7 @@ class PayController extends Controller {
   }
 
   async handleOutput(return_data) {
-    const { app, ctx } = this;
+    const {app, ctx} = this;
     let output = '';
     if (return_data.return_code == 'SUCCESS') {
       const order = await ctx.service.order.findByOutTradeNo(return_data.out_trade_no);
@@ -98,8 +98,14 @@ class PayController extends Controller {
         return_msg: 'OK',
       };
       if (order.dataValues.total_price * 100 === ctx.helper.parseInt(return_data.total_fee)) {
+        console.log(order.dataValues.status === 1, 'order.dataValues.status === 1');
         if (order.dataValues.status === 1) {
           order.dataValues.status = 2;
+          let query = {
+            order_no: return_data.out_trade_no,
+            updates: {status: 2}
+          };
+          await ctx.service.order.update({id, updates: body});
           output = '<xml><return_code><![CDATA[' + reply.return_code + ']]></return_code><return_msg><![CDATA[' + reply.return_msg + ']]></return_msg></xml>';
           console.log(output, 'reply');
           return output;
@@ -131,7 +137,7 @@ class PayController extends Controller {
   }
 
   async getPayParamsByPrepay() {
-    const { app, ctx } = this;
+    const {app, ctx} = this;
     const result = await this.api.getPayParamsByPrepay({
       prepay_id: '预支付会话标识',
     });
