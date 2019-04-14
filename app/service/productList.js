@@ -2,6 +2,7 @@ const Service = require('egg').Service;
 const moment = require('moment');
 
 class ProductList extends Service {
+
   constructor(ctx) {
     super(ctx);
     this.type = ctx.app.config.type;
@@ -9,7 +10,7 @@ class ProductList extends Service {
     this.Op = ctx.app.Sequelize.Op;
   }
 
-  async list({ page = 0, limit = 10, user_id, labelCode, searchQuery }) {
+  async list({page = 0, limit = 10, user_id, labelCode, searchQuery}) {
     page = page >= 1 ? page - 1 : 0;
     const offset = page * limit;
     const options = {
@@ -50,8 +51,8 @@ class ProductList extends Service {
     if (searchQuery) {
       options.where = {
         [this.Op.or]: [
-          { description: { [this.Op.like]: `%${searchQuery}%` } },
-          { title: { [this.Op.like]: `%${searchQuery}%` } },
+          {description: {[this.Op.like]: `%${searchQuery}%`}},
+          {title: {[this.Op.like]: `%${searchQuery}%`}},
         ],
       };
     }
@@ -63,7 +64,7 @@ class ProductList extends Service {
   }
 
   // raw: true, // 设置为 true，即可返回源数据
-  async find({ id = 0, user_id }) {
+  async find({id = 0, user_id}) {
     const options = {
       where: {
         id,
@@ -88,27 +89,37 @@ class ProductList extends Service {
     return this.ctx.model.ProductList.create(product);
   }
 
-  async update({ id = 0, updates }) {
-    const product = await this.ctx.model.ProductList.find({id});
+  async update({id = 0, updates}) {
+    console.log(id);
+    const product = await this.ctx.model.ProductList.findOne({
+      where: {
+        id
+      }
+    });
+    console.log(product);
     if (!product) {
       this.ctx.throw(404, 'product not found');
     }
     return product.update(updates);
   }
 
-  async updateTime({ id = 0 }) {
-    const product = await this.ctx.model.ProductList.findOne({id});
+  async updateTime({id = 0}) {
+    const product = await this.ctx.model.ProductList.findOne({
+      where: {
+        id
+      }
+    });
     if (!product) {
       this.ctx.throw(404, 'product not found');
     }
     await this.ctx.model.ProductList.update({
-      updatedAt: this.now,
-    },
-    {
-      where: {
-        id,
+        updatedAt: this.now,
       },
-    });
+      {
+        where: {
+          id,
+        },
+      });
     return {
       code: 200,
       message: 'update success',
@@ -116,7 +127,11 @@ class ProductList extends Service {
   }
 
   async del(id = 0) {
-    const product = await this.ctx.model.ProductList.findOne({id});
+    const product = await this.ctx.model.ProductList.findOne({
+      where: {
+        id
+      }
+    });
     if (!product) {
       this.ctx.throw(404, 'product not found');
     }

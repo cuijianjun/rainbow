@@ -36,9 +36,10 @@ module.exports = app => {
 
   // order
   router.post('Order', '/api/order/order', 'order.placeOrder'); // 生成订单
-  router.post('Order', '/api/order/getOrderList', 'order.list'); // 展示订单列表
-  router.post('Order', '/api/order/getOrderDetail/:id', 'order.index'); // 显示订单详情
-  router.post('Order', '/api/order/delete/:id', 'order.del'); // 删除订单
+  router.get('Order', '/api/order/getOrderList/:user_id', 'order.list'); // 展示订单列表
+  router.get('Order', '/api/order/getOrderDetail/:order_id', 'order.index'); // 显示订单详情
+  router.get('Order', '/api/order/delete/:order_id', 'order.del'); // 删除订单
+  router.post('Order', '/api/order/update', 'order.update'); // 更新订单
   // 微信支付
   router.post('Pay', '/api/pay/unifiedOrder', 'pay.unifiedOrder'); // 统一下单接口
   router.post('Pay', '/api/pay/notify', xmlparse, 'pay.notify'); // 微信通知

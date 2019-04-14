@@ -16,7 +16,7 @@ class Order extends Service {
     return await this.snapOrder();
   }
 
-  async find(order_id) {
+  async find(order_id) { // 详情
     const order = await this.ctx.model.Order.findOne({
       where: { id: order_id },
     });
@@ -36,10 +36,6 @@ class Order extends Service {
     return order;
   }
 
-  async list() {
-
-  }
-
   async update({ order_no, updates }) {
     const order = await this.ctx.model.Order.findOne({
       where: { order_no }
@@ -50,12 +46,20 @@ class Order extends Service {
     return order.update(updates);
   }
 
-  async index() {
-
+  async list(user_id) { // 列表
+    return await this.ctx.model.Order.findAll({
+      where: {user_id}
+    });
   }
 
-  async del() {
-
+  async del(id) {
+    const Order = await this.ctx.model.Order.findOne({
+      where: { id }
+    });
+    if (!Order) {
+      this.ctx.throw(404, 'Order not found');
+    }
+    return Order.destroy();
   }
 
   async getProduct(product_id) {
