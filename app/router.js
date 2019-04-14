@@ -14,7 +14,7 @@ module.exports = app => {
   router.get('Banner', '/api/banner/delete/:id', 'banner.destroy');
   // 收藏
   router.post('Collect', '/api/collect/collect', 'collect.collect');
-  router.post('Collect', '/api/collect/list/:user_id', 'collect.list');
+  router.get('Collect', '/api/collect/list/:user_id', 'collect.list');
   // 热搜
   router.get('HotSearch', '/api/hot_search/list', 'hotsearch.index');
   router.post('HotSearch', '/api/hot_search/create', 'hotsearch.create');

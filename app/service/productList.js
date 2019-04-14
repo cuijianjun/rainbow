@@ -84,6 +84,7 @@ class ProductList extends Service {
     }
     return product;
   }
+
   async findByUserId({id = 0, user_id}) {
     const options = {
       where: {
@@ -104,6 +105,21 @@ class ProductList extends Service {
     }
     return product;
   }
+
+  async findByIds(ids) {
+    const options = {
+      where: {
+        id: ids
+      },
+    };
+    const product = await this.ctx.model.ProductList.findAll(options);
+    if (!product) {
+      this.ctx.throw(404, 'product not found');
+    }
+    return product;
+  }
+
+
   async create(product) {
     return this.ctx.model.ProductList.create(product);
   }

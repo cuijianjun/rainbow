@@ -3,7 +3,7 @@
 module.exports = app => {
   const { INTEGER, DATE, BOOLEAN } = app.Sequelize;
 
-  const Collect = app.model.define('collect', {
+  const Collect = app.model.define('collects', {
     id: { type: INTEGER, primaryKey: true, autoIncrement: true }, // id
     user_id: INTEGER, // 用户ID
     product_id: INTEGER, // 产品ID

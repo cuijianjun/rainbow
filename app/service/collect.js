@@ -1,28 +1,24 @@
-
-
 const Service = require('egg').Service;
 
 class Collect extends Service {
 
-  async list({ user_id, product_id}) {
+  async list(user_id) {
+    const {ctx, app} = this;
     const options = {
       order: [['updated_at', 'desc'], ['id', 'desc']],
-    };
-    if (user_id) {
-      options.where = {
+      where: {
         user_id,
-      };
-    }
-    if (product_id && user_id) {
-      options.where = {
-        product_id,
-        user_id
-      };
-    }
-    return this.ctx.model.Collect.findAll(options);
+      }
+    };
+    let collect =  await ctx.model.Collect.findAll(options);
+    let product_ids = [];
+    collect.map((value, index) => {
+      product_ids.push(value.dataValues.product_id);
+    });
+    return product_ids;
   }
   async create(collect) {
-    return this.ctx.model.Collect.create(collect);
+    return await this.ctx.model.Collect.create(collect);
   }
 
   async del(query) {
