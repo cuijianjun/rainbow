@@ -13,7 +13,7 @@ class HotSearch extends Service {
   }
 
   async update({ id = 0, updates }) {
-    const HotSearch = await this.ctx.model.HotSearch.findOne(id);
+    const HotSearch = await this.ctx.model.HotSearch.findOne({id});
     if (!HotSearch) {
       this.ctx.throw(404, 'HotSearch not found');
     }
@@ -21,7 +21,7 @@ class HotSearch extends Service {
   }
 
   async del(id = 0) {
-    const HotSearch = await this.ctx.model.HotSearch.findOne(id);
+    const HotSearch = await this.ctx.model.HotSearch.findOne({id});
     if (!HotSearch) {
       this.ctx.throw(404, 'HotSearch not found');
     }
