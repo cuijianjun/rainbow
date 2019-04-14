@@ -130,14 +130,16 @@ class ProductListController extends Controller {
   async destroy() { // get
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
+    const user_id = ctx.helper.parseInt(ctx.params.user_id);
     if (!id) {
       ctx.status = 404;
       ctx.body = 'id不能为空';
     }
     ctx.validate(this.idRule, {
       id: ctx.helper.parseInt(id),
+      user_id: ctx.helper.parseInt(user_id),
     });
-    let body = await ctx.service.productList.find(id);
+    let body = await ctx.service.productList.findByUserId({id,user_id});
     let image = body.dataValues['productImage'].split(',');
     const del = await ctx.service.qiniu.destroy(image);
     await ctx.service.productList.del(id);

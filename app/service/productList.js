@@ -64,7 +64,7 @@ class ProductList extends Service {
   }
 
   // raw: true, // 设置为 true，即可返回源数据
-  async find({id = 0, user_id}) {
+  async find({id = 0}) {
     const options = {
       where: {
         id,
@@ -84,7 +84,26 @@ class ProductList extends Service {
     }
     return product;
   }
-
+  async findByUserId({id = 0, user_id}) {
+    const options = {
+      where: {
+        id
+      },
+      include: [
+        {
+          model: this.ctx.model.User,
+          where: {
+            id: this.Sequelize.col('product_list.user_id'),
+          },
+        },
+      ],
+    };
+    const product = await this.ctx.model.ProductList.findOne(options);
+    if (!product) {
+      this.ctx.throw(404, 'product not found');
+    }
+    return product;
+  }
   async create(product) {
     return this.ctx.model.ProductList.create(product);
   }

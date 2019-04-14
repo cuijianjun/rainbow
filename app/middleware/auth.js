@@ -34,7 +34,6 @@ module.exports = () => {
         return;
       }
     } catch (err) {
-      console.log(2222);
       ctx.status = 401;
       ctx.body = 'token无效';
       return;
