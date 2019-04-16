@@ -1,6 +1,6 @@
 const Controller = require('egg').Controller;
 
-class ProductListController extends Controller {
+class OrderController extends Controller {
 
   constructor(ctx) {
     super(ctx);
@@ -84,4 +84,4 @@ class ProductListController extends Controller {
 
 }
 
-module.exports = ProductListController;
+module.exports = OrderController;

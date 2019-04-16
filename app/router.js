@@ -43,4 +43,8 @@ module.exports = app => {
   // 微信支付
   router.post('Pay', '/api/pay/unifiedOrder', 'pay.unifiedOrder'); // 统一下单接口
   router.post('Pay', '/api/pay/notify', xmlparse, 'pay.notify'); // 微信通知
+
+  // 微信公共方法
+  router.post('Pay', '/api/weiXin/getPhoneNumber', 'commonweixin.getPhoneNumber'); // 手机号解密
+  router.get('Pay', '/api/weiXin/getUnlimited', 'commonweixin.getUnlimited'); // 获取小程序码
 };

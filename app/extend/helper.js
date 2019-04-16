@@ -1,3 +1,4 @@
+var crypto = require('crypto');
 module.exports = {
   parseInt(string) {
     if (typeof string === 'number') return string;
@@ -5,7 +6,7 @@ module.exports = {
     return parseInt(string) || 0;
   },
   getArrDifference(arr1, arr2) {
-    return arr1.concat(arr2).filter(function(v, i, arr) {
+    return arr1.concat(arr2).filter(function (v, i, arr) {
       return arr.indexOf(v) === arr.lastIndexOf(v);
     });
   },
@@ -252,7 +253,7 @@ module.exports = {
   isArray(o) {
     return Object.prototype.toString.call(o) === '[object Array]';
   },
-  addBaseUrl({ base, filed, data }) {
+  addBaseUrl({base, filed, data}) {
     if (!data) {
       return;
     }
@@ -301,11 +302,40 @@ module.exports = {
   },
   generate() {
     const date = new Date();
-    const pad2 = function(n) {
+    const pad2 = function (n) {
       return n < 10 ? '0' + n : n;
     };
     return date.getFullYear().toString() + pad2(date.getMonth() + 1) + pad2(date.getDate()) + pad2(date.getHours())
       + pad2(date.getMinutes()) + (Math.floor(Math.random() * 900) + 100);
   },
+  decryptData(encryptedData, iv, _sessionKey, appId) {
+    console.log(encryptedData, iv, _sessionKey, appId);
+    // base64 decode
+    let sessionKey = new Buffer(_sessionKey, 'base64')
+    encryptedData = new Buffer(encryptedData, 'base64')
+    iv = new Buffer(iv, 'base64');
+    let decoded;
+    try {
+      console.log(1);
+      // 解密
+      let decipher = crypto.createDecipheriv('aes-128-cbc', sessionKey, iv)
+      // 设置自动 padding 为 true，删除填充补位
+      decipher.setAutoPadding(true)
+      decoded = decipher.update(encryptedData, 'binary', 'utf8')
+      decoded += decipher.final('utf8')
+      decoded = JSON.parse(decoded)
+      console.log(2);
+    } catch (err) {
+      console.log(3);
+      throw new Error('Illegal Buffer')
+    }
+console.log(4);
+    if (decoded.watermark.appid !== appId) {
+      console.log(5);
+      throw new Error('Illegal Buffer')
+    }
+
+    return decoded
+  }
 };
 

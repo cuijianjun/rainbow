@@ -1,8 +1,9 @@
 const Controller = require('egg').Controller;
 
-class BannerController extends Controller {
+class CollectController extends Controller {
   constructor(ctx) {
     super(ctx);
+    this.baseImageUrl = this.app.config.baseImageUrl;
     this.queryRule = {
       user_id: {
         type: 'int',
@@ -51,7 +52,6 @@ class BannerController extends Controller {
   async list() {
     const ctx = this.ctx;
     const user_id = ctx.helper.parseInt(ctx.params.user_id);
-    console.log(user_id, 'user_id');
     if (!user_id) {
       ctx.status = 404;
       ctx.body = 'user_id不能为空';
@@ -60,9 +60,21 @@ class BannerController extends Controller {
       user_id
     });
     let body = await ctx.service.collect.list(user_id);
+    let product_collect = await ctx.service.productList.findByIds(body);
+    let _collect = [];
+    product_collect.map((value, index) => {
+      _collect.push(value);
+    })
+    let payLoad = {
+      base: this.baseImageUrl,
+      filed: 'productImage',
+      data: _collect
+    };
+    let result = ctx.helper.addBaseUrl(payLoad);
+    console.log(result);
     ctx.status = 200;
-    ctx.body = await ctx.service.productList.findByIds(body);
+    ctx.body = result;
   }
 }
 
-module.exports = BannerController;
+module.exports = CollectController;

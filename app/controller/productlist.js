@@ -71,7 +71,6 @@ class ProductListController extends Controller {
   async show() { // get 详情
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.product_id);
-    console.log(id);
     let user_id = ctx.helper.parseInt(ctx.params.user_id);
     ctx.validate(this.idRule, {
       id,
@@ -81,15 +80,9 @@ class ProductListController extends Controller {
     let pageView = ctx.helper.parseInt(product_detail.dataValues.pageView) + 1;
     let product_detail_new = await ctx.service.productList.update({id, updates: {pageView: pageView}});
     // 获取收藏状态
-
     let isCollect = false;
     if (typeof user_id === 'number') {
-      let product_id = [];
-      let collect = await ctx.service.collect.list({user_id});
-      collect.map((value) => {
-        // 收藏
-        product_id.push(value.dataValues.product_id);
-      });
+      let product_id = await ctx.service.collect.list(user_id);
       isCollect = product_id.includes(id);
     }
     let body = await ctx.service.productList.find({id});

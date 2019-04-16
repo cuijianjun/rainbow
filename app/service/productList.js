@@ -125,13 +125,11 @@ class ProductList extends Service {
   }
 
   async update({id = 0, updates}) {
-    console.log(id);
     const product = await this.ctx.model.ProductList.findOne({
       where: {
         id
       }
     });
-    console.log(product);
     if (!product) {
       this.ctx.throw(404, 'product not found');
     }

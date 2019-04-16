@@ -1,5 +1,3 @@
-
-
 const Service = require('egg').Service;
 
 class User extends Service {
@@ -35,7 +33,6 @@ class User extends Service {
     return false;
   }
 
-
   async find(user_id) {
     const user = await this.ctx.model.User.findOne(
       {
@@ -45,7 +42,6 @@ class User extends Service {
     if (user && user.dataValues.user_id) { // todo
       return user;
     }
-    return false;
   }
 
   async create(user) {
@@ -53,7 +49,9 @@ class User extends Service {
   }
 
   async update({id = 0, updates}) {
-    const user = await this.ctx.model.User.findOne({id});
+    const user = await this.ctx.model.User.findOne({
+      where: {id}
+    });
     if (!user) {
       this.ctx.throw(404, 'user not found');
     }
@@ -100,6 +98,27 @@ class User extends Service {
       };
     }
     await this.ctx.model.User.update(options);
+  }
+
+  async getOpenId(code) {
+    const ctx = this.ctx;
+    const app = this.app;
+    ctx.validate({
+      code: {
+        type: 'string',
+        required: true,
+      },
+    }, {
+      code
+    });
+    return await ctx.curl('https://api.weixin.qq.com/sns/jscode2session', {
+      data: {
+        js_code: code,
+        appid: app.config.AppID,
+        secret: app.config.AppSecret,
+        grant_type: 'authorization_code'
+      }
+    });
   }
 }
 

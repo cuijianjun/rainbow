@@ -10,7 +10,7 @@ class UserController extends Controller {
     // 登录信息会被存储到 ctx.state.$wxInfo
     const ctx = this.ctx;
     const app = this.app;
-    let result = await this.getOpenId(ctx.request.body.code);
+    let result = await ctx.service.user.getOpenId(ctx.request.body.code);
     let data = JSON.parse(result.data);
     if (result.status == 200) {
       let sessionKey = String(data.session_key);
@@ -48,27 +48,6 @@ class UserController extends Controller {
       });
     ctx.status = 201;
     ctx.body = await ctx.service.user.update({id, updates: ctx.request.body});
-  }
-
-  async getOpenId(code) {
-    const ctx = this.ctx;
-    const app = this.app;
-    ctx.validate({
-      code: {
-        type: 'string',
-        required: true,
-      },
-    }, {
-      code
-    });
-    return await ctx.curl('https://api.weixin.qq.com/sns/jscode2session', {
-      data: {
-        js_code: code,
-        appid: app.config.AppID,
-        secret: app.config.AppSecret,
-        grant_type: 'authorization_code'
-      }
-    });
   }
 
   /**

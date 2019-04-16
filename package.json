@@ -28,6 +28,7 @@
     "egg-mock": "^3.14.0",
     "eslint": "^4.11.0",
     "eslint-config-egg": "^6.0.0",
+    "request": "^2.88.0",
     "sequelize-cli": "^5.4.0",
     "webstorm-disable-index": "^1.2.0"
   },

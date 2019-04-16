@@ -13,6 +13,7 @@ module.exports = {
       country: STRING(255), // 国家
       city: STRING(255), // 城市
       tel: INTEGER(11),
+      access_token:STRING(255),
       updated_at: DATE, // 更新时间
       dTime: DATE, // 删除时间
     });
