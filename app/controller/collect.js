@@ -60,7 +60,7 @@ class CollectController extends Controller {
       user_id
     });
     let body = await ctx.service.collect.list(user_id);
-    let product_collect = await ctx.service.productList.findByIds(body);
+    let product_collect = await ctx.service.productList.findByIds(body, user_id);
     let _collect = [];
     product_collect.map((value, index) => {
       _collect.push(value);

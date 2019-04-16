@@ -106,11 +106,19 @@ class ProductList extends Service {
     return product;
   }
 
-  async findByIds(ids) {
+  async findByIds(ids, user_id) {
     const options = {
       where: {
         id: ids
       },
+      include: [
+        {
+          model: this.ctx.model.User,
+          where: {
+            id: this.Sequelize.col('product_list.user_id'),
+          },
+        },
+      ],
     };
     const product = await this.ctx.model.ProductList.findAll(options);
     if (!product) {

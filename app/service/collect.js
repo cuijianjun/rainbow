@@ -7,7 +7,7 @@ class Collect extends Service {
     const options = {
       order: [['updated_at', 'desc'], ['id', 'desc']],
       where: {
-        user_id,
+        user_id
       }
     };
     let collect =  await ctx.model.Collect.findAll(options);
