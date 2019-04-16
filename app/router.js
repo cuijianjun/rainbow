@@ -46,5 +46,5 @@ module.exports = app => {
 
   // 微信公共方法
   router.post('Pay', '/api/weiXin/getPhoneNumber', 'commonweixin.getPhoneNumber'); // 手机号解密
-  router.get('Pay', '/api/weiXin/getUnlimited', 'commonweixin.getUnlimited'); // 获取小程序码
+  router.post('Pay', '/api/weiXin/getUnlimited', 'commonweixin.getUnlimited'); // 获取小程序码
 };
