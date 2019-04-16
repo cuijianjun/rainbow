@@ -44,7 +44,7 @@ class OrderController extends Controller {
       id,
     });
     ctx.status = 200;
-    ctx.body = await ctx.service.order.list();
+    ctx.body = await ctx.service.order.list(id);
   }
 
   async update() { // post
