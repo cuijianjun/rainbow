@@ -31,7 +31,7 @@ module.exports = app => {
   router.get('ProductList', '/api/product_list/detail/:product_id/:user_id', 'productlist.show'); // ok
   router.post('ProductList', '/api/product_list/create', auth, 'productlist.create');// ok
   router.post('ProductList', '/api/product_list/update', auth, 'productlist.update');
-  router.get('ProductList', '/api/product_list/delete/:id', auth, 'productlist.destroy');
+  router.get('ProductList', '/api/product_list/delete/:id/:user_id', auth, 'productlist.destroy');
   router.get('ProductList', '/api/product_list/updateTime/:id', auth, 'productlist.updateTime');
 
   // order
