@@ -21,8 +21,9 @@ class Qiniu extends Service {
 
   async upload() {
     const { app, ctx } = this;
-    const files = ctx.request.files;
-
+    const files = ctx.request.body;
+    console.log(ctx.request);
+    console.log(files);
 
     const options = {
       scope: this.bucket,

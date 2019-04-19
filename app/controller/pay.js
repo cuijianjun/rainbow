@@ -1,4 +1,4 @@
-const Controller = require('egg').Controller;
+const Controller = require('../core/baseController');
 const tenpay = require('tenpay');
 const fs = require('fs');
 const xml2js = require('xml2js').parseString;
@@ -81,6 +81,8 @@ class PayController extends Controller {
         });
       });
     });
+    // 发送模板消息 return_data todo
+    await this.sendTemplateMessage(return_data);
     ctx.body = await _self.handleOutput(return_data);
   }
 
